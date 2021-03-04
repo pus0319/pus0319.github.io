@@ -175,4 +175,239 @@ C언어의 기본부터 심화까지 다루어볼 것이고 저의 주관적인 
 ## 1.6 포인터
 ### 1.6.1 포인터 기본
 
-![Alt text](../_postsimg/_2021-03-04-Embedded_C_review/5.JPG)
+![Alt text1](../_postsimg/_2021-03-04-Embedded_C_review/5.JPG)
+
+```
+- 포인터 변수의 크기
+  32bit Processor 일 경우 : 4Byte
+  64bit Processor 일 경우 : 8Byte
+```
+
+### 1.6.2 포인터와 배열
+
+![Alt text2](../_postsimg/_2021-03-04-Embedded_C_review/10.JPG)
+
+### 1.6.3 포인터와 문자열 표현
+
+![Alt text3](../_postsimg/_2021-03-04-Embedded_C_review/12.JPG)
+
+### 1.6.4 포인터와 함수
+* Call by value vs Call by reference
+![Alt text4](../_postsimg/_2021-03-04-Embedded_C_review/17.JPG)
+```
+- 매우매우 중요함
+```
+
+### 1.6.5 함수포인터
+
+![Alt text5](../_postsimg/_2021-03-04-Embedded_C_review/25.JPG)
+
+### 1.6.6 void 포인터
+
+![Alt text6](../_postsimg/_2021-03-04-Embedded_C_review/27.JPG)
+
+* void 포인터에 함수 주소를 넣는 경우,
+
+### 1.6.7 const 선언 포인터
+
+![Alt text7](../_postsimg/_2021-03-04-Embedded_C_review/28.JPG)
+
+# 2. C언어 깊은 이해
+## 2.1 문자열 관련 함수(string.h)
+### 2.1.1 strlen
+* #include <string.h>
+* size_t strlen(const char * s);
+```
+전달된 문자열의 길이 반환. 단, NULL 문자는 포함 X
+```
+
+### 2.1.2 strcpy, strncpy
+* #include <string.h>
+* char * strcpy(char * dest, const char * src);
+```
+src 문자열을 dest에 복사.
+복사된 문자열의 주소값 반환.
+```
+* char * strncpy(char * dest, const char * src, size_t n);
+```
+src 문자열을 dest에 복사하되, n 값에 해당하는 문자 수만 큼 복사.
+복사된 문자열의 주소값 반환.
+```
+
+### 2.1.3 strcat, strncat
+* #include <string.h>
+* char * strcpy(char * dest, const char * src);
+```
+dest 문자열 뒤에 src 문자열을 덧붙임.
+덧붙임의 시작은 NULL 문자가 저장된 위치에서부터임
+덧붙여진 문자열의 주소값 반환.
+```
+* char * strncpy(char * dest, const char * src, size_t n);
+```
+dest 문자열 뒤에 src 문자열을 덧붙이되, n 값에 해당하는 문자 수만 큼 복사.
+덧붙임의 시작은 NULL 문자가 저장된 위치에서부터임
+덧붙여진 문자열의 주소값 반환.
+```
+
+### 2.1.4 strcmp, strncmp
+* #include <string.h>
+* int strcmp(const char * s1, const char * s2);
+```
+s1 문자열과 s2 문자열을 비교
+같으면 0, 같지 않으면 0이 아닌 값 반환.
+```
+* int strncmp(const char * s1, const char * s2, size_t n);
+```
+s1 문자열과 s2 문자열을 n 만큼의 문자만 비교
+(ASCII 코드값이) s1이 더 크면 0보다 큰 값, s2가 더 크면 0보다 작은 값, s1 과 s2의 내용이 같으면 0 반환.
+```
+
+## 2.2 문자열 변환 함수(stdlib.h)
+### 2.2.1 atoi
+* #include <stdlib.h>
+* int atoi(const char * str);
+```
+str 문자열의 내용을 int형으로 반환
+```
+### 2.2.2 atol
+* #include <stdlib.h>
+* long atol(const char * str);
+```
+str 문자열의 내용을 long형으로 반환
+```
+### 2.2.3 atof
+* #include <stdlib.h>
+* double atof(const char * str);
+```
+str 문자열의 내용을 double형으로 반환
+```
+
+## 2.3 구조체(struct)
+### 2.3.1 구조체 기본
+
+```
+구조체 간 대입연산만 가능
+(대입연산을 제외한 다른 연산들은 구조체 변수를 대상으로 따로따로(관련함수 구현) 할 것.)
+```
+### 2.3.2 구조체 포인터 변수
+* 기본
+* 구조체의 멤버에 구조체 포인터 변수 선언
+
+```
+구조체 변수의 주소값 = 구조체의 첫 번째 멤버의 주소값
+```
+
+
+## 2.4 typedef
+* 기본
+
+```
+가장 마지막에 등장하는(가장 오른쪽에 있는) 단어를 중심으로 새로운 이름이 됨.
+```
+
+## 2.5 공용체(union)
+### 2.5.1 공용체 기본
+
+## 2.6 열거형(enum)
+### 2.6.1 열거형 기본
+
+## 2.7 파일 스트림(stream), 파일 입출력
+### 2.7.1 fopen
+* #include <stdio.h>
+* FILE * fopen(const char * filename, const char * mode);
+```
+성공 시 해당 파일의 FILE 구조체 변수 주소 값 반환, 실패 시 NULL 포인터 반환
+```
+
+### 2.7.2 fputc
+* #include <stdio.h>
+* int fputc(int c, FILE * pFile);
+```
+성공 시 0, 실패 시 EOF(-1)
+```
+
+### 2.7.3 fgetc
+* #include <stdio.h>
+* int fgetc(FILE * pFile);
+```
+문자를 하나가 반환됨. (여러 문자가 있을 시, 여러 번 호출해서 읽어야함)
+성공 시 0, 실패 시 EOF(-1)
+또한 성공 시, 파일 위치 지시자가 다음 문자를 가리키게 됨.
+```
+
+### 2.7.4 feof
+* #include <stdio.h>
+* int feof(FILE * pFile);
+```
+파일의 끝에 도달한 경우 0이 아닌 값 반환
+```
+
+### 2.7.5 fread(바이너리 데이터 입력)
+* #include <stdio.h>
+* size_t fread(void  * buffer, size_t size, size_t count, FILE * stream);
+```
+size 크기의 데이터 count개를 stream으로부터 읽어 들여서 buffer에 저장
+성공 시 전달인자 count, 실패 또는 파일의 끝 도달 시 count보다 작은 값 반환
+count보다 작은 값 반환 시, feof를 이용하여 실패 또는 파일의 끝에 도달했는지 확인해야함.
+```
+### 2.7.6 fwrite(바이너리 데이터 출력)
+* #include <stdio.h>
+* size_t fwrite(void  * buffer, size_t size, size_t count, FILE * stream);
+```
+size 크기의 데이터 count개를 buf으로부터 읽어 들여서 fp에 저장
+성공 시 전달인자 count, 실패 시 count보다 작은 값 반환
+```
+
+### 2.7.7 fflush
+* #include <stdio.h>
+* int fflush(FILE * pFile);
+```
+성공 시 0, 실패 시 EOF(-1)
+```
+
+### 2.7.8 fclose
+* #include <stdio.h>
+* int fclose(FILE * pFile);
+```
+성공 시 0, 실패 시 EOF(-1)
+```
+
+### 2.7.9 fprintf(파일데이터 출력)
+* #include <stdio.h>
+* int fprintf(FILE * pFile, "...", ...);
+
+### 2.7.10 fscanf(파일데이터 읽기)
+* #include <stdio.h>
+* int fscanf(FILE * pFile, "...", ...);
+
+### 2.7.11 fseek(파일 위치 지시자 이동)
+* #include <stdio.h>
+* int fseek(FILE * stream, long offset, int wherefrom);
+```
+stream으로 전달된 파일 위치 지시자를 wherefrom에서부터 offset 바이트 만큼 이동
+- wherefrom
+  SEEK_SET : 파일 맨 앞에서부터 이동 시작 (0)
+  SEEK_CUR : 현재 위치에서부터 이동 시작 (1)
+  SEEK_END : 파일 맨 끝에서부터 이동 시작 (2)
+```
+
+### 2.7.12 fseek(파일 위치 지시자 위치 찾기)
+* #include <stdio.h>
+* int ftell(FILE * stream);
+```
+stream의 파일 위치 지시자가 가리키는 바이트 위치를 반환
+0 부터 시작(첫번째 바이트)
+```
+
+## 2.8 운영체제 환경에 따른 개행
+* MS-DOS(Windows) : \r\n
+* Mac(Mackintosh) : \r
+* Unix계열(Linux) : \n
+
+
+## 2.9 메모리 구조 및 메모리 동적 할 당
+### 2.9.1 메모리 구성
+--------
+  code
+--------
+  code
