@@ -193,6 +193,7 @@ C언어의 기본부터 심화까지 다루어볼 것이고 저의 주관적인 
 
 ### 1.6.4 포인터와 함수
 * Call by value vs Call by reference
+
 ![Alt text4](../_postsimg/_2021-03-04-Embedded_C_review/17.JPG)
 ```
 - 매우매우 중요함
