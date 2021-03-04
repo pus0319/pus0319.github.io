@@ -175,7 +175,7 @@ C언어의 기본부터 심화까지 다루어볼 것이고 저의 주관적인 
 ## 1.6 포인터
 ### 1.6.1 포인터 기본
 
-![Alt text1](../_postsimg/_2021-03-04-Embedded_C_review/5.JPG)
+![5](https://user-images.githubusercontent.com/79636864/109929463-d106e600-7d09-11eb-8d5f-228750784700.JPG)
 
 ```
 - 포인터 변수의 크기
