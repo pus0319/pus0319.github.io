@@ -185,33 +185,34 @@ C언어의 기본부터 심화까지 다루어볼 것이고 저의 주관적인 
 
 ### 1.6.2 포인터와 배열
 
-![Alt text2](../_postsimg/_2021-03-04-Embedded_C_review/10.JPG)
+![10](https://user-images.githubusercontent.com/79636864/109929801-3e1a7b80-7d0a-11eb-89f4-0d86991f9b9b.JPG)
 
 ### 1.6.3 포인터와 문자열 표현
 
-![Alt text3](../_postsimg/_2021-03-04-Embedded_C_review/12.JPG)
+![12](https://user-images.githubusercontent.com/79636864/109929834-44a8f300-7d0a-11eb-9dc3-bcd6b888ed82.JPG)
 
 ### 1.6.4 포인터와 함수
 * Call by value vs Call by reference
 
-![Alt text4](../_postsimg/_2021-03-04-Embedded_C_review/17.JPG)
+![17](https://user-images.githubusercontent.com/79636864/109929854-496da700-7d0a-11eb-8250-ffb2422c1469.JPG)
+
 ```
 - 매우매우 중요함
 ```
 
 ### 1.6.5 함수포인터
 
-![Alt text5](../_postsimg/_2021-03-04-Embedded_C_review/25.JPG)
+![25](https://user-images.githubusercontent.com/79636864/109929881-51c5e200-7d0a-11eb-8167-54ac8ddf54ff.JPG)
 
 ### 1.6.6 void 포인터
 
-![Alt text6](../_postsimg/_2021-03-04-Embedded_C_review/27.JPG)
+![27](https://user-images.githubusercontent.com/79636864/109929898-568a9600-7d0a-11eb-8e0a-7434eba3ebde.JPG)
 
 * void 포인터에 함수 주소를 넣는 경우,
 
 ### 1.6.7 const 선언 포인터
 
-![Alt text7](../_postsimg/_2021-03-04-Embedded_C_review/28.JPG)
+![28](https://user-images.githubusercontent.com/79636864/109929913-5ab6b380-7d0a-11eb-9efe-1d3206231035.JPG)
 
 # 2. C언어 깊은 이해
 ## 2.1 문자열 관련 함수(string.h)
