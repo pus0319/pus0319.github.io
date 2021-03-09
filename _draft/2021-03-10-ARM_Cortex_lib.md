@@ -69,5 +69,5 @@ ARM Cortex-A/R/M 의 특징을 비교하였고 특히 FreeRTOS 공부에 사용�
 
 ![image](https://user-images.githubusercontent.com/79636864/110553538-7abbfc00-817c-11eb-8056-8e9e02de7d29.png)
 
-([https://mccoycomponents.com/blog/view/arm-cortex-m-family-introduction](ARM-Cortex-M-Family 정보 관련 링크))
+([ARM-Cortex-M 정보 관련 링크](https://mccoycomponents.com/blog/view/arm-cortex-m-family-introduction))
 
