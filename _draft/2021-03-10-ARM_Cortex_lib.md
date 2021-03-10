@@ -60,7 +60,7 @@ ARM Cortex-A/R/M 의 특징을 비교하였고 특히 FreeRTOS 공부에 사용�
 
 ## 1.2 ARM Cortex M의 각종 프로세스 별 설명
 
-![2](https://user-images.githubusercontent.com/79636864/110553420-4a745d80-817c-11eb-8d4d-09f3663676c0.jpg)
+![2_](https://user-images.githubusercontent.com/79636864/110556013-0b94d680-8181-11eb-9adf-baf7552a6b3e.jpg)
 
 ## 1.3 ARM Cortex M 명령어 세트(Command Set) 및 Performance에 따른 구분
 
