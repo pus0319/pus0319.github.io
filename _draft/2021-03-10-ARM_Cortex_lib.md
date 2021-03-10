@@ -85,7 +85,7 @@ ARM Cortex-A/R/M 의 특징을 비교하였고 특히 FreeRTOS 공부에 사용�
   
 ([CMSIS 정보 관련 링크](https://developer.arm.com/tools-and-software/embedded/cmsis))  
 
-## 2.1.1 CMSIS RTOS (v1,v2)
+### 2.1.1 CMSIS RTOS (v1,v2)
 * ARM Cortex MCU에 RTOS 관련 API 사용 지원.
   
 ## 2.2 HAL
