@@ -133,10 +133,25 @@ STM32F407_FreeRTOS 기본 개념 정리
 
 ![16](https://user-images.githubusercontent.com/79636864/110558052-2701e080-8185-11eb-8067-afc1cf789c93.jpg)
 
-* 기본적으로 Task내의 수행 작업이 Stack에 저장
+* Memory(RAM)의 Task 영역은 Task의 실제 code 및 Local Variable가 저장 되어 있는 Stack과
+  Task의 state, SP, PC, Priority 정보가 있는 TCB(Task Control Block)으로 구성.
+* 기본적으로 Task내의 수행 작업이 Stack에 저장.
 * SP(Stack Pointer) : 최근에 쌓아 올린 스택 위치를 가리킴. 
 * Scheduler는 특정 Event(ex: ISR 호출) 발생 시, 
   Task state, Task Priority 에 따라서 CPU Registers의 Context를 Switching함. 
+  
+## 3.8 CMSIS_RTOS API / FreeRTOS API(Native API)
+* FreeRTOS의 Native API를 바로 쓰는게 아닌 CMSIS_RTOS API를 사용
+    * RTOS 또는 API 종류가 바뀌더라도 CMSIS_RTOS API의 코드내용만 바꾸면 되므로(User-Application Code를 안바꿔도됨) 호환성이 좋음.
+* ‘cmsis-os.c’ 파일에 구현되어 있음.
+    * (Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS)
+* STM32CubeMX는 FreeRTOS 코드 생성 시, CMSIS_RTOS API를 이용함.
+* User는 어느 API를 이용해도 상관 없음. 
+    * 자세한 내용은 developing-applications-on-stm32cube-with-rtos.pdf 참고
+[dm00105262-developing-applications-on-stm32cube-with-rtos-stmicroelectronics.pdf](https://github.com/pus0319/pus0319.github.io/files/6112283/dm00105262-developing-applications-on-stm32cube-with-rtos-stmicroelectronics.pdf)
+
+
+
 
 
 
