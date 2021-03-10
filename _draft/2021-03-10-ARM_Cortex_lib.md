@@ -60,7 +60,6 @@ ARM Cortex-A/R/M 의 특징을 비교하였고 특히 FreeRTOS 공부에 사용�
 
 ## 1.2 ARM Cortex M의 각종 프로세스 별 설명
 
-
 ![2](https://user-images.githubusercontent.com/79636864/110553420-4a745d80-817c-11eb-8d4d-09f3663676c0.jpg)
 
 ## 1.3 ARM Cortex M 명령어 세트(Command Set) 및 Performance에 따른 구분
@@ -69,5 +68,35 @@ ARM Cortex-A/R/M 의 특징을 비교하였고 특히 FreeRTOS 공부에 사용�
 
 ![image](https://user-images.githubusercontent.com/79636864/110553538-7abbfc00-817c-11eb-8056-8e9e02de7d29.png)
 
+* 명령어가 많을 수록 CPU 처리속도가 빠름.
+
 ([ARM-Cortex-M 정보 관련 링크](https://mccoycomponents.com/blog/view/arm-cortex-m-family-introduction))
 
+## 1.4 개인적인 ARM Cortex M 프로세스 순위(2021/03/10 기준)
+* 1순위 : STM32F0, STM32F1, STM32F4, STM32F7, STM32L4
+* 2순위 : STM32N7, STM32G0, STM32G4, STM32L5, SMT32L4+
+* 3순위 : STM32F2, STM32F3, STM32L0
+
+# 2. ARM Cortex Series 관련 각종 라이브러리 목록 정리
+## 2.1 CMSIS(Cortex Microcontroller Software Interface Standard)
+* ARM Cortex Architecture 관련 라이브러리. Cortex Series를 사용하는 여러 Vender들의
+  MCU 개발 지원을 위한 독립적인 하드웨어 추상화 계층(vendeor-independent hardware abstraction layer)
+  및 규약
+  
+([CMSIS 정보 관련 링크](https://developer.arm.com/tools-and-software/embedded/cmsis))  
+
+## 2.1.1 CMSIS RTOS (v1,v2)
+* ARM Cortex MCU에 RTOS 관련 API 사용 지원.
+  
+## 2.2 HAL
+* ST 사 에서 제공하는 MCU별 라이브러리. 기존 Standard 라이브러리에서 개발 편의성을 개선의 목적이 있음.
+
+## 2.3 LL
+* ST 사 에서 제공하는 MCU별 라이브러리. HAL 라이브러리 사용 중 Critical한 시간적 제약(us 단위의 제약)
+  이 있을 경우, 이를 개선하기 위한 목적으로 사용할 수 있음.
+
+# 3. 정리
+* 최근, Crotex-M에 간단한 AI기능을 탑재한 Core를 개발 중인 것으로 알고 있다.(시간날때 찾아볼 것.)
+* 위와 같이 포스팅을 작성한 이유는 ARM-Cortex MCU를 이용한 제품 개발 시 
+  가격성 및 신뢰성, Application의 요구사항에 가장 충족한 Platform을 찾자는 취지를 잊지 않기 위해서이다.
+* ARM-Cortex MCU를 이용한 제품 개발관련해서 컨셉 설정 시작 전, 한 번씩 위의 내용들을 숙지할 것이다.
