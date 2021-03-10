@@ -102,11 +102,11 @@ STM32F407_FreeRTOS 기본 개념 정리
     * ARM의 Cortex-M, Cortex-R만 지원
 
 ## 3.5 OS 비교
-## 3.5.1 Non-OS vs RTOS
+### 3.5.1 Non-OS vs RTOS
 
 ![11](https://user-images.githubusercontent.com/79636864/110557705-75fb4600-8184-11eb-9fde-d04a176a31ea.jpg)
 
-## 3.5.2 GPOS vs RTOS
+### 3.5.2 GPOS vs RTOS
 
 ![12](https://user-images.githubusercontent.com/79636864/110557766-96c39b80-8184-11eb-807f-d84f65ab306e.jpg)
 
@@ -150,6 +150,25 @@ STM32F407_FreeRTOS 기본 개념 정리
     * 자세한 내용은 developing-applications-on-stm32cube-with-rtos.pdf 참고
 [dm00105262-developing-applications-on-stm32cube-with-rtos-stmicroelectronics.pdf](https://github.com/pus0319/pus0319.github.io/files/6112283/dm00105262-developing-applications-on-stm32cube-with-rtos-stmicroelectronics.pdf)
 
+![image](https://user-images.githubusercontent.com/79636864/110558601-1c941680-8186-11eb-86d9-02a66616d6b7.png)
+
+### 3.8.1 FreeRTOS API 함수 관련 참고사항
+* FreeRTOS 함수/매크로 명명 규칙을 통해 각각에 대한 대략적 정보를 유추할 수 있다.
+![image](https://user-images.githubusercontent.com/79636864/110558690-464d3d80-8186-11eb-9a99-843922e41a0f.png)
+
+### 3.8.2 FreeRTOS Clock Tick
+* 시분할 시스템을 구현하기 위한 RTOS 커널 내부의 기준 시간
+    * 문맥전환(Context Switching) 여부를 주기적으로 판단하기 위해 Tick ISR 호출 Event를 통한 Kernel Scheduler 호출.
+    * 시간관리 서비스 함수, 각 종류별 오브젝트 실행, Blocking 시간 관리 등에 이용.
+    * 시스템 성능에 따라 1ms~10ms 주기 타이머 인터럽트로 구현
+    * 타이머 인터럽투 주파수는 configTICK_RATE_HZ 매크로로 설정할 수 있다.
+![image](https://user-images.githubusercontent.com/79636864/110558764-6a108380-8186-11eb-9799-7accee83b543.png)
+
+### 3.8.3 CMSIS_RTOS V1 vs CMSIS_RTOS V2
+
+([CMSIS_RTOS V1 vs CMSIS_RTOS V2](https://www.keil.com/pack/doc/CMSIS/RTOS2/html/os2MigrationFunctions.html))
+
+그 외 추가로 공부한 기본적인 내용들은 지속적으로 Update할 예정이다.
 
 
 
