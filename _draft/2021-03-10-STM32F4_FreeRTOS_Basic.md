@@ -26,17 +26,16 @@ STM32F407_FreeRTOS 기본 개념 정리
     * GPOS : 주로 범용 PC, 워크스테이션 등
     * Mobile OS : 휴대폰, 스마트워치 등의 휴대기기
 * 작업 과정에 따른 분류
-    * Interactive(사용자<->운영체제 간 상호작용하는)
-      (ex : 사용자가 조작할 수 있는 키보드, 마우스, 키패드 등을 사용)
-    * Non-Interactive(사용자<->운영체제 간 상호작용하지 않는)
-      (ex : 사용자가 조작하지 않고 자동으로 실행)
+    * Interactive(사용자<->운영체제 간 상호작용하는)    (ex : 사용자가 조작할 수 있는 키보드, 마우스, 키패드 등을 사용)
+    * Non-Interactive(사용자<->운영체제 간 상호작용하지 않는)    (ex : 사용자가 조작하지 않고 자동으로 실행)
 * 기능에 따른 분류
-    * 싱글 유저 – 단일 태스킹 OS (MS DOS)    - 싱글 유저 – 멀티 태스킹 OS (Windows)
+    * 싱글 유저 – 단일 태스킹 OS (MS DOS)
+    * 싱글 유저 – 멀티 태스킹 OS (Windows)
     * 멀티 유저 – 멀티 태스킹 OS (UNIX, Linux, Windows Server)
 * 데이터 처리방식에 따른 분류
-    * 일괄 처리 시스템(Batch System) : 일정양, 일정기간 데이터를 모아서 한번에 처리
-    * 실시간 처리 시스템(Read-Time System) : 데이터가 발생하는 즉시 처리
-    * 시분할 처리 시스템(Time-Shared System) : CPU의 처리시간을 분할(slice)하여 하나의 처리장치(Processor)에서 다수의 Task를 시간적으로 균등하게 처리
-    * 분산 처리 시스템(Distributed Processing System) : 지역적으로 분산된 컴퓨터들을 통신회선으로 연결하여 작업을 분담 처리
+    * 일괄 처리 시스템(Batch System) :    일정양, 일정기간 데이터를 모아서 한번에 처리
+    * 실시간 처리 시스템(Read-Time System) :    데이터가 발생하는 즉시 처리
+    * 시분할 처리 시스템(Time-Shared System) :    CPU의 처리시간을 분할(slice)하여 하나의 처리장치(Processor)에서 다수의 Task를 시간적으로 균등하게 처리
+    * 분산 처리 시스템(Distributed Processing System) :    지역적으로 분산된 컴퓨터들을 통신회선으로 연결하여 작업을 분담 처리
 
 
