@@ -36,15 +36,46 @@ STM32F407_FreeRTOS_2_Task/Scheduler/Context Switching
     * 어떤 Task가 지금 Running state이고, 그 Task의 Priority는 무엇이고, 언제 Block state로 전환되는지에    
       대한 내용은 추후 Debugging 시, 매우 중요한 관점이라 생각합니다.    
       ('CPU의 리소스를 최대한 효율적으로 사용하도록 만드는 것이 궁극적인 목표다.' 라고 생각하면서 해야겠습니다.)
-    * 항상 Task안에 코드를 작성 시, 이러한 점을 염두해두고 해야 될 거 같습니다.
+```
+항상 Task안에 코드를 작성 시, 이러한 점을 염두해두고 해야 될 거 같습니다.
+```
 
 ## 1.3 Task parameter
 * Task도 결국엔 하나의 조그마한 시스템이자 프로그램이라 할 수 있습니다.
-    * 입력과 출력이 있고 입력을 처리하는 유기체(entity)가 있기 때문입니다.
-* 그렇기 때문에 Task도 어떻게 만드는가에 따른 특정한 성질이 존재 합니다.    
+    * 입력과 출력이 있고 입력을 처리하는 코드 알고리즘인 유기체(entity)가 있기 때문입니다.
+* 그렇기 때문에 Task도 어떻게 만드는가에 따른 특정한 성질들 존재 합니다.    
   즉, parameter가 존재합니다.
 ![image](https://user-images.githubusercontent.com/79636864/110778482-bf8f8200-82a5-11eb-9f17-3b73e35bf1b1.png)
-
+* T(Task)
+    * 보통 Task를 기호로 나타낼 땐 '타우'를 쓰고 아래첨자로 Task numbering을 합니다.
+* P(Peroid)    
+    * Task가 실행되는 주기를 칭합니다.
+    * Periodic Task의 형태일 시, 정의합니다.    
+      당연하게도 주기성이 없을 경우, 아무 의미가 없습니다.
+    * Priority가 낮은 Task일 경우, Preemption하는(Priority가 높은)Task는 무엇이 있고    
+      얼마나 실행되는지 따져봐야되기 때문에 Period를 널널하게 해줘야합니다.
+* D(Deadline)
+    * Task가 실행되고 종료될때까지의 최대 시간(기한)입니다.
+      (여기서 종료는 해당 Task가 CPU의 점유권을 놓았을 때를 말합니다.)    
+    * **무조건**정해진 기한 까지 Task를 종료해야합니다.
+    * Periodic Task에서 주기성을 보장하기 위해선 'P'보다 초과하도록 만들면 안됩니다.
+* C(Worst-execution time)
+    * Task의 최악의 실행시간을 나타냅니다.
+    * Task가 어떤 유효한 동작을 수행할 시 걸릴 수 있는 최대 시간이라고 생각하면 되겠습니다.    
+      (CPU의 점유권을 계속 가지고 있는 시간)
+* pr(Priority)
+    * Task의 우선순위를 나타냅니다.
+    * 값이 높을수록(High) 우선순위가 높습니다.    
+      (반대로 값이 낮을수록(Low) 우선순위가 낮습니다.)
+* R(Worst-Case Response Time)
+    * 전체 프로그램이 시작되고 해당 Task가 실행 후 실행이 끝나는(응답) 시간까지를 말합니다.
+    * 여러 Task가 유기적으로 동작 시, 최악의 응답 시간을 측정할 때 활용됩니다.
+* 표의 내용을 정리해보면(단위 : ms), Task1은 주기는 10ms, 기한은 10ms, 최악의 실행시간은 3ms, 우선순위는 99이다.    
+  라고 할 수 있습니다.
+```
+추후 수많은 동작들을 Task로 구현 시, Task의 주기성 및 결정성을 최대한 보장하기 위해    
+각 Task별 parameter를 정의하고 Design하는 방식으로 해보자는 생각을 가졌습니다. 
+```
 
 ## 1.4 MultiTasking 이란?
 * 말그대로 Task를 Multi로 수행하는 것을 말하고 커널이 수행해줍니다.
