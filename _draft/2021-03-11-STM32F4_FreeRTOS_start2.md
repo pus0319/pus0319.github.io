@@ -38,7 +38,15 @@ STM32F407_FreeRTOS_2_Task/Scheduler/Context Switching
       ('CPU의 리소스를 최대한 효율적으로 사용하도록 만드는 것이 궁극적인 목표다.' 라고 생각하면서 해야겠습니다.)
     * 항상 Task안에 코드를 작성 시, 이러한 점을 염두해두고 해야 될 거 같습니다.
 
-## 1.3 MultiTasking 이란?
+## 1.3 Task parameter
+* Task도 결국엔 하나의 조그마한 시스템이자 프로그램이라 할 수 있습니다.
+    * 입력과 출력이 있고 입력을 처리하는 유기체(entity)가 있기 때문입니다.
+* 그렇기 때문에 Task도 어떻게 만드는가에 따른 특정한 성질이 존재 합니다.    
+  즉, parameter가 존재합니다.
+![image](https://user-images.githubusercontent.com/79636864/110778482-bf8f8200-82a5-11eb-9f17-3b73e35bf1b1.png)
+
+
+## 1.4 MultiTasking 이란?
 * 말그대로 Task를 Multi로 수행하는 것을 말하고 커널이 수행해줍니다.
 * 개발자는 각 각의 Task를 Superloop 방식 코드작성하듯이 하면 됩니다.    
   마치 각 각이 하나의 일만을 한다고 생각하고 작성해도,    
