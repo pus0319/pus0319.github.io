@@ -23,8 +23,36 @@ STM32F407_FreeRTOS_2_Task/Scheduler/Context Switching
 
 ## 1.2 Task state machine
 * state machine이란 각 각의 state들을 어떤 조건에 따라 연결해 놓은 것입니다. 일종의 Diagram으로 보셔도 무방합니다.
-* 당연하게도 Task에 대한 여러 state들을 어떤 조건에 따라 연결해 놓은 Diagram으로 알아두시면 되겠습니다.
+* 결론적으로 Task에 대한 여러 state들을 어떤 조건에 따라 연결해 놓은 Diagram으로 알아두시면 되겠습니다.
 ![image](https://user-images.githubusercontent.com/79636864/110773994-ac2de800-82a0-11eb-9a29-b584e24e2088.png)
 ![image](https://user-images.githubusercontent.com/79636864/110774087-c49e0280-82a0-11eb-9292-79a3e241e453.png)
+* 주로 보셔야할 것은 **CPU의 점유권에 따른 관점**입니다.
+    * 앞서 말씀드렸듯이, 각 각의 Task 중 하나의 Task만 CPU의 점유권을 가질 수 있습니다.    
+      즉, CPU의 점유권을 가진 Task만이 Running state라고 할 수 있습니다.
+    * Running state의 Task가 모든 동작을 완료했다면 다른 Task로 CPU의 점유권을 넘겨야합니다.
+      그러기위해선 Task의 state를 Blocked로 바꿔야합니다.
+    * 만약 state를 바꾸지 않는다면, 현재 Task보다 높은 Priority의 Task만 CPU의 점유권을 가질 수 있고    
+      반대로 현재 Task보다 낮은 Priority의 Task는 영원히 CPU의 점유권을 가질 수 없습니다.
+    * 어떤 Task가 지금 Running state이고, 그 Task의 Priority는 무엇이고, 언제 Block state로 전환되는지에    
+      대한 내용은 추후 Debugging 시, 매우 중요한 관점이라 생각합니다.    
+      ('CPU의 리소스를 최대한 효율적으로 사용하도록 만드는 것이 궁극적인 목표다.' 라고 생각하면서 해야겠습니다.)
+    * 항상 Task안에 코드를 작성 시, 이러한 점을 염두해두고 해야 될 거 같습니다.
 
-
+## 1.3 MultiTasking 이란?
+* 말그대로 Task를 Multi로 수행하는 것을 말하고 커널이 수행해줍니다.
+* 개발자는 각 각의 Task를 Superloop 방식 코드작성하듯이 하면 됩니다.    
+  마치 각 각이 하나의 일만을 한다고 생각하고 작성해도,    
+  커널이 알아서 번갈아가며 Task를 효율적으로 수행할 것이라고 생각하면 되겠습니다.
+* 하지만, MCU안의 CPU core는 Single 이기에 **진짜로**Task가 동시에 실행된다고 생각하면 안됩니다.
+    * 실제로, 1개의 CPU가 엄청 빠른 시간동안에 각 각의 Task를 **번갈아 가면서** 처리합니다.    
+      제품을 사용하는 입장에 볼때는 여러 Task를 동시에 처리하는것처럼 느껴지게 됩니다.
+    * 요즘엔 소형 MCU도 내부 system clock을 150Mhz까지 채배해서 쓸 수 있도록 많이 보편화되서 가능하게 되었습니다.
+* 그럼, 어떻게 그리고 어떤 방식으로 Task를 **번갈아 가면서** 처리하는가?    
+  위의 의문을 풀기 위해선 커널의 Scheduler와 문맥전환(Context Switching)을 알아야합니다.
+  
+# 2. Scheduler
+## 2.1 Schedule이란?
+* 한정적인 자원을 효율적으로 사용할 수 있도록 Task의 특정 실행 시간에 실행할 Task를    
+  선택하는 작업을 하는 주체
+    * Task State Swtiching, Context Switching
+* 정확한 시간에 적절한 Task가 실행되는 것을 보장합니다.
