@@ -90,8 +90,11 @@ STM32F407_FreeRTOS_2_Task/Scheduler/Context Switching
   위의 의문을 풀기 위해선 커널의 Scheduler와 문맥전환(Context Switching)을 알아야합니다.
   
 # 2. Scheduler
-## 2.1 Schedule이란?
+## 2.1 Scheduler란?
 * 한정적인 자원을 효율적으로 사용할 수 있도록 Task의 특정 실행 시간에 실행할 Task를    
   선택하는 작업을 하는 주체
     * Task State Swtiching, Context Switching
 * 정확한 시간에 적절한 Task가 실행되는 것을 보장합니다.
+* FreeRTOS에서의 스케줄링 방식은 아래와 같습니다.
+![image](https://user-images.githubusercontent.com/79636864/110783725-26b03500-82ac-11eb-9a44-2daeaa6b51a5.png)
+
