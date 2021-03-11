@@ -45,7 +45,9 @@ STM32F407_FreeRTOS_2_Task/Scheduler/Context Switching
     * 입력과 출력이 있고 입력을 처리하는 코드 알고리즘인 유기체(entity)가 있기 때문입니다.
 * 그렇기 때문에 Task도 어떻게 만드는가에 따른 특정한 성질들 존재 합니다.    
   즉, parameter가 존재합니다.
+
 ![image](https://user-images.githubusercontent.com/79636864/110778482-bf8f8200-82a5-11eb-9f17-3b73e35bf1b1.png)
+
 * T(Task)
     * 보통 Task를 기호로 나타낼 땐 '타우'를 쓰고 아래첨자로 Task numbering을 합니다.
 * P(Peroid)    
