@@ -98,3 +98,13 @@ STM32F407_FreeRTOS_2_Task/Scheduler/Context Switching
 * FreeRTOS에서의 스케줄링 방식은 아래와 같습니다.
 ![image](https://user-images.githubusercontent.com/79636864/110783725-26b03500-82ac-11eb-9a44-2daeaa6b51a5.png)
 
+# 3. Context Switching
+## 3.1 Context란?
+* Task가 실행되면서 Memory(RAM)에 액세스한 리소스(프로세서 레지스터, 스택 등)로 구성됨.
+## 3.2 Context Switching이란?
+* Task가 번갈아 실행되면서 프로세서 레지스터와 같은 Context가 잘못된 값이 생성됨을 방지하기 위해    
+  일시 중단 직전과 동일한 Context를 가져야합니다.
+* Kenrel은 이러한 경우를 보장하고 일시 중단 직전의 Context를 저장하고    
+  Task가 다시 시작되면 복원됩니다.
+* 결론적으로, 일시 중단된 Task의 Context를 저장하고 재게되는 Task의 Context를 복원하는 과정을 말합니다.
+
