@@ -15,5 +15,7 @@ STM32F407_FreeRTOS_1_커널 시스템과 전경/배경 시스템
 
 # 1. 전경/배경 시스템(Foreground/Background System)
 ## 1.1 전경/배경 시스템(Foreground/Background System)이란?
-* 임베디드 시스템 프로그램이 하나의 SuperLoop로 구성된 전경 프로세스(Foreground Process)와    
-  하나의 시스템
+![image](https://user-images.githubusercontent.com/79636864/110751841-c3aca700-8287-11eb-9b5b-43a1792582eb.png)
+* 임베디드 프로그램이 한 개의 SuperLoop로 구성된 배경 프로세스(Background Process)와    
+  Timer, Ext-interrupt ISR과 같은 전경 프로세스(Foreground Process)로 구성되어 있는 시스템.
+    * 제가지금
