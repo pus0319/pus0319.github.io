@@ -107,4 +107,10 @@ STM32F407_FreeRTOS_2_Task/Scheduler/Context Switching
 * Kenrel은 이러한 경우를 보장하고 일시 중단 직전의 Context를 저장하고    
   Task가 다시 시작되면 복원됩니다.
 * 결론적으로, 일시 중단된 Task의 Context를 저장하고 재게되는 Task의 Context를 복원하는 과정을 말합니다.
+* Context Switching 과정은 따로 자세하게 정리해보겠습니다.
+
+# 4. 정리
+Task, Schduler, Context Switching을 정리해봤습니다.    
+다음엔 실제로 FreeRTOS에 사용하는 코드들과 함께 Task관련 여러 예제들을 정리할 것입니다.
+
 
