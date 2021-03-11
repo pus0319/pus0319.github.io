@@ -34,6 +34,7 @@ STM32F407_FreeRTOS_1_커널 시스템과 전경/배경 시스템
 
 # 2. 커널 시스템(Kernel System)
 ## 2.1 커널 시스템(Kernel System)이란?
+![image](https://user-images.githubusercontent.com/79636864/110757364-a6c7a200-828e-11eb-8293-a87d86814fd4.png)
 * 임베디드 프로그램에 커널(Kernel)을 추가하고 내가 해야하는 기능들을 각 각의 함수(Task)로 나누어서 구성하는 시스템.
     * 각 각의 Task에는 각 기능들에 대한 setup과 loop로 구성(main loop가 여러개!)
     * 그 외에도 각 각의 Task에 우선순위(Priority)를 두어 뭐가 더 중요한지 정의하고    
