@@ -50,7 +50,7 @@ FreeRTOS 외의 코드 내용은 제외하였습니다.
 이외의 필요한 내용은 추후 Update 할 것
 ```
 
-# 2. FreeRTOS 초기화
+# 2. Task 예제 정리
 ## 2.1 MX_FREERTOS_Init()
 * STM32CubeMX를 통해 생성하시면 'MX_FREERTOS_Init()'를 생성해줍니다.
 ~~~c
