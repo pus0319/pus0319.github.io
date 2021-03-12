@@ -345,6 +345,7 @@ osDelayUntil(&xLastCurrentTime,400);
     * 실제 Task에서 loop를 수행하는 동작을 위해 HAL_Delay(1)을 loop로 돌려 구현하였습니다.
  
 * 결과
+
 ![1](https://user-images.githubusercontent.com/79636864/110893695-d1226980-8339-11eb-92ec-e5a191ee05de.png)
 
 * myTask01과 myTask02의 실제 'C'는 parameter 'C'와 같지만   
