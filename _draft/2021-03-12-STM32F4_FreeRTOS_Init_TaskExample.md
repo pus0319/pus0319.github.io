@@ -325,15 +325,16 @@ void LEDTask_LD5(void const * argument)
 ~~~
 
 * Basic Task와의 차이점은 아래와 같습니다.
-    * 각 Task의 loop 시작 전, Kernel에서의 절대 Tick 값을 얻어옵니다.
+* 각 Task의 loop 시작 전, Kernel에서의 절대 Tick 값을 얻어옵니다.
 ~~~c
 xLastCurrentTime = osKernelSysTick();
 ~~~
-    * Task의 모든 동작이 끝나고 설정한 Period Tick을 더한 절대 Tick 값까지 Blocked state로 대기합니다.
+* Task의 모든 동작이 끝나고 설정한 Period Tick을 더한 절대 Tick 값까지 Blocked state로 대기합니다.
 ~~~c
 osDelayUntil(&xLastCurrentTime,400);   
 ~~~
-    * 설정한 Period Tick 값에 도달하면 다시 Task가 Running state로 전환되고 Task 동작을 시작합니다.
+* 설정한 Period Tick 값에 도달하면 다시 Task가 Running state로 전환되고 Task 동작을 시작합니다.
+
 * 핵심은 Kernel에서 관리하는 절대 Tick값을 이용하기 때문에 Task의 실행시간(C)이 불규칙해도 주기가 일정합니다.    
   (주기성을 보장해줄 수 있습니다.)
     * Basic Task의 경우엔 Task의 동작 종료 직전의 시간을 기준으로 하기 때문에 Task의 실행시간(C)에 따라    
@@ -354,5 +355,9 @@ osDelayUntil(&xLastCurrentTime,400);
     * myTask03이 동작을 실행하는 동안, Priority가 더 높은 myTask01과 myTask02가 Preempt 하였습니다.
 ![image](https://user-images.githubusercontent.com/79636864/110894637-8efa2780-833b-11eb-9e7c-72961ec984b7.png)
 * 위의 사진과 같이 myTask03이 동작을 실행하는 동안 myTask01이 2번, myTask02가 1번 Preempt 한 것을 확인할 수 있습니다.
-* 
+* 비록 myTask03의 실제 'C'는 늘어났지만, 모든 Task의 실제 'P'는 parameter 'P'와 같음을 확인하였습니다.
+* 위의 같이 Priority가 낮은 Task의 경우, 상의 Priority의 Task들이 얼마나 Preempt을 하느냐에 따른 경우를    
+  잘 분석해서 parameter를 정해야합니다.
+
+
  
