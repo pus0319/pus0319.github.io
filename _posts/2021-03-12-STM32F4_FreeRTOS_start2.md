@@ -100,6 +100,8 @@ STM32F407_FreeRTOS_2_Task/Scheduler/Context Switching
 * FreeRTOS에서의 스케줄링 방식은 아래와 같습니다.
 ![image](https://user-images.githubusercontent.com/79636864/110783725-26b03500-82ac-11eb-9a44-2daeaa6b51a5.png)
 
+* FreeRTOS에서는 선점형/비선점형을 선택할 수 있습니다.(기본은 선점형으로 사용합니다.)
+
 # 3. Context Switching
 ## 3.1 Context란?
 * Task가 실행되면서 Memory(RAM)에 액세스한 리소스(프로세서 레지스터, 스택 등)로 구성됨.
