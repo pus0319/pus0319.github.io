@@ -1,13 +1,13 @@
 ---
 date: 2021-03-12
-title: "STM32F407_FreeRTOS_3_Task 예제정리"
+title: "STM32F407_FreeRTOS_3_Task/Scheduler API,예제정리"
 categories: Embedded_FreeRTOS
 tags: jekyll
 toc: true  
 toc_sticky: true 
 ---
 
-STM32F407_FreeRTOS_3_Task 예제정리
+STM32F407_FreeRTOS_3_Task/Scheduler API,예제정리
 =============
   
 이번 포스팅은 각종 Task예제를 통해 STM32CubeMX를 통해 생성한    
@@ -18,6 +18,31 @@ FreeRTOS 외의 코드 내용은 제외하였습니다.
 # 1. Task / Scheduler API 정리
 ## 1.1 xTaskCreate()
 ![taskcreate](https://user-images.githubusercontent.com/79636864/110877503-dcb36780-831c-11eb-9d36-bdb1854c9891.jpg)
+* Task를 만드는 기본적인 함수입니다.
+
+## 1.2 vTaskDelay()
+![image](https://user-images.githubusercontent.com/79636864/110877796-55b2bf00-831d-11eb-99c0-b360ddb8c7c1.png)
+* 핵심은 Delay라는 동작이 'Task의 state를 Blocked 함'(CPU의 점유권을 넘긴다) 입니다.
+* HAL_Delay와의 차이점
+    * Polling 방식으로 Delay 측정(loop 방식)
+    * FreeRTOS가 사용하는 Tick Timer보다 더 낮은 우선순위를 가짐.
+        * 우선순위가 높은 Tick Timer 등에 의해 멈춤현상이 발생 -> 정확한 Delay를 하지 못함.
+    * CPU 리소스를 점유하기 때문에 RTOS 사용 시는 osDelay() 함수를 이용해서 다른 스레드에게    
+      제어권을 넘겨주는게 CPU 리소스를 효율적으로 사용 할 수 있음.
+    * 실제로, HAL_Delay() 사용 시, 1ms 더 Delay 됨. 1로 해서 500 loop 돌렸는데 1.5초가 나옴.(???)    
+      OS_Delay() 사용 시, us대 더 Delay 됨. 1로 해서 500 loop 돌렸는데 0.5초가 나옴.
+
+     
+## 1.3 vTaskDelayUntil()
+![image](https://user-images.githubusercontent.com/79636864/110877814-6105ea80-831d-11eb-987a-9db8562ae2f8.png)
+
+## 1.4 xTaskDelete()
+
+## 1.5 vTaskPrioritySet()
+
+## 1.6 vTaskPriorityGet()
+
+
 
 # 2. FreeRTOS 초기화
 ## 2.1 MX_FREERTOS_Init()
