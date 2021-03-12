@@ -225,5 +225,4 @@ void LEDTask_LD5(void const * argument)
 * 먼저 수행을 시작한 myTask03의 Delay Count값이 높은 것으로 확인하였고    
   printf()동작이 약 5 Count 갭이 있음을 확인하였습니다.
   
-
-
+## 2.3 Periodic Task 예제
