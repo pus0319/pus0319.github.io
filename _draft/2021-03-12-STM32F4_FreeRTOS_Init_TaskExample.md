@@ -31,18 +31,24 @@ FreeRTOS 외의 코드 내용은 제외하였습니다.
       제어권을 넘겨주는게 CPU 리소스를 효율적으로 사용 할 수 있음.
     * 실제로, HAL_Delay() 사용 시, 1ms 더 Delay 됨. 1로 해서 500 loop 돌렸는데 1.5초가 나옴.(???)    
       OS_Delay() 사용 시, us대 더 Delay 됨. 1로 해서 500 loop 돌렸는데 0.5초가 나옴.
-
      
 ## 1.3 vTaskDelayUntil()
 ![image](https://user-images.githubusercontent.com/79636864/110877814-6105ea80-831d-11eb-987a-9db8562ae2f8.png)
-
+* Periodic task 구현에 사용할 수 있습닏.
+ 
 ## 1.4 xTaskDelete()
+![image](https://user-images.githubusercontent.com/79636864/110878477-9fe87000-831e-11eb-8bfb-6f7c658c5adf.png)
 
 ## 1.5 vTaskPrioritySet()
+![image](https://user-images.githubusercontent.com/79636864/110878509-aa0a6e80-831e-11eb-8eb2-67b6ef292e29.png)
+* 'Note' 내용을 꼭 숙지할 것.
 
 ## 1.6 vTaskPriorityGet()
+![image](https://user-images.githubusercontent.com/79636864/110878552-bee70200-831e-11eb-9e44-ef35bed575c4.png)
 
-
+```
+이외의 필요한 내용은 추후 Update 할 것
+```
 
 # 2. FreeRTOS 초기화
 ## 2.1 MX_FREERTOS_Init()
