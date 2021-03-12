@@ -330,11 +330,29 @@ void LEDTask_LD5(void const * argument)
 xLastCurrentTime = osKernelSysTick();
 ~~~
     * Task의 모든 동작이 끝나고 설정한 Period Tick을 더한 절대 Tick 값까지 Blocked state로 대기합니다.
-        * osDelayUntil(&xLastCurrentTime,400);   
+~~~c
+osDelayUntil(&xLastCurrentTime,400);   
+~~~
     * 설정한 Period Tick 값에 도달하면 다시 Task가 Running state로 전환되고 Task 동작을 시작합니다.
-* 핵심은 Kernel에서 관리하는 절대 Tick값을 이용하기 때문에 Task의 동작시간(C)이 불규칙해도 주기가 일정합니다.    
+* 핵심은 Kernel에서 관리하는 절대 Tick값을 이용하기 때문에 Task의 실행시간(C)이 불규칙해도 주기가 일정합니다.    
   (주기성을 보장해줄 수 있습니다.)
-    * Basic Task의 경우엔 Task의 동작 종료 직전의 시간을 기준으로 하기 때문에 Task의 동작시간(C)에 따라    
+    * Basic Task의 경우엔 Task의 동작 종료 직전의 시간을 기준으로 하기 때문에 Task의 실행시간(C)에 따라    
       주기가 달라집니다.
+* Task의 실행시간(C)는 HAL library의 Delay 함수를 이용하여 구현하였습니다.
+    * FreeRTOS를 올리고 측정해보니 설정 Delay 값에서 약 1ms더 Delay되는 것을 관찰하였습니다.
+        * 이는 앞서 언급했듯이, HAL_Delay를 측정하는 인터럽트가 FreeRTOS의 인터럽트로 인한 멈춤현상이 원인입니다.
+    * 실제 Task에서 loop를 수행하는 동작을 위해 HAL_Delay(1)을 loop로 돌려 구현하였습니다.
  
+* 결과
+![1](https://user-images.githubusercontent.com/79636864/110893695-d1226980-8339-11eb-92ec-e5a191ee05de.png)
+
+* myTask01과 myTask02의 실제 'C'는 parameter 'C'와 같지만   
+  myTask03의 실제 'C'(210ms)는 parameter 'C'(100ms)와 다름을 확인하였습니다.
+  
+* 다르게 나오는 이유는 아래와 같습니다.
+    * 주목해야할 점은 FreeRTOS Scheduling의 특징 중 하나인 '우선순위 기반 Scheduling'입니다.
+    * myTask03이 동작을 실행하는 동안, Priority가 더 높은 myTask01과 myTask02가 Preempt 하였습니다.
+![image](https://user-images.githubusercontent.com/79636864/110894637-8efa2780-833b-11eb-9e7c-72961ec984b7.png)
+* 위의 사진과 같이 myTask03이 동작을 실행하는 동안 myTask01이 2번, myTask02가 1번 Preempt 한 것을 확인할 수 있습니다.
+* 
  
