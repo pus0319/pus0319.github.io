@@ -105,7 +105,7 @@ void MX_FREERTOS_Init(void) {
 
 * osThreadCreate에서 실제로 Task를 만들고 Handle을 Return 합니다.
 
-## 2.2 Basic Task
+## 2.2 Basic Task 
 아래와 같이 3개의 Task를 만들었습니다.
 * myTask01
 ~~~c
@@ -226,3 +226,4 @@ void LEDTask_LD5(void const * argument)
   printf()동작이 약 5 Count 갭이 있음을 확인하였습니다.
   
 ## 2.3 Periodic Task 예제
+앞서 보여준 Basic Task 같은 경우외에 3개의 Periodic Task를 만들어 동작해봤습니다.
