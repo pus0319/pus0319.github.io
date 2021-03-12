@@ -63,3 +63,7 @@ void MX_FREERTOS_Init(void) {
 
 }
 ~~~
+* 맨 첫줄의 myTask01~03_Argument는 Task 생성 시, 매개변수로 넣어줄 것들입니다.    
+  Task가 loop로 진입 전, 매개변수 값을 printf로 출력할 예정입니다.
+* osThreadDef
+![image](https://user-images.githubusercontent.com/79636864/110877260-821a0b80-831c-11eb-9337-d1e96ccff0bb.png)
