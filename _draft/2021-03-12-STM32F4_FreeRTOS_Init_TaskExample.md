@@ -226,4 +226,115 @@ void LEDTask_LD5(void const * argument)
   printf()동작이 약 5 Count 갭이 있음을 확인하였습니다.
   
 ## 2.3 Periodic Task 예제
-앞서 보여준 Basic Task 같은 경우외에 3개의 Periodic Task를 만들어 동작해봤습니다.
+앞서 보여준 Basic Task 같은 경우 외에도 Periodic Task를 만들어 Multitasking 동작을 해봤습니다.
+* 아래는 동작한 Task의 parameter를 정리한 표입니다.
+![image](https://user-images.githubusercontent.com/79636864/110892351-3e80cb00-8337-11eb-83c0-bfe3879e64f9.png)
+
+* myTask01
+~~~c
+void LEDTask_LD4(void const * argument)
+{
+  /* USER CODE BEGIN LEDTask_LD4 */
+  char * temp = (char *)argument;
+  TickType_t xLastCurrentTime;
+  int i;
+  //const TickType_t xPeriod = pdMS_TO_TICKS(500);
+
+  printf("%s. pr : %d",temp,(int)osThreadGetPriority(NULL));
+  printf("....loop start. \r\n");
+
+  xLastCurrentTime = osKernelSysTick();
+  /* Infinite loop */
+  for(;;)
+  {
+  	HAL_GPIO_WritePin(GPIOD,LD4_Pin, GPIO_PIN_SET);
+	task1_LED_Active_Flag = 1;
+	for(i=0;i<15;i++)
+	{
+		HAL_Delay(1);
+	}
+  	HAL_GPIO_WritePin(GPIOD,LD4_Pin, GPIO_PIN_RESET);
+	task1_LED_Active_Flag = 0;	
+
+		
+	osDelayUntil(&xLastCurrentTime,100);
+  }
+  /* USER CODE END LEDTask_LD4 */
+}
+~~~
+* myTask02
+~~~c
+void LEDTask_LD3(void const * argument)
+{
+  /* USER CODE BEGIN LEDTask_LD3 */
+  char * temp = (char *)argument;
+  TickType_t xLastCurrentTime;
+  int i;
+
+  printf("%s. pr : %d",temp,(int)osThreadGetPriority(NULL));
+  printf("....loop start. \r\n");
+
+  xLastCurrentTime = osKernelSysTick();
+  /* Infinite loop */
+  for(;;)
+  {
+ 	  HAL_GPIO_WritePin(GPIOD,LD3_Pin, GPIO_PIN_SET);
+ 	  task2_LED_Active_Flag = 1;
+	  for(i=0;i<25;i++)
+	  {
+		  HAL_Delay(1);
+	  }
+ 	  HAL_GPIO_WritePin(GPIOD,LD3_Pin, GPIO_PIN_RESET);
+ 	  task2_LED_Active_Flag = 0;  
+
+	  
+ 	osDelayUntil(&xLastCurrentTime,200);
+  }
+  /* USER CODE END LEDTask_LD3 */
+}
+~~~
+* myTask02
+~~~c
+void LEDTask_LD5(void const * argument)
+{
+  /* USER CODE BEGIN LEDTask_LD5 */
+  char * temp = (char *)argument;
+  TickType_t xLastCurrentTime;
+  int i;
+
+  printf("%s. pr : %d",temp,(int)osThreadGetPriority(NULL));
+  printf("....loop start. \r\n");
+
+  xLastCurrentTime = osKernelSysTick();
+  /* Infinite loop */
+  for(;;)
+  {
+	  HAL_GPIO_WritePin(GPIOD,LD5_Pin, GPIO_PIN_SET);
+	  task3_LED_Active_Flag = 1;
+	  for(i=0;i<50;i++)
+	  {
+		  HAL_Delay(1);
+	  }
+	  HAL_GPIO_WritePin(GPIOD,LD5_Pin, GPIO_PIN_RESET);
+	  task3_LED_Active_Flag = 0;  
+
+ 	osDelayUntil(&xLastCurrentTime,400); 
+  }
+  /* USER CODE END LEDTask_LD5 */
+}
+~~~
+
+* Basic Task와의 차이점은 아래와 같습니다.
+    * 각 Task의 loop 시작 전, Kernel에서의 절대 Tick 값을 얻어옵니다.
+~~~c
+xLastCurrentTime = osKernelSysTick();
+~~~
+    * Task의 모든 동작이 끝나고 설정한 Period Tick을 더한 절대 Tick 값까지 Blocked state로 대기합니다.
+        * osDelayUntil(&xLastCurrentTime,400);   
+    * 설정한 Period Tick 값에 도달하면 다시 Task가 Running state로 전환되고 Task 동작을 시작합니다.
+* 핵심은 Kernel에서 관리하는 절대 Tick값을 이용하기 때문에 Task의 동작시간(C)이 불규칙해도 주기가 일정합니다.    
+  (주기성을 보장해줄 수 있습니다.)
+    * Basic Task의 경우엔 Task의 동작 종료 직전의 시간을 기준으로 하기 때문에 Task의 동작시간(C)에 따라    
+      주기가 달라집니다.
+ 
+ 
