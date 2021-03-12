@@ -264,6 +264,7 @@ void LEDTask_LD4(void const * argument)
   /* USER CODE END LEDTask_LD4 */
 }
 ~~~
+
 * myTask02
 ~~~c
 void LEDTask_LD3(void const * argument)
@@ -295,6 +296,7 @@ void LEDTask_LD3(void const * argument)
   /* USER CODE END LEDTask_LD3 */
 }
 ~~~
+
 * myTask03
 ~~~c
 void LEDTask_LD5(void const * argument)
