@@ -211,10 +211,19 @@ void LEDTask_LD5(void const * argument)
      (이는, 추후 세마포어 및 뮤텍스 기능 설명을 통해 다루어 볼 것입니다.)
 
 * 결과
+
 ![image](https://user-images.githubusercontent.com/79636864/110880942-c7413c00-8322-11eb-86f0-3a532010c260.png)
 ![image](https://user-images.githubusercontent.com/79636864/110881239-59e1db00-8323-11eb-93ff-d7ef43297f46.png)
+![image](https://user-images.githubusercontent.com/79636864/110881563-e2f91200-8323-11eb-9c11-108d334c6b81.png)
+![image](https://user-images.githubusercontent.com/79636864/110881744-32d7d900-8324-11eb-8300-a209d7ae9ea8.png)
 
+
+* Scheduler가 처음 실행 시, High Priority인 Task부터 수행되는 것을 확인하였습니다.
 * 간단한 LED ON/OFF동작이기에 'C'(최악의 실행시간)은 무시해도 됩니다.
 * 바로 osDelay()를 실행하기 때문에 preemption도 일어나지 않습니다.
-* 결론적으로, 각 Task의 LED 동작이 주기적으로 수행됨을 확인하였습니다.
+* 결론적으로, 각 Task의 LED 동작 및 Delay Count동작이 주기적으로 수행됨을 확인하였습니다.
+* 먼저 수행을 시작한 myTask03의 Delay Count값이 높은 것으로 확인하였고    
+  printf()동작이 약 5 Count 갭이 있음을 확인하였습니다.
+  
+
 
