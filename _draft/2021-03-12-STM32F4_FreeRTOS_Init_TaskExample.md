@@ -359,7 +359,8 @@ osDelayUntil(&xLastCurrentTime,400);
 * 위의 같이 Priority가 낮은 Task의 경우, 상의 Priority의 Task들이 얼마나 Preempt을 하느냐에 따른 경우를    
   잘 분석해서 parameter를 정해야합니다.
 
-* 정리
+# 3. 정리
 Task / Scheduler API 정리 및 Basic/Periodic Task 예제를 만들고 Log 출력 및 Logic analyzer를 통해 디버깅을 해봤습니다.    
 추후 Task 관련 Issue 및 관련 내용은 지속적으로 Update할 예정입니다. 
+
  
