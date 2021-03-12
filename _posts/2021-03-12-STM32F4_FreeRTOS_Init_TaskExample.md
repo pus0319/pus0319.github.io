@@ -46,9 +46,7 @@ FreeRTOS 외의 코드 내용은 제외하였습니다.
 ## 1.6 vTaskPriorityGet()
 ![image](https://user-images.githubusercontent.com/79636864/110878552-bee70200-831e-11eb-9e44-ef35bed575c4.png)
 
-```
-이외의 필요한 내용은 추후 Update 할 것
-```
+* 이외의 필요한 내용은 추후 Update 할 것
 
 # 2. Task 예제 정리
 ## 2.1 MX_FREERTOS_Init()
@@ -109,7 +107,9 @@ void MX_FREERTOS_Init(void) {
 
 ## 2.2 Basic Task 
 아래와 같이 3개의 Task를 만들었습니다.
+
 * myTask01
+
 ~~~c
 void LEDTask_LD4(void const * argument)
 {
