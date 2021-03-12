@@ -232,8 +232,8 @@ void LEDTask_LD5(void const * argument)
 * 아래는 동작한 Task의 parameter를 정리한 표입니다.
 ![image](https://user-images.githubusercontent.com/79636864/110892351-3e80cb00-8337-11eb-83c0-bfe3879e64f9.png)
 
-
 * myTask01
+
 ~~~c
 void LEDTask_LD4(void const * argument)
 {
@@ -258,13 +258,13 @@ void LEDTask_LD4(void const * argument)
   	HAL_GPIO_WritePin(GPIOD,LD4_Pin, GPIO_PIN_RESET);
 	task1_LED_Active_Flag = 0;	
 
-		
 	osDelayUntil(&xLastCurrentTime,100);
   }
 }
 ~~~
 
 * myTask02
+
 ~~~c
 void LEDTask_LD3(void const * argument)
 {
@@ -294,9 +294,8 @@ void LEDTask_LD3(void const * argument)
 }
 ~~~
 
-
-
 * myTask03
+
 ~~~c
 void LEDTask_LD5(void const * argument)
 {
@@ -324,7 +323,6 @@ void LEDTask_LD5(void const * argument)
   }
 }
 ~~~
-
 
 * Basic Task와의 차이점은 아래와 같습니다.
 * 각 Task의 loop 시작 전, Kernel에서의 절대 Tick 값을 얻어옵니다.
