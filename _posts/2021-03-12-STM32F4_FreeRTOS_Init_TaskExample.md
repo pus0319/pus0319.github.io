@@ -53,6 +53,7 @@ FreeRTOS 외의 코드 내용은 제외하였습니다.
 # 2. Task 예제 정리
 ## 2.1 MX_FREERTOS_Init()
 * STM32CubeMX를 통해 생성하시면 'MX_FREERTOS_Init()'를 생성해줍니다.
+
 ~~~c
 void MX_FREERTOS_Init(void) {
   /* USER CODE BEGIN Init */
@@ -98,6 +99,7 @@ void MX_FREERTOS_Init(void) {
 
 }
 ~~~
+
 * 맨 첫줄의 myTask01~03_Argument는 Task 생성 시, 매개변수로 넣어줄 것들입니다.    
   Task가 loop로 진입 전, 매개변수 값을 printf로 출력할 예정입니다.
 * osThreadDef
