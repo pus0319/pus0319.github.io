@@ -15,8 +15,12 @@ CMSIS_RTOS_API의 FreeRTOS 코드 내용 및 log 출력값을 정리했습니다
 
 FreeRTOS 외의 코드 내용은 제외하였습니다. 
 
-# 1. FreeRTOS 초기화
-## 1.1 MX_FREERTOS_Init()
+# 1. Task / Scheduler API 정리
+## 1.1 xTaskCreate()
+![taskcreate](https://user-images.githubusercontent.com/79636864/110877503-dcb36780-831c-11eb-9d36-bdb1854c9891.jpg)
+
+# 2. FreeRTOS 초기화
+## 2.1 MX_FREERTOS_Init()
 * STM32CubeMX를 통해 생성하시면 'MX_FREERTOS_Init()'를 생성해줍니다.
 ~~~c
 void MX_FREERTOS_Init(void) {
