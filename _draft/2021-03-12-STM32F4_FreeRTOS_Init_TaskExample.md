@@ -102,3 +102,119 @@ void MX_FREERTOS_Init(void) {
   Task가 loop로 진입 전, 매개변수 값을 printf로 출력할 예정입니다.
 * osThreadDef
 ![image](https://user-images.githubusercontent.com/79636864/110877260-821a0b80-831c-11eb-9337-d1e96ccff0bb.png)
+
+* osThreadCreate에서 실제로 Task를 만들고 Handle을 Return 합니다.
+
+## 2.2 Basic Task
+아래와 같이 3개의 Task를 만들었습니다.
+* myTask01
+~~~c
+void LEDTask_LD4(void const * argument)
+{
+  /* USER CODE BEGIN LEDTask_LD4 */
+  char * temp = (char *)argument;
+
+  printf("%s. pr : %d",temp,(int)osThreadGetPriority(NULL));
+  printf("....loop start. \r\n");
+  
+  /* Infinite loop */
+  for(;;)
+  {
+  	HAL_GPIO_WritePin(GPIOD,LD4_Pin, GPIO_PIN_SET);
+	task1_LED_Active_Flag = 1;
+	while(task1_osdelay_value < 500)
+	{
+    	osDelay(1);
+		task1_osdelay_value++;
+	}
+  	HAL_GPIO_WritePin(GPIOD,LD4_Pin, GPIO_PIN_RESET);
+	task1_LED_Active_Flag = 0;	
+	while(task1_osdelay_value > 0)
+	{
+    	osDelay(1);
+		task1_osdelay_value--;
+	}	
+  }
+  /* USER CODE END LEDTask_LD4 */
+}
+~~~
+* myTask02
+~~~c
+void LEDTask_LD3(void const * argument)
+{
+  /* USER CODE BEGIN LEDTask_LD3 */
+  char * temp = (char *)argument;
+
+  printf("%s. pr : %d",temp,(int)osThreadGetPriority(NULL));
+  printf("....loop start. \r\n");
+
+  /* Infinite loop */
+  for(;;)
+  {
+ 	  HAL_GPIO_WritePin(GPIOD,LD3_Pin, GPIO_PIN_SET);
+ 	  task2_LED_Active_Flag = 1;
+ 	  while(task2_osdelay_value < 1000)
+ 	  {
+ 		  osDelay(1);
+ 		  task2_osdelay_value++;
+ 	  }
+ 	  HAL_GPIO_WritePin(GPIOD,LD3_Pin, GPIO_PIN_RESET);
+ 	  task2_LED_Active_Flag = 0;  
+ 	  while(task2_osdelay_value > 0)
+ 	  {
+ 		  osDelay(1);
+ 		  task2_osdelay_value--;
+ 	  }   
+  }
+  /* USER CODE END LEDTask_LD3 */
+}
+~~~
+* myTask03
+~~~c
+void LEDTask_LD5(void const * argument)
+{
+  /* USER CODE BEGIN LEDTask_LD5 */
+  char * temp = (char *)argument;
+
+  printf("%s. pr : %d",temp,(int)osThreadGetPriority(NULL));
+  printf("....loop start. \r\n");
+
+  /* Infinite loop */
+  for(;;)
+  {
+	  HAL_GPIO_WritePin(GPIOD,LD5_Pin, GPIO_PIN_SET);
+	  task3_LED_Active_Flag = 1;
+	  while(task3_osdelay_value < 1500)
+	  {
+		  osDelay(1);
+		  task3_osdelay_value++;
+	  }
+	  HAL_GPIO_WritePin(GPIOD,LD5_Pin, GPIO_PIN_RESET);
+	  task3_LED_Active_Flag = 0;  
+	  while(task3_osdelay_value > 0)
+	  {
+		  osDelay(1);
+		  task3_osdelay_value--;
+	  }   
+
+  }
+  /* USER CODE END LEDTask_LD5 */
+}
+~~~
+
+* 3개의 Task 모두 loop 진입 전 자신의 Priority 및 argument 값을 printf로 출력합니다.
+* 간단한 LED ON/OFF 동작 후 일정 시간동안 osDelay() 동작을 수행합니다.
+* 만약 3개의 Task 중 Priority가 겹치는 경우가 있을 경우,
+  printf 출력이 겹치는 Task에 한해서 안나오는 경우가 발생합니다.    
+  이는 동일한 우선순위 함수는 라운드 로빈 방식을 하기 때문에 전역 함수인 printf()이 겹치는 현상입니다.    
+  -> 겹치는 Task가 동일한 시간에 printf()를 사용하지 못하게 하기 위해선 'Task간 동기화'를 해줘야합니다.    
+     (이는, 추후 세마포어 및 뮤텍스 기능 설명을 통해 다루어 볼 것입니다.)
+
+* 결과
+![image](https://user-images.githubusercontent.com/79636864/110880942-c7413c00-8322-11eb-86f0-3a532010c260.png)
+![image](https://user-images.githubusercontent.com/79636864/110881239-59e1db00-8323-11eb-93ff-d7ef43297f46.png)
+
+* 간단한 LED ON/OFF동작이기에 'C'(최악의 실행시간)은 무시해도 됩니다.
+* 바로 osDelay()를 실행하기 때문에 preemption도 일어나지 않습니다.
+* 결론적으로, 각 Task의 LED 동작이 주기적으로 수행됨을 확인하였습니다.
+
