@@ -232,11 +232,11 @@ void LEDTask_LD5(void const * argument)
 * 아래는 동작한 Task의 parameter를 정리한 표입니다.
 ![image](https://user-images.githubusercontent.com/79636864/110892351-3e80cb00-8337-11eb-83c0-bfe3879e64f9.png)
 
+
 * myTask01
 ~~~c
 void LEDTask_LD4(void const * argument)
 {
-  /* USER CODE BEGIN LEDTask_LD4 */
   char * temp = (char *)argument;
   TickType_t xLastCurrentTime;
   int i;
@@ -261,7 +261,6 @@ void LEDTask_LD4(void const * argument)
 		
 	osDelayUntil(&xLastCurrentTime,100);
   }
-  /* USER CODE END LEDTask_LD4 */
 }
 ~~~
 
@@ -269,7 +268,6 @@ void LEDTask_LD4(void const * argument)
 ~~~c
 void LEDTask_LD3(void const * argument)
 {
-  /* USER CODE BEGIN LEDTask_LD3 */
   char * temp = (char *)argument;
   TickType_t xLastCurrentTime;
   int i;
@@ -293,15 +291,15 @@ void LEDTask_LD3(void const * argument)
 	  
  	osDelayUntil(&xLastCurrentTime,200);
   }
-  /* USER CODE END LEDTask_LD3 */
 }
 ~~~
+
+
 
 * myTask03
 ~~~c
 void LEDTask_LD5(void const * argument)
 {
-  /* USER CODE BEGIN LEDTask_LD5 */
   char * temp = (char *)argument;
   TickType_t xLastCurrentTime;
   int i;
@@ -324,9 +322,9 @@ void LEDTask_LD5(void const * argument)
 
  	osDelayUntil(&xLastCurrentTime,400); 
   }
-  /* USER CODE END LEDTask_LD5 */
 }
 ~~~
+
 
 * Basic Task와의 차이점은 아래와 같습니다.
 * 각 Task의 loop 시작 전, Kernel에서의 절대 Tick 값을 얻어옵니다.
