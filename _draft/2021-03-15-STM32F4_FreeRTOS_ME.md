@@ -28,7 +28,18 @@ CMSIS_RTOS_API의 FreeRTOS 코드 내용 및 log 출력값을 정리했습니다
 * 공유자원을 쓰는 것은 괜찮은데, 여러 Task 사이의 경쟁이나 다른 이유에 의해 공유자원이 손실되는 상황이 발생합니다.
     * 어느 한 Task에서 공유자원을 **접근중에** 다른 Task(Priority가 높은 Task)가 강제로 공유자원을 사용하는 경우
 * Kernel System에서는 위의 경우로 인한 데이터 손실을 막아야합니다.
-* 그래서 나온 개념이 상호배제(Mutual exclusion)입니다.
+* 그래서 나온 개념이 **상호배제(Mutual exclusion)**입니다.
 
 # 1. 상호배제(Mutual exclusion)
-## 1.1 xTaskCreate()
+## 1.1 상호배제(Mutual exclusion)란?
+* 모든 Task가 접근하여 사용할 수 있는 공유자원(Local Resource)의 활용에 대해 하나의 Task만 할 수 있도록 하는 개념.
+* Task가 공유자원(Local Resource)을 활용하는 과정은 아래와 같습니다.
+    1. 공유자원 접근(Access)
+    2. 공유자원 시작(Start)
+    3. 공유자원 수행(Perform)
+    4. 공유자원 종료(End)
+    5. 공유자원 탈출(Exit)
+* 상호배제(Mutual exclusion)는 공유자원'A'가 어느 Task에 접근(Access)했고 다른 Task가 공유자원'A'를 활용하고자 한다면,    
+  공유자원'A'가 탈출(Exit)할 때까지 활용하지 못하게 합니다.
+## 1.2 상호배제(Mutual exclusion)가 필요한 경우 : 
+
