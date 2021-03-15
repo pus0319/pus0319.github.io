@@ -44,20 +44,26 @@ STM32F407_FreeRTOS_5_세마포어(Semaphore),뮤텍스(Mutex)
 
 # 2 세마포어(Semaphore) API 정리
 ## 2.1 vSemaphoreCreateBinary()
-
-![image](https://user-images.githubusercontent.com/79636864/111146742-1e6a3980-85cd-11eb-8993-87cebfcbb3c6.png)
+![image](https://user-images.githubusercontent.com/79636864/111146817-36da5400-85cd-11eb-8674-d9db1f94c48e.png)
 
 ## 2.2 xSemaphoreCreateCounting()
+![image](https://user-images.githubusercontent.com/79636864/111146871-45287000-85cd-11eb-9031-39eaf0eac903.png)
 
 ## 2.3 xSemaphoreTake()
+![image](https://user-images.githubusercontent.com/79636864/111146936-570a1300-85cd-11eb-8c05-aa22f8dda074.png)
 
 ## 2.4 xSemaphoreTakeFormISR()
+![image](https://user-images.githubusercontent.com/79636864/111146971-5f624e00-85cd-11eb-919c-616c4a6a775b.png)
 
 ## 2.5 xSemaphoreGive()
+![image](https://user-images.githubusercontent.com/79636864/111147012-67ba8900-85cd-11eb-813b-923e7d4d7870.png)
 
 ## 2.6 xSemaphoreGiveFormISR()
+![image](https://user-images.githubusercontent.com/79636864/111147043-7012c400-85cd-11eb-9214-ebf64c5482a3.png)
 
 ## 2.7 vSemaphoreDelete()
+![image](https://user-images.githubusercontent.com/79636864/111147080-76a13b80-85cd-11eb-995e-428afebe69c2.png)
+
 
 
 
