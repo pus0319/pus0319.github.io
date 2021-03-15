@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://pus0319.github.io/sitemap.xml
