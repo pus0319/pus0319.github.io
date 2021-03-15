@@ -84,8 +84,8 @@ void Function_A(void)
 {
    if(A_Flag == 0)
    {
-      A_Flag = 1;
       __disable_irq();
+      A_Flag = 1;
       _Uses_A(); // 공유자원 활용(Access ~ Exit)
       A_Flag = 0;
       __enable_irq();
