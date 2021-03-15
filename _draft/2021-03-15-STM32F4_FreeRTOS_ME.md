@@ -34,12 +34,18 @@ CMSIS_RTOS_API의 FreeRTOS 코드 내용 및 log 출력값을 정리했습니다
 ## 1.1 상호배제(Mutual exclusion)란?
 * 모든 Task가 접근하여 사용할 수 있는 공유자원(Local Resource)의 활용에 대해 하나의 Task만 할 수 있도록 하는 개념.
 * Task가 공유자원(Local Resource)을 활용하는 과정은 아래와 같습니다.
-    1. 공유자원 접근(Access)
+    1. 공유자원 접근(Access) 및 호출(Call)
     2. 공유자원 시작(Start)
     3. 공유자원 수행(Perform)
     4. 공유자원 종료(End)
     5. 공유자원 탈출(Exit)
 * 상호배제(Mutual exclusion)는 공유자원'A'가 어느 Task에 접근(Access)했고 다른 Task가 공유자원'A'를 활용하고자 한다면,    
   공유자원'A'가 탈출(Exit)할 때까지 활용하지 못하게 합니다.
-## 1.2 상호배제(Mutual exclusion)가 필요한 경우 : 
+## 1.2 상호배제(Mutual exclusion)가 필요한 경우
+### 1.2.1 비재진입(Non-Reentrancy)
+* 재진입(Reentrancy) : 언제 어느 시점에서든 호출되어도 문제가 없는 자원(변수 및 함수)
+    * ex : Task1이 'A'함수를 호출해서 수행 중, ISR이 걸려서 'A'함수를 호출하고 또 ISR 복귀후 Context Switching에 의해    
+      Priority가 높은 Task로 CPU점유율이 넘어 갔는데 거기서 또 'A'함수를 호출해버리고...
+    * 위와 같이 진행되어도 아무런 문제가 없는 형태.
+        * 보통, Local Variable로 짜여진 함수
 
