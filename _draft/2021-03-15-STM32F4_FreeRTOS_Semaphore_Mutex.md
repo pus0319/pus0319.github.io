@@ -50,7 +50,7 @@ STM32F407_FreeRTOS_5_세마포어(Semaphore),뮤텍스(Mutex)
 ![image](https://user-images.githubusercontent.com/79636864/111146871-45287000-85cd-11eb-9031-39eaf0eac903.png)
 
 ## 2.3 xSemaphoreTake()
-![image](https://user-images.githubusercontent.com/79636864/111146936-570a1300-85cd-11eb-8c05-aa22f8dda074.png)
+![image](https://user-images.githubusercontent.com/79636864/111149132-d26cc400-85cf-11eb-8652-076a2c5eaf7e.png)
 
 ## 2.4 xSemaphoreTakeFormISR()
 ![image](https://user-images.githubusercontent.com/79636864/111146971-5f624e00-85cd-11eb-919c-616c4a6a775b.png)
