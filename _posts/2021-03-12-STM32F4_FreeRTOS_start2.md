@@ -101,6 +101,25 @@ STM32F407_FreeRTOS_2_Task/Scheduler/Context Switching
 ![image](https://user-images.githubusercontent.com/79636864/110783725-26b03500-82ac-11eb-9a44-2daeaa6b51a5.png)
 
 * FreeRTOS에서는 선점형/비선점형을 선택할 수 있습니다.(기본은 선점형으로 사용합니다.)
+* 
+## 2.2 Non-preemptive Kernel(비선점형 커널) 이란?
+* 먼저 CPU 점유권을 점령을 하지 않는 커널
+* 무조건 ISR로 뛰어들어가기 전에 돌고 있던 Task로 다시 CPU 점유권을 넘김.
+* Multitasking을 구현 시, Task 자신의 state를 Blocked로 바꿔야함.
+* 특징
+    * 인터럽트 지연시간이 짧음.
+    * Task 레벨에서도 비재진입 함수를 사용할 수 있다.
+    * Task 응답성이 떨어짐.
+        * 현재 Task의 긴 수행시간 때문에 Priority가 높은(매우 중요한) Task가 긴 수행시간만큼 대기할 수 있음.
+## 2.3 Preemptive Kernel(선점형 커널) 이란?
+* ISR로부터 복귀 할 때 Priority가 가장 높은 Task에게 CPU 점유권을 넘김.
+* Task 응답성이 개선됨.
+* 가장 높은 Priority의 Task가 언제 CPU의 점유권을 가질 수 있는지 알 수 있음.
+* Critical Section, 비재진입 함수의 사용 등에서 문제점 발생.
+    * 특정 비재진입 함수를 호출해서 사용 중인 Task에서 Priority가 높은 Task로 CPU 점유권이 넘겨지고    
+      그 Task에서 특정 비재진입 함수를 호출해버리면, 데이터가 완전히 꼬여버리는 문제 발생.
+        * **상호배제적**으로 공유자원(Local Resource)를 접근해야함.
+
 
 # 3. Context Switching
 ## 3.1 Context란?
@@ -112,6 +131,11 @@ STM32F407_FreeRTOS_2_Task/Scheduler/Context Switching
   Task가 다시 시작되면 복원됩니다.
 * 결론적으로, 일시 중단된 Task의 Context를 저장하고 재게되는 Task의 Context를 복원하는 과정을 말합니다.
 * Context Switching 과정은 따로 자세하게 정리해보겠습니다.
+## 3.3 Context Switching이 일어나기 위한 조건
+* 모든 ISR(Interrupt Service Routine).
+* CPU의 점유율은 Kernel의 Scheduler가 가짐.
+* Ready state들의 Task 중에 다음에 서비스를 해줘야할 Task를 결정.
+    * Priority가 높은 Task에게 점유율을 넘김.
 
 # 4. 정리
 Task, Schduler, Context Switching을 정리해봤습니다.    
