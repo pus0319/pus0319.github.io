@@ -312,13 +312,13 @@ printf("abcdefghijklmnopqrstu\r\n");
 ~~~
 
 ~~~c
-//Task1
-printf("abcdefghijklmnopqrstu\r\n");
+//Task2
+printf("1234567890!@#$$LLLLLL\r\n");
 ~~~
 
 ~~~c
-//Task1
-printf("abcdefghijklmnopqrstu\r\n");
+//Task3
+printf("ABCDEFGHIJKLMNOPQRTU\r\n");
 ~~~
 
 # 3.2.2 출력 및 고찰
