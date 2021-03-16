@@ -186,8 +186,8 @@ void LEDTask_LD4(void const * argument)
     1. Task3의 실행시간(C)동안, Task1만 preempt하였고    
        Task3의 실제 실행시간(C)이 parameter C와 거의 유사(약 1ms 차이)하게 나왔습니다.
        * Task1이 preempt하였지만 Global Variable를 활용권(세마포어)을 'Take' 하지 못해서 실행동작을 하지 않았고    
-         그후 바로 CPU 점유권을 Task3에 넘겨줬기 때문에 Task3의 나머지 실행시간(C)동안    
-         Task1의 실행시작을 하지 않게 되었습니다.
+         Task1을 완료처리 후 바로 CPU 점유권을 Task3에 넘겨줬기 때문에 Task3의 나머지 실행시간(C)동안    
+         Task1의 실행시작을 하지 않게 되었습니다.(Task3의 나머지 실행시간(C) < Task1 주기(P))
     2. Task1이 preempt하는 동안(짧은 시간) 이미 Task3이 Global Variable를 활용권(세마포어)을 쥐고 있었기 때문에
        Task1은 Global Variable을 활용하지 못했습니다.
     3. 모든 Task의 주기(P)는 이상이 없음을 확인하였습니다.
