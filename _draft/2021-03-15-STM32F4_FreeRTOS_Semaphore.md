@@ -219,6 +219,129 @@ void LEDTask_LD4(void const * argument)
     7. Periodic_MultiTasking 환경에서 세마포어 Wait time을 osWaitForever형식으로 구현 한다면,    
        위와 같은 현상이 일어날 가능성이 매우 높은 점에 대해 고려해야합니다.
 
+# 3.2 동일한 Priority의 Task간 동기화(Synchronization)를 위한 세마포어 활용 및 고찰
+* 동일한 Priority의 Task에 대해 FreeRTOS는 라운드 로빈 Scheduling 방식을 적용합니다.    
+  이에 따라 동일한 Priority의 Task들이 동시에 Global Resouce를 접근하여 활용하는 경우도 발생할 수 있습니다.
+* 그래서 동일한 Priority의 Task들 간의 동기화(Synchronization)를 구현하여 Global Resouce의 Data Error를 방지하는 것이 필요합니다.
 
+# 3.2.1 소스코드
+* 먼저 아래와 같이 소스코드를 작성하였습니다. 세마포어 외의 설명은 생략하겠습니다.
+    * freertos.c
+~~~c
+void MX_FREERTOS_Init(void) {
+  /* USER CODE BEGIN Init */
+  char * myTask01_Argument = "Taskname : myTask01";
+  char * myTask02_Argument = "Taskname : myTask02";
+  char * myTask03_Argument = "Taskname : myTask03";
+  
+  //생략
+  
+  /* Create the semaphores(s) */
+  /* definition and creation of myBinarySem01 */
+  osSemaphoreDef(myBinarySem02);
+  myBinarySem02Handle = osSemaphoreCreate(osSemaphore(myBinarySem02), 1);
 
+  /* Create the thread(s) */
+  /* definition and creation of myTask01 */
+  osThreadDef(myTask01, LEDTask_LD4, osPriorityNormal, 0, 128);
+  myTask01Handle = osThreadCreate(osThread(myTask01), (void *)myTask01_Argument);
+
+  /* definition and creation of myTask02 */
+  osThreadDef(myTask02, LEDTask_LD3, osPriorityNormal, 0, 128);
+  myTask02Handle = osThreadCreate(osThread(myTask02), (void *)myTask02_Argument);
+
+  /* definition and creation of myTask03 */
+  osThreadDef(myTask03, LEDTask_LD5, osPriorityNormal, 0, 128);
+  myTask03Handle = osThreadCreate(osThread(myTask03), (void *)myTask03_Argument);
+
+  /* USER CODE BEGIN RTOS_THREADS */
+  /* add threads, ... */
+
+  printf("OK\r\n");
+  /* USER CODE END RTOS_THREADS */
+
+}
+~~~
+
+* 3개의 동일한 Priority의 Task를 생성하였습니다.
+
+* 각각의 Task는 loop 진입 전, Global Resouce인 'printf()'를 사용합니다.
+~~~c
+void LEDTask_LD4(void const * argument)
+{
+  char * temp = (char *)argument;
+  TickType_t xLastCurrentTime;
+  int i;
+
+  if(osSemaphoreWait(myBinarySem02Handle,osWaitForever) == osOK)
+  {
+	printf("abcdefghijklmnopqrstu\r\n");
+	osSemaphoreRelease (myBinarySem02Handle);
+  }
+
+  xLastCurrentTime = osKernelSysTick();
+  /* Infinite loop */
+  for(;;)
+  {
+  	HAL_GPIO_WritePin(GPIOD,LD4_Pin, GPIO_PIN_SET);
+		task1_LED_Active_Flag = 1;
+	//if(osSemaphoreWait(myBinarySem01Handle,0) == osOK)
+	//if(osSemaphoreWait(myBinarySem01Handle,osWaitForever) == osOK)
+	//{
+		for(i=0;i<15;i++)
+		{
+			gtask_set_value = 1;
+			HAL_Delay(1);
+		}
+		//osSemaphoreRelease (myBinarySem01Handle);
+	//}
+  	HAL_GPIO_WritePin(GPIOD,LD4_Pin, GPIO_PIN_RESET);
+	task1_LED_Active_Flag = 0;	
+
+		
+	osDelayUntil(&xLastCurrentTime,100);
+  }
+}
+~~~
+
+* 각 Task가 출력하는 printf()는 모두 다릅니다.
+
+~~~c
+//Task1
+printf("abcdefghijklmnopqrstu\r\n");
+~~~
+
+~~~c
+//Task1
+printf("abcdefghijklmnopqrstu\r\n");
+~~~
+
+~~~c
+//Task1
+printf("abcdefghijklmnopqrstu\r\n");
+~~~
+
+# 3.2.2 출력 및 고찰
+* 먼저, 세마포어 부분을 지우고 출력한 결과입니다.
+
+![image](https://user-images.githubusercontent.com/79636864/111250222-4fd81900-8650-11eb-8c13-96fc6ba105c8.png)
+
+* 고찰
+    1. Task3의 printf()만 출력되는 것을 확인하였습니다.
+    2. 동일한 Priority의 Task들이 라운드 로빈 방식으로 쪼개서 printf()에 접근을 하다보니    
+       모든 Task들의 printf()가 출력되지 않고 마지막에 printf()의 buffer에 접근한 Task의 내용이    
+       출력됨을 확인하였습니다.
+ 
+* 세마포어 부분을 살리고 출력한 결과입니다.
+
+![image](https://user-images.githubusercontent.com/79636864/111250228-549ccd00-8650-11eb-9489-2bd36de6873e.png)
+
+* 고찰
+    1. 모든 Task의 printf()만 출력되는 것을 확인하였습니다.
+    2. 하나의 Task가 printf()를 모두 활용한 후, 다음, 또 그 다음 Task가 활용하는 것을 확인하였습니다.
+    3. 3개의 Task를 정해진 순서대로 동기화를 하고자 한다면, 세마포어를 추가로 사용하여 구현해야합니다.
+
+# 4. 정리
+세마포어의 정의 및 활용에 대해 정리하였습니다.    
+예제의 경우는 추가적인 내용이 있을 시 지속적으로 update할 예정입니다.
 
