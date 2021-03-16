@@ -67,11 +67,11 @@ STM32F407_FreeRTOS_5_세마포어(Semaphore)
 * 나머지 API는 지속적으로 Update 예정
 
 # 3 세마포어(Semaphore)를 활용한 예제
-# 3.1 Periodic_MultiTasking 환경에서의 세마포어 활용 및 고찰
+## 3.1 Periodic_MultiTasking 환경에서의 세마포어 활용 및 고찰
 * 저번에 예제로 활용했던 Periodic_MultiTasking에서 세마포어를 활용하고    
   관련 Log를 출력하여 고찰을 해봤습니다.
   
-# 3.1.1 소스코드
+### 3.1.1 소스코드
 * 먼저 아래와 같이 소스코드를 작성하였습니다. 세마포어 외의 설명은 생략하겠습니다.
     * freertos.c
 ~~~c
@@ -164,7 +164,7 @@ void LEDTask_LD4(void const * argument)
 * 각 Task의 실행시작 전, 세마포어를 통해 공통된 Global Variable를 접근할 수 있는지 체크 후,
   접근이 가능하면 실행시간(C)동안 Global Variable를 활용합니다.
 
-# 3.1.2 출력 및 고찰
+### 3.1.2 출력 및 고찰
 * 각 Task의 실행시작 시에만 Global Variable를 활용권(세마포어)을 'Give'하여 실행동작을 할 수 있으며
   어떤 Task가 Global Variable를 활용하는 동안 다른 Task가 접근하여 활용 시, Data Error로 가정하겠습니다.
 
@@ -219,12 +219,12 @@ void LEDTask_LD4(void const * argument)
     7. Periodic_MultiTasking 환경에서 세마포어 Wait time을 osWaitForever형식으로 구현 한다면,    
        위와 같은 현상이 일어날 가능성이 매우 높은 점에 대해 고려해야합니다.
 
-# 3.2 동일한 Priority의 Task간 동기화(Synchronization)를 위한 세마포어 활용 및 고찰
+## 3.2 동일한 Priority의 Task간 동기화(Synchronization)를 위한 세마포어 활용 및 고찰
 * 동일한 Priority의 Task에 대해 FreeRTOS는 라운드 로빈 Scheduling 방식을 적용합니다.    
   이에 따라 동일한 Priority의 Task들이 동시에 Global Resouce를 접근하여 활용하는 경우도 발생할 수 있습니다.
 * 그래서 동일한 Priority의 Task들 간의 동기화(Synchronization)를 구현하여 Global Resouce의 Data Error를 방지하는 것이 필요합니다.
 
-# 3.2.1 소스코드
+### 3.2.1 소스코드
 * 먼저 아래와 같이 소스코드를 작성하였습니다. 세마포어 외의 설명은 생략하겠습니다.
     * freertos.c
 ~~~c
@@ -321,7 +321,7 @@ printf("1234567890!@#$$LLLLLL\r\n");
 printf("ABCDEFGHIJKLMNOPQRTU\r\n");
 ~~~
 
-# 3.2.2 출력 및 고찰
+### 3.2.2 출력 및 고찰
 * 먼저, 세마포어 부분을 지우고 출력한 결과입니다.
 
 ![image](https://user-images.githubusercontent.com/79636864/111250222-4fd81900-8650-11eb-8c13-96fc6ba105c8.png)
