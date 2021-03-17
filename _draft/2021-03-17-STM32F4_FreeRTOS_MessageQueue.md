@@ -63,8 +63,7 @@ Task간 Data를 공유하기 위해 할 수 있는 가장 쉬운 방법은
 
 ## 2.4 xQueueReceive()
 
-![image](https://user-images.githubusercontent.com/79636864/111404291-d7399100-8711-11eb-8433-ca335e8c1285.png)
-
+![191](https://user-images.githubusercontent.com/79636864/111408643-ebcd5780-8718-11eb-9858-e33323869628.png)
 
 # 3. 메세지큐(MessageQueue)를 활용한 예제
 ## 3.1 메세지큐(MessageQueue) 기본
