@@ -25,12 +25,28 @@ Task간 Data를 공유하기 위해 할 수 있는 가장 쉬운 방법은
 # 1. 메세지큐(MessageQueue)
 ## 1.1 메세지큐(MessageQueue) 란?
 * 태스크 메세지(데이터)를 주고받기 위한 Queue형태의 오브젝트
-* 
+
 ![image](https://user-images.githubusercontent.com/79636864/111404099-8d50ab00-8711-11eb-8e22-89456bebfc1a.png)
+
+* 여러 Task는 하나의 Queue에 item을 넣을 수 있음.
+    * 실제로는 넣을 item의 Data를 복사하여 Queue의 Back에 넣음(Enqueue).
+* 마찬가지로 여러 Task는 하나의 Queue에 item을 가져올 수 있음.
+    * 가장 먼저 들어있는 item을 Front까지 가져와서 가져올 item의 Data를 복사하여 Task에 넘김.
+* Queue가 꽉찬 경우, item을 넣을 수 없음.
+    * item을 Put시, 꼭 확인할 것.
 
 ## 1.2 메세지큐(MessageQueue) vs 메일박스(MailBox)
 
 ![image](https://user-images.githubusercontent.com/79636864/111404119-93468c00-8711-11eb-81c1-d05f80e13b57.png)
+
+* 공통점
+    * 모두 Queue로 구성.
+* 차이점
+    * 메세지큐(MessageQueue)
+        * Get(), Put(), Peek() 등과 같이 기본적인 API 제공
+    * 메일박스(MailBox)
+        * Get(), Put(), Peek() + Memory Blocks를 alloc / free 기능 제공
+        * 서로 다른 Task 간에 pointer만을 이동 시켜서 사용 가능함.  
 
 # 2. 메세지큐(MessageQueue) API 정리
 ## 2.1 xQueueCreate()
