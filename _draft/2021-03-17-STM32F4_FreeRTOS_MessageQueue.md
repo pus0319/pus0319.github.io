@@ -25,8 +25,36 @@ Task간 Data를 공유하기 위해 할 수 있는 가장 쉬운 방법은
 # 1. 메세지큐(MessageQueue)
 ## 1.1 메세지큐(MessageQueue) 란?
 * 태스크 메세지(데이터)를 주고받기 위한 Queue형태의 오브젝트
+* 
+![image](https://user-images.githubusercontent.com/79636864/111404099-8d50ab00-8711-11eb-8e22-89456bebfc1a.png)
 
+## 1.2 메세지큐(MessageQueue) vs 메일박스(MailBox)
+
+![image](https://user-images.githubusercontent.com/79636864/111404119-93468c00-8711-11eb-81c1-d05f80e13b57.png)
 
 # 2. 메세지큐(MessageQueue) API 정리
+## 2.1 xQueueCreate()
+
+![image](https://user-images.githubusercontent.com/79636864/111404221-ba9d5900-8711-11eb-9743-e43080889f96.png)
+
+## 2.2 xQueueSend()
+
+![image](https://user-images.githubusercontent.com/79636864/111404247-c852de80-8711-11eb-8123-ab953e41cb6d.png)
+
+## 2.3 uxQueueMessagesWaiting()
+
+![image](https://user-images.githubusercontent.com/79636864/111404269-cee15600-8711-11eb-81b0-a2614d90185f.png)
+
+## 2.4 xQueueReceive()
+
+![image](https://user-images.githubusercontent.com/79636864/111404291-d7399100-8711-11eb-8433-ca335e8c1285.png)
+
 
 # 3. 메세지큐(MessageQueue)를 활용한 예제
+# 3.1 메세지큐(MessageQueue) 기본
+
+# 3.1.1 소스코드
+
+# 3.1.2 결과 및 고찰
+
+
