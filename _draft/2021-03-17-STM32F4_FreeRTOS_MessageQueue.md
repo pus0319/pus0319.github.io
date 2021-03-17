@@ -1,5 +1,5 @@
 ---
-date: 2021-03-16
+date: 2021-03-17
 title: "STM32F407_FreeRTOS_7_메세지큐(MessageQueue)"
 categories: Embedded_FreeRTOS
 tags: jekyll
