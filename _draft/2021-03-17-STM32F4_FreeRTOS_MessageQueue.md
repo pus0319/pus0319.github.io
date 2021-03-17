@@ -24,3 +24,9 @@ Task간 Data를 공유하기 위해 할 수 있는 가장 쉬운 방법은
 
 # 1. 메세지큐(MessageQueue)
 ## 1.1 메세지큐(MessageQueue) 란?
+* 태스크 메세지(데이터)를 주고받기 위한 Queue형태의 오브젝트
+
+
+# 2. 메세지큐(MessageQueue) API 정리
+
+# 3. 메세지큐(MessageQueue)를 활용한 예제
