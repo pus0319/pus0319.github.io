@@ -112,6 +112,17 @@ __Scheduler_UnLock();
 ## 2.4 Semaphore
 * 세마포어에 대한 내용은 아래의 링크 참고
 
+## 2.5 portENTER_CRITICAL(), portEXIT_CRITICAL()
+* CPU에서 실행되는 독점코드(exclusive code)가 필요할 때 사용.
+* base priority register(BASEPRI)를 사용. ISR보다 더 높은 priority를 가짐.
+* CPU 레지스터 값 변경 등에서 유용하게 쓰일 것 같음.
+### 2.5.1 예시
+~~~c
+portENTER_CRITICAL();
+//...sensitive code execution
+portEXIT_CRITICAL();
+~~~
+
 
 # 3. 정리
 오늘은 Kernal System사용에 있어서 매우 중요한 개념인 상호배제에 대해 정리했습니다.    
