@@ -26,6 +26,7 @@ TouchGFX를 처음 사용하는 입장에서 이름 그대로 중요하고 basic
 * graphic 작업을 하는데 직접적인 관련이 있는 4가지 요소    
 
 ![image](https://user-images.githubusercontent.com/79636864/112457707-5cbae200-8d9f-11eb-9afd-e0539896e530.png)    
+
 * 그 외의 부가적인 요소들도 포함될 수 있음.    
 
 ### 1.1.1 MCU
