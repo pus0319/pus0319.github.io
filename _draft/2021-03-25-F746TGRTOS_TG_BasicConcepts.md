@@ -25,7 +25,8 @@ TouchGFX를 처음 사용하는 입장에서 이름 그대로 중요하고 basic
 ## 1.1 The four main parts
 * graphic 작업을 하는데 직접적인 관련이 있는 4가지 요소    
 
-![image](https://user-images.githubusercontent.com/79636864/112457707-5cbae200-8d9f-11eb-9afd-e0539896e530.png)    
+![image](https://user-images.githubusercontent.com/79636864/112458599-4d886400-8da0-11eb-88d3-49920a920e8b.png)    
+
 
 * 그 외의 부가적인 요소들도 포함될 수 있음.    
 
