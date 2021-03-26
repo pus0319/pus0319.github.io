@@ -215,7 +215,7 @@ while(true)
 }
 ~~~    
 
-# 5.1 Collect
+## 5.1 Collect
 * 외부환경에서 이벤트를 수집, 수집한 이미지를 샘플링하여 Application에 전달.
 * 원시적인 터치 이벤트(raw touch events)의 구분.
     1. Click : 사용자가 Display에 손가락을 누름.
@@ -226,7 +226,7 @@ while(true)
     * 새 프레임 작성 시 또는 시간 기반 동작에 대해
     * 예시 : 애니메이션을 구동하거나 특정시간이 경과한 후 일시 중지 화면으로 변경하는 것.
 
-# 5.2 Update
+## 5.2 Update
 * 수집된 이벤트를 반영하도록 UI를 업데이트.
     * 기본원칙 : 엔진이 이벤트에 대해 Application(UI Model의 Screen 및 위젯 개체)에 알리는 것.
 * 어떤 Screen이 현재 활성화 상태인지 알고 이 개체에 전달.
@@ -236,4 +236,164 @@ while(true)
     * TouchGFX Designer에서 위젯에 대한 자체 상호작용(interaction) 구성.
         * 상호 작용(interaction)을 사용하여 다른 위젯을 표시하는 경우,    
           Application은 그래픽 엔진에게 다시 그리기를 요청해야함.
-    * 
+    * Screen의 이벤트에 반응
+        * 이벤트 핸들러는 Screen의 가상함수(virtual functions)
+        * Application의 Screen에서 다시 이벤트 구현 가능.
+        * ex : 위젯에 터치가 있는지 여부에 관계없이 Screen을 터치할때마다 작업 수행.    
+
+* Screen class event handlers(code)
+* Time based updates(code)
+* Requesting redraw(code)
+    * .invalidate()
+* update 단계 결과 : 다시 그릴 영역(invalidated area)    
+
+
+## 5.3 Render
+* 다시 그릴 영역의 목록을 실행하고 그린 영역의 목록을 포함하는 위젯을    
+  FrameBuffer에 넣음.
+* 그래픽 엔진에 의해서 자동으로 처리
+* invalidated area를 하나씩 처리
+* 수집한 그려야하는 위젯 목록들에 대해 그래픽 엔진이 각 위젯의 draw method를 호출함.
+    * 순서 : Background -> 맨 위의 위젯.
+    * draw method는 위젯의 state를 사용함.
+
+## 5.4 wait
+* 다음 프레임을 업데이트, 렌더링하기전에 신호를 긷림.
+    * 렌더링과 LCD 패널 Displaying을 동기화
+    * 프레임을 고정된 속도로 랜더링
+        * 60FPS의 경우, 2초 애니메이션은 120FPS로 완료되도록 프로그래밍 해야함.
+* 그래픽 엔진이 대기중일 시, CPU점유율은 Application의 priority가 낮은 다른 스레드(Task)에 사용.
+
+## 5.5 Handling the framebuffers
+### 5.5.1 Two framebuffers
+* 프레임을 프레임 버퍼로 그리는 동안 다른 프레임 버퍼는 LCD 패널로 전송되고 표시됨.    
+
+
+![image](https://user-images.githubusercontent.com/79636864/112560876-6849ef80-8e17-11eb-9b97-c1e697245290.png)    
+
+* application에서 프레임을 업데이트 하지 않는 경우(화면 변화가 없을 경우)    
+  동일한 프레임 버퍼가 후속 프레임에서 다시 전송.    
+
+![image](https://user-images.githubusercontent.com/79636864/112560898-7435b180-8e17-11eb-83df-8ff77a646647.png)    
+  
+```
+'Frame2'에서 아무것도 전송하지 않으므로 그래픽 엔진은 'Frame3'에서 FB2를 다시 전송함.
+```    
+
+* 60FPS기준, 새 프레임을 렌더링하는데 16.6667ms를 초과할 경우 이전과 같은 동일한 프레임 전송    
+
+
+![image](https://user-images.githubusercontent.com/79636864/112561072-d1316780-8e17-11eb-8843-da9d5ee970ea.png)    
+
+
+```
+'Frame1'의 랜더링이 16.667ms 이상이 걸리므로 이전의 프레임 버퍼인 FB1을 전송하고    
+'Frame3'에서 새 프레임인 FB2를 전송함.
+이의 경우, 프레임이 손실되었다고 말함.
+```    
+
+### 5.5.2 One framebuffers
+![image](https://user-images.githubusercontent.com/79636864/112561232-21102e80-8e18-11eb-848b-e956879998ea.png)    
+
+# 6. Performance
+* 고성능 = 원하는 그래픽 효과와 애니메이션 + 높은 프레임 속도
+* 'Collect'와 'Update'의 소요 시간은 일반적으로 1ms 미만.
+    * 'Render'시간 고려 시, 'Collect'와 'Update'시간을 포함.
+* 60FPS기준, 새 프레임을 렌더링하는데 16.6667ms를 초과할 경우 30FPS가 됨.
+    * 이의 경우, 애니메이션이 유창하게(자연스럽게) 보이지 않을 수 있음.
+* 프레임 속도를 정기적으로 확인하고 모니터링 하는 것이 유용함.    
+
+## 6.1 Measuring the Rendering Time(렌더링 시간 측정)
+* transfer FB -> Render 종료까지의 시간 측정.
+* GPIO Class를 이용하는 방법.
+* 내부 타이머를 이용하여 체크하는 방법.    
+
+## 6.2 Counting the Lost Frames(손실된 프레임 카운팅)
+* 그래픽엔진은 'Collect'-'update'-render'의 마지막 단계에서 발생한 프레임 전송 수를 계산함.    
+
+## 6.3 Compensating for Lost Frames(손실된 프레임 보상)
+* Wait it out : 그냥 기다림. 애니메이션이 부자연스러울 수 있음.
+* skip some frames : 일부 프레임 건너뛰기.(프레임 손실 시, 일부 프레임 자동으로 건너뛰도록 지시 가능.)
+
+## 6.4 What Afferts the Rendering Time?(렌더링 시간에 영향을 미치는 요소)
+### 6.4.1 업데이트된 부품의 크기
+* 애니메이션 영역을 줄려 렌더링 타임 줄이기
+### 6.4.2 레이어링(위젯의 겹침) 사용
+* 다시 그려야하는 영역(invalidated area)에 레이어(서로 겹쳐있는 위젯들)이 많을 수록 렌더링 시간이 길어짐.
+### 6.4.3 위젯의 복잡성
+* Box < image < Text < Rotated or scaled images < Geometric elements < Transparency(투명성)
+* 그려야하는 영역(invalidated area)에서 시간이 많이 걸리는 요소 일수록 렌더링 시간이 길어짐.
+### 6.4.4 렌더링에 사용 가능한 하드웨어 지원
+* 일부 STM32 MCU에는 Chrom-ART(DMA2D)라는 그래픽 가속기가 포함되어 있음.
+
+## 6.5 What Afferts the Rendering Time?(렌더링 타임을 고려해야하는 경우)
+* 느린 FPS의 경우
+
+## 6.6 Tips To Get Good Performance(좋은 성능을 얻기 위한 TIP)
+1. 변경되지 않은 것을 다시 그리지 말 것.(invalidated 하지 말 것.)
+2. 품질과 속도 간의 균형 찾기
+3. 하드웨어 기능 활용하기
+    * ex : Chrom-ART(그래픽 가속기)
+4. 계산된 그래픽을 이미지로 바꾸기.
+    * 속도 : 지오메트리 원 < 이미지 원
+5. FPS 미세 조정.
+    * ex : 렌더링 시간이 FPS시간을 초과 시, FPS시간을 낮춰서(새로고침주기시간은 길어짐).    
+
+
+# 7. Operating Systems
+* Interleaving : 다른 Task와 UI Task의 접근시간을 최소화 하기 위해 여러 모듈로 나누는 작업.
+    * 메모리의 banks로 분리한 경우도 Interleaving 개념을 도입한 예시
+* 별도의 타이밍 요구사항과 함께 Background에서 실행되는 고급 기능이 포함되면    
+  요구사항을 지원하면서 두 작업을 하나로 통합하는 것은 어려워짐.
+* 새 프레임을 계속 그려야하는 그래픽 엔진 Task가 다른 Task가 실행 되는 동안 일시 중지하면 프레임 속도가 감소.
+    * UI작업과 다른 복잡한 작업을 수동으로 Interleaving 하기 어려움.    
+
+## 7.1 RTOS
+* RTOS를 사용하면 여러 독립적이지만 협력적인 Task로 Application을 구성할 수 있음.
+* 높은 priority와 낮은 priority의 Task로 나눌 수 있음.
+* RTOS based tasks example    
+![image](https://user-images.githubusercontent.com/79636864/112562441-9bda4900-8e1a-11eb-9259-c18fca4f669e.png)    
+
+```
+처리할 데이터가 있을 때 bt_comm_task(high)가 실행,    
+그렇지 않으면 GUI Task 실행,    
+GUI Task가 Blocked state일 때,    
+music Task , bt_appl_task(low)를 실행.    
+-> Scheduler가 Time 분배를 처리함.    
+Low Priority인 Task를 실행할 수 있는 Time이 많이 있음을 의미.
+```    
+
+### 7.1.1 Task communication
+* MultiTasking 환경에서 Task간 통신을 할 수 있는 안전한 방법도 필요함.
+* message queue를 사용함.
+* RTOS의 우선순위 기반 스케쥴링 정책에 의해서 High Priority인 GUI Task가 완료 후    
+  Low Priority인 Task들을 실행하여 수신메세지를 처리함.    
+  
+### 7.1.2 Handling interrupts
+* 인터럽트 핸들러에서도 message queue를 보낼 수 있음.
+* Semaphore 와 mutex 도 가능.
+
+### 7.1.3 TouchGFX OS Wrappers
+* TouchGFX는 FreeRTOS 환경에서 테스트하여 개발되었음.
+* Single Message queue를 사용하여 Display Controllor와 동기화,    
+  Semaphore를 사용하여 FrameBuffer에 대한 액세스를 보호함.
+* OS Wrappers Class의 method는 문서 참고.    
+
+## 7.2 Non-RTOS
+* RTOS를 사용하지 않으면 MCU 부하를 증가시킬 수 있으며 TouchGFX와 함께 다른 Task를 실행하기 어려움.
+* UI가 실행되는 동안 다른 Task를 수동으로 구현해야함.
+
+### 7.2.1 Model::tick
+* 매 프레임(1프레임) 마다 한번씩 Model 클래스에서 Task 검사를 수행하는 것.
+* 이 방법을 사용하면 모든 Task가 모든 프레임에서 한번씩 실행 됨.
+* 단, Task 실행 시간이 렌더링 시간에 추가됨.
+
+### 7.2.2 OSWrappers
+* OSWrappers 클래스의 후크를 사용하는 것.
+* 그래픽 엔진은 이벤트를 기다려야할 때 아래의 클래스에서 method를 호출함. 이때 다른 Task를 수행하는데 사용 가능.    
+```
+다른 Task들은 1ms 정도의 작은 단계로 나누는 것이 중요함. 그렇지 않으면 UI 성능이 저하함.
+```    
+
+# 8. Memory Usage
+
