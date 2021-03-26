@@ -395,5 +395,60 @@ Low Priority인 Task를 실행할 수 있는 Time이 많이 있음을 의미.
 다른 Task들은 1ms 정도의 작은 단계로 나누는 것이 중요함. 그렇지 않으면 UI 성능이 저하함.
 ```    
 
-# 8. Memory Usage
+# 8. Memory Usage(메모리 사용량)
+## 8.1 Memory Type에 따른 분류
+1. Internal RAM
+    * 모든 위젯의 구성데이터(좌표 및 색상 등)에 사용.
+    * 현재 Screen에 대한 몇 가지 개체가 여기에 할당.
+    * UI 작업의 Runtime Stack을 포함하는 RTOS, File System, Display Driver등의     
+      다른 SW 구성 요소의 모든 데이터도 내부 RAM에 저장됨.
+2. Internal Flash
+    * Application, TouchGFX 및 사용 되는 기타 라이브러리의 프로그램 코드를 저장.
+3. External RAM
+    * FrameBuffer 및 bitmap cache 에 사용.
+4. External Flash
+    * image, fonts, texts를 저장하는데 사용.    
+
+## 8.2 Static Memory Allocation(정적 메모리 할당)
+* TouchGFX는 오직 정적 메모리 할당을 사용함.
+* 모든 메모리가 미리 할당됨.
+    * runtime(임베디드 기기가 Application을 실행하는 동안)    
+      TouchGFX에 의해 할당 되는 메모리는 없음.
+
+### 8.2.1 Screens and Widgets
+* UI는 여러 C++ Class를 개발하여 생성.
+* TouchGFX Designer에서 디자인 된 각 화면에 대해 자동으로 여러 클래스(MVP 아키텍처)를 얻음.
+* Screen을 표시할 때 표시 객체는 내부 RAM에 TouchGFX에 의해 자동으로 할당됨.
+* Screen 전환 시, 이전 화면에 할당 된 내부 RAM의 위치에 새로운 Screen의 객체가 할당됨.    
+  (이전 객체를 덮어 씀)    
+  내부 RAM에는 한 시점에서 하나의 Screen의 객체만 보유함.
+* FrontendHeap 
+    * 가장 큰 Screen의 Class의 크기를 계산하고 해당 Class의 크기 만큼 메모리를 할당할 수 있음.
+    * -> 내부 RAM의 메모리 사용량 = 가장 큰 Screen Class의 크기
+    * 이러한 객체를 위해 따로 설정된 메모리를 칭함.    
+
+### 8.2.3 Application code
+* internal flash = Application code + TouchGFX Designer generated code + TouchGFX Library code + other library code.
+
+### 8.2.4 Assets
+* Assets : 자산. TouchGFX에서는 image, fonts, texts를 모두 포함하여 칭함.
+* linker script(.ld)에 의해서 Assets는 외부 플래시 또는 내부 플래시에 저장함.
+
+## 8.3 Checking memory usage
+* .map 파일을 통해 확인 가능.    
+
+### 8.3.1 Checing memory usage list
+1. Internal RAM
+2. TouchGFX Screen objects
+3. Internal Flash
+4. TouchGFX Framework
+5. External RAM
+6. External Flash
+
+
+
+
+
+
+
 
