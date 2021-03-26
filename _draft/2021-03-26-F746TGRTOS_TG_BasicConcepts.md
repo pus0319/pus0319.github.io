@@ -197,6 +197,10 @@ TouchGFX의 메인루프에서 하는 세가지 주요 활동
 * Render scene model(Render) : 업데이트된 모델의 일부를 다시 그리고 LCD 패널에 나타나게 함.    
     * TouchGFX가 알아서 처리함.
     * LCD 플랫폼에 따라 Framebuffer의 Pixel값을 전송하는 방식이 다름.    
+* Wait
+    * LCD 패널과의 동기화 구현을 위해 사용.
+    * HAL에서 Display로부터 'go' 신호가 올때까지 기다림.    
+
 
 ![image](https://user-images.githubusercontent.com/79636864/112558643-911bb600-8e12-11eb-8ddf-384699a1aca1.png)    
 
@@ -211,4 +215,25 @@ while(true)
 }
 ~~~    
 
+# 5.1 Collect
+* 외부환경에서 이벤트를 수집, 수집한 이미지를 샘플링하여 Application에 전달.
+* 원시적인 터치 이벤트(raw touch events)의 구분.
+    1. Click : 사용자가 Display에 손가락을 누름.
+    2. Drag : Click하는 동안 패널에서 손가락을 움직임.
+    3. Gestures : Drag를 한방향으로 빠르게 움직였다가 놓음(swipe)
+* 이벤트는 활성화된 위젯에 전달.
+* Tick 이벤트도 전달
+    * 새 프레임 작성 시 또는 시간 기반 동작에 대해
+    * 예시 : 애니메이션을 구동하거나 특정시간이 경과한 후 일시 중지 화면으로 변경하는 것.
 
+# 5.2 Update
+* 수집된 이벤트를 반영하도록 UI를 업데이트.
+    * 기본원칙 : 엔진이 이벤트에 대해 Application(UI Model의 Screen 및 위젯 개체)에 알리는 것.
+* 어떤 Screen이 현재 활성화 상태인지 알고 이 개체에 전달.
+* Application은 Screen 또는 위젯의 속성을 변경하고 위젯에 다시 그리기를 요청함.
+* 위젯은 이벤트에 대한 응답으로 변경된 상태에 대해 그래픽 엔진에 다시 그리기를 요청함.
+* Application자체에서도 이벤트 반응 가능.
+    * TouchGFX Designer에서 위젯에 대한 자체 상호작용(interaction) 구성.
+        * 상호 작용(interaction)을 사용하여 다른 위젯을 표시하는 경우,    
+          Application은 그래픽 엔진에게 다시 그리기를 요청해야함.
+    * 
