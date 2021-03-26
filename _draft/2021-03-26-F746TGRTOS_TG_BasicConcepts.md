@@ -1,5 +1,5 @@
 ---
-date: 2021-03-25
+date: 2021-03-26
 title: "STM32F746_TouchGFX_FreeRTOS_3_TouchGFX Basic Concepts"
 categories: Embedded_FreeRTOS
 tags: jekyll
@@ -155,6 +155,7 @@ TouchGFX를 처음 사용하는 입장에서 이름 그대로 중요하고 basic
 
 # 4. Graphics Engine
 * 역할 : 임베디드 장치와 연결된 LCD 패널에 그림을 그리는 것.
+    * Application의 그래픽(UI Model)을 Framebuffer에 렌더링하는 것.
 
 ## 4.1 Scene model
 * Immediate mode graphics engines
@@ -187,19 +188,27 @@ TouchGFX를 처음 사용하는 입장에서 이름 그대로 중요하고 basic
 
 # 5. Main loop
 TouchGFX의 메인루프에서 하는 세가지 주요 활동
+* Collect events(Collect) : 터치스크린, 물리적버튼, 백엔드 시스템의 메세지 등을 수집하고 필터링하여 Application에 전달.
+    * TouchGFX AL(abstracion layer)에서 처리함. 
+    * Section : TouchGFX AL Development
+* Update scene model(Update) : 수집된 이벤트에 따른 모델의 위치, 색상, 애니메이션, 이미지 등을 업데이트
+    * 전적으로 Application에서 처리해야함.
+    * Section : UI Development
+* Render scene model(Render) : 업데이트된 모델의 일부를 다시 그리고 LCD 패널에 나타나게 함.    
+    * TouchGFX가 알아서 처리함.
+    * LCD 플랫폼에 따라 Framebuffer의 Pixel값을 전송하는 방식이 다름.    
 
+![image](https://user-images.githubusercontent.com/79636864/112558643-911bb600-8e12-11eb-8ddf-384699a1aca1.png)    
 
-
-
-
-
-
-
-
-
-
-
-
-
+* pseudo code the main loop inside the TouchGFX graphics engine
+~~~c
+while(true)
+{
+  collect();    // Collect events from ouside
+  update();     // Update the aaplication ui model
+  render();     // Render new updated graphics to the framebuffer
+  wait();       // Wait for 'go' from display
+}
+~~~    
 
 
