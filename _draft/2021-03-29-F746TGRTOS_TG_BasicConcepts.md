@@ -285,4 +285,108 @@ HW 처리량 및 계산 능력이 충분하지 않은 경우 성능에 상당한
 * 밝기 및 백라이트
 * 단위 : cad/m^2
 * 디스플레이에서 전력을 가장 많이 소비하는 부분.
+#### 2.3.2.2 Viewing Position and Color Inversion
+* 사용자가 Display를 보는 방향을 고려해야함.(LCD 의 시야각) 
+* 시야각이 낮은 방향으로 볼 시, 색상 반전 및 흐릿함
+* SWV 필름을 추가하면 시야각을 늘리는데 도움이 될 수 있음.
+#### 2.3.2.3 Display Lifetime
+* 기준 : 25도에서 절반 밝기에 도달할때가지의 시간
+#### 2.3.2.4 Pixel density
+* 인치 또는 평방 인치당 표시되는 픽셀 수.
+* PPI^2 : pixels per square inch
+#### 2.3.2.5 Dynamic color range
+* 대조되는 두색상(검/흰)간의 비율
+#### 2.3.2.6 Anti-aliasing
+* 픽셀 밀도가 너무 낮으면 계단효과가 나타날 수 있음.    
+  안티 앨리어싱은 이미지의 계단현상을 매끄럽게 만들 수 있음.
 
+### 2.3.3 Touch / Non-touch displays
+* Single finger touch만 가능.
+* TouchGFX 에서는 multi touch 지원 하지 않음.
+* 저항성 터치는 기계적 압력에 의해 활성화되는 간단한 기술이며 ADC 또는 간단한 터치 컨트롤러 만 필요함.
+
+### 2.3.4 Displays with RAM
+* 일부 LCD에는 1개의 전체 FrameBuffer 크기를 가진 RAM(GRAM)이 포함됨.    
+  SPI,FMC 또는 LTD(DSI-host를 통해 MCU와 연결 가능.
+  
+### 2.3.5 Non-square pixels / Pixel aspect ratio
+* 정사각형이 아닌 픽셀은 이미지가 늘어나거나 줄어들 수 있음.
+
+## 2.4 External Memories
+* FrameBuffer, bitmap, Font, traslations(번역) 등을 저장하기 위해 외부 메모리가 필요함.    
+![image](https://user-images.githubusercontent.com/79636864/112824856-0367f100-90c6-11eb-9fde-9a938323cdab.png)    
+
+### 2.4.1 Non-volatile Memories(비 휘발성 메모리)
+* 비트 맵, 글꼴, 번역 및 TouchGFX 애플리케이션 코드와 같은    
+  일부 또는 모든 그래픽 데이터 자산을 저장하는 데 사용    
+  
+![image](https://user-images.githubusercontent.com/79636864/112824946-22668300-90c6-11eb-9d7e-17689d60ee4d.png)    
+
+#### 2.4.1.1 NOR Flash
+* 메모리의 모든 Area에 대한 임의 액세스를 허용하는 비 휘발성 메모리.
+* ranges : 128Mbits to 2Gbits
+* 메모리 매핑 모드에서 사용 가능.
+* Serial NOR Flash Memories(Single, Dual, Quad, Octo)
+    * 데이터 라인이 많을 수록 성능과 bandwidth가 상승.    
+      단, 인터페이싱을 하는데 더 많은 핀이 필요.    
+
+![image](https://user-images.githubusercontent.com/79636864/112825152-6194d400-90c6-11eb-84af-52ffc14dec4f.png)    
+
+* Parallel NOR Flash Memories
+    * 성능 및 구성 측면에서 직렬 플래시 메모리와 동일한 장점. 
+    * 메모리 매핑 모드에서 구성 가능
+    * 핀수와 PCB 의 복잡성에서 차이가 있음.
+
+#### 2.4.1.2 NAND Flash Memories
+* 많은 양의 그래픽 자산과 빠른 쓰기 및 지우기 작업이 필요한 그래픽 App에 적합.    
+  NAND Flash 안에서 코드 실행은 권장하지 않음.\
+* ranges : 1Gbits to 512Gbits
+
+![image](https://user-images.githubusercontent.com/79636864/112825338-99038080-90c6-11eb-9dd1-af829cbfb6ca.png)    
+
+#### 2.4.1.3 eMMC Memories
+* NAND 플래시와 동일함.
+* eMMC는 플래시 메모리에 대한 표준 인터페이스 및 관리를 제공하는 컨트롤러를 패키지에 포함함.
+* ranges : 2Gbits to 128Gbits
+* 다른 메모리에 비해 랜덤 읽기 성능이 상대적으로 낮음.
+    * 캐시를 추가해야할 수 있음.
+
+![image](https://user-images.githubusercontent.com/79636864/112825477-bfc1b700-90c6-11eb-8f40-cd5512483a5e.png)    
+
+
+### 2.4.2 volatile Memories(휘발성 메모리)
+* 내부 RAM이 부족한 경우, FrameBuffer를 저장하는데 사용됨.    
+![image](https://user-images.githubusercontent.com/79636864/112826581-2693a000-90c8-11eb-9cc5-9536730e75be.png)    
+
+#### 2.4.2.1 SRAM
+* 전원이 공급되는 동안 bit data를 유지하는 static random Access memory.
+* 더 빠른 액세스를 지원하지만 DRAM보다 비싸고 밀도(지원용량)이 더 낮음.
+#### 2.4.2.2 SDRAM
+* dynamic random-access memory.
+* 각 bit data를 커패시터에 저장하므로    
+  SRAM에 비해 동일한 양의 데이터를 저장하는데 필요한 물리적 공간이 적음.
+* 데이터를 유지하기 위해 지속적인 Refresh가 필요함.(SRAM에 비해 더 많은 전력이 필요)
+* ranges : 16Mbits up to 512Mbits
+#### 2.4.2.3 PSRAM
+* SRAM인터페이스가 있는 DRAM(제어로직)내의 내부 구조를 가진 의사 static ramdom-access memory.
+* ranges : 8-256Mbits
+* 기존 SDRAM, SRAM에 비해 속도가 빠르고 전력 소비가 낮음.
+### 2.4.3 Selection of External RAM Density
+* Framebuffer를 외부 RAM에 배치 시,    
+  아래의 표는 시장에서 사용 가능한 다양한 RAM밀도에 대한 개요.
+
+![image](https://user-images.githubusercontent.com/79636864/112826934-a15cbb00-90c8-11eb-8075-5aeabd5a05f3.png)    
+
+## 2.5 Board Bring Up
+* 새로운 플랫폼에서 TouchGFX 프로그래밍을 시작하는 단계를 보드를 통해 안내.
+* Bringing up : 보드의 모든 필수 부품과 해당 드라이버가 올바르게 작동하는지 확인하는 것을 의미.
+* 보드의 구성 요소 및 주변장치, 이러한 모든 장치 간의 연결,    
+  통신하는 프로토콜 및 각각에 대해 사용 가능하거나 필요한 드라이버 코드를 철저히 이해해야함.
+
+### 2.5.1 Tools of the trade
+* STM32CubeMX
+* STM32CubeFirmware Pakage
+* Vendor datsheets
+* Vendor driver code : 시간을 절약하려면 공급 업체에 외부 장치에 대한 예제 코드를 요청해야함.
+* TouchGFX와의 직접적인 연관은 없음(종속되지 않음)
+    * 단, TouchGFX AL개발을 위한 견고한 기반이 됨.
