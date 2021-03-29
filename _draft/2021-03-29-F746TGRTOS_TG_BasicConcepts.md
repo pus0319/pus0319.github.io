@@ -390,3 +390,49 @@ HW 처리량 및 계산 능력이 충분하지 않은 경우 성능에 상당한
 * Vendor driver code : 시간을 절약하려면 공급 업체에 외부 장치에 대한 예제 코드를 요청해야함.
 * TouchGFX와의 직접적인 연관은 없음(종속되지 않음)
     * 단, TouchGFX AL개발을 위한 견고한 기반이 됨.
+* H/W 및 Low level S/W가 실제 최종 app에 대한 기대에 따라 작동하는지 확인하는 것.
+
+### 2.5.2 Verification of Functionality(기능 확인)
+* Abstraction Layer
+    * TouchGFX AL 및 궁극적으로 작동하는 UI App을 빌드하는 기반.
+* Test code
+    * 보드가 예상대로 작동하지 않는 경우 이동하는 궁극적인 영역.
+* 검증 프로그램을 체계적으로 저장하는 것이 매우 유용.
+
+### 2.5.3 Overall Process(전체 프로세스)
+#### 2.5.3.1 Create Project(프로젝트 생성)
+* CubeMX를 사용하여 특정 MCU에 대한 작업 프로젝트를 생성
+* 목표 : CubeMX에서 보드로 플래싱하고 실행할 수있는 프로젝트를 만드는 것.
+* CubeMX로 생성 또는 TouchGFX Designer로 생성.(Designer로 생성하는 것이 더 현명함)
+* User Code sections
+    * 'USER CODE' Section 외부에서 작성한 코드는 CubeMX에 의해 삭제됨.
+#### 2.5.3.2 CPU Running(CPU 실행)
+* MCU 코어, 내부 RAM 및 플래시가 원하는 클럭 속도로 실행되고 있는지 확인.
+* 목표 : 올바른 클럭 구성을 얻기 위해 프로젝트를 수정.
+* System Clock
+    * HSI,HSE
+    * HCLK 값 확인.
+    * SystemTimer 설정
+* systemtimer를 이용하여 내부 Flash 및 내부RAM 읽기 속도 측정.
+* Linker script
+    * 링커에게 시스템의 RAM 주소와 Flash 주소를 알려줌.
+    * 프로젝트의 필요에 맞게 수정해야함.
+
+* Cache on F7 and H7
+    * 테스트 중에는 데이터 캐시를 비활성화 하는 것이 좋음.
+    * 프레임 버퍼의 데이터가 메모리가 아닌 캐시에만 기록이 되어서    
+      일부 데이터가 디스플레이에 표시되지 않는 상황이 있을 수 있음.
+#### 2.5.3.3 Framebuffer in internal RAM(내부 RAM의 Framebuffer)
+* 내부 RAM을 사용하여 Display로 Pixel Data를 전송하는 방법.
+* Parallel RGB Displays(또는 SPI Display)
+* Setting the Framebuffer Address
+* Check the Framerate
+    * Framerate를 측정하여 성능 평가(HAL_GetTick() 이용)
+* Checking the Display Colors
+#### 2.5.3.4 External RAM(외부 RAM)
+#### 2.5.3.5 Framebuffer in external RAM(외부 RAM의 Framebuffer)
+#### 2.5.3.6 External addressable flash(외부 Flash, Memory Mapped Flash)
+#### 2.5.3.7 External block mode flash(외부 Flash block mode, Non-Memory Mapped Flash)
+#### 2.5.3.8 Hardware acceleration(하드웨어 가속)
+#### 2.5.3.9 Touch controller(터치 컨트롤러)
+#### 2.5.3.10 Physical buttons(물리적 버튼 및 기타 백엔드 이벤트)
