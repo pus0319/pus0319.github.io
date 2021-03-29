@@ -48,4 +48,75 @@ TouchGFX 엔진은 활동을 통한 Component가 아님. TouchGFX 프로젝트 �
 ## 1.3 TouchGFX AL Development
 * 개발 보드(Display+Board init Code) 위에서 TouchGFX엔진을 실행하는데 중요한 요소.
 * H/W를 추상화하고 TouchGFX 엔진이 보드에서 실행되도록 하는 소프트웨어 계층.(S/W Layer)
-### 1.3.1 CubeMX
+### 1.3.1 TouchGFX Generator
+* 직접 Code에 TouchGFX AL의 일부를 작성할 것임.
+* 구현할 빈 함수(Function)을 생성하여 AL Development 단계에서 도움을 줌.
+* TouchGFX AL이 작동하려면 보드 초기화 코드가 올바르게 수행되고    
+  MCU, 외부 RAM, 디스플레이 등이 올바르게 구성되어 있는지 확인하는 것이 중요함.
+* TouchGFX Designer에서 사용할 수 있는 표준 STM32 평가 키드 중 하나에 대한    
+  Applicatino Template(AT)를 기반으로 제작 가능.
+* AT에는 각 구성 요소에 필요하나 모든 TouchGFX AL 코드가 포함되어있음.
+* AL 개발에 대한 내용은 다음 Section **TouchGFX AL Development**을 참고
+
+## 1.4 UI Development
+* 대부분의 프로젝트 개발 시간을 보내는 곳.
+* 사용자가 실재로 보고 사용하는 부분을 구성할 UI코드를 생성함.
+### 1.4.1 TouchGFX Designer
+* TouchGFX Designer, IDE, text편집기 등을 사용할 것임.
+* TouchGFX Designer에서 Application의 Screen을 설정, 디자인 및 생성하고    
+  UI Application 의 주요부분을 C++ 코드로 생성.
+* App 로직(이벤트 처리, 시스템의 UI가 아닌 부분과의 통신)의 경우    
+  IDE 또는 text편집기를 사용하여 TouchGFX Designer에서 생성된 code와    
+  공존하고 interaction(상호작용)하는 C++ code를 작성.
+### 1.4.2 Application Templates
+* 프로토타입을 작성 중이거나 빠르게 하고 싶다면    
+  PC 기반 TouchGFX  Simulator를 기반으로 App를 만들거나    
+  표준 STM32 평가 키트를 이용한 AT를 사용할 수 있음.
+### 1.4.3 UI templates
+* TouchGFX 데모 또는 예제 중 하나를 선택하여 UI 에 대한 영감을 얻을 수 있을 것임.
+### 1.4.4 Custom Hardware
+* 자체 개발 보드와 예제의 해상도(Resolution)이 일치하면 자체 개발 보드에서도 실행되어야함.
+* 이 단계에의 전체 설명은 **UI Development** Section 참고
+
+## 1.5 UI Workflow
+
+![image](https://user-images.githubusercontent.com/79636864/112818496-8f761a80-90be-11eb-9b10-0e48994431c1.png)    
+
+### 1.5.1 Generated Code and User Code
+* Board Bring Up, ToucGFX AL Del, UI Del의 세가지 소프트웨어 활동 각각에서 코드를 생성하는 도구를 사용.
+* 필요한 모든 코드만 생성하지 않고 사용자가 작성한 코드도 프로젝트에 추가 가능.
+* 코드 작성과 도구 사용 사이를 모두 오갈 수 있음.
+* 생성된 코드와 사용자 코드는 독립적이며 별도로 업데이트 가능.
+
+### 1.5.2 Change of Compiler/IDE
+
+# 2. Hardware Selection Introduction
+![image](https://user-images.githubusercontent.com/79636864/112818770-d6641000-90be-11eb-97b5-320aa04d414c.png)    
+MCU, Display(LCD Panel), 외부 메모리, UI 성능 등에 대한 고려사항 정리.
+## 2.1 Preliminary Considerations(예비 고려사항)
+### 2.1.1 Display Resolution(LCD 패널 해상도)
+* STM32 MCU는 일반적으로 16/24bpp에서 최대 XGA 해상도(1024x768)를 지원하고    
+  Wide 또는 CircleDisplay와 같은 비표준 해상도도 지원.
+* 체크사항
+    * 최종 사용자 대상 세그먼트는 무엇입니까?
+    * 응용 프로그램에서 작은 텍스트를 많이 사용할 것입니까?
+    * 일반적으로 한 화면에 여러 가지 요소를 한 번에 표시 할 예정입니까?
+### 2.1.2 Color Depth(bpp)
+* 24bpp Display에서 16bpp GUI : OK    
+  16bpp Display에서 24bpp GUI : ???
+* Color Depth가 높을 수록 필요한 메모리 양이 많아짐.
+* 많은 현대 UI 디자인 철학이 평평하고 덜 색상 집약적인 애플리케이션    
+  (예 : Google의 머티리얼 디자인)을 중심으로 진행
+* 체크사항
+    * 실제 이미지를 표시해야합니까?
+    * 그레이 스케일 색상 또는 단순한 6/8 bpp가    
+      응용 프로그램에 필요한 것을 전달하는 데 정말로 필요한 전부입니까?
+    * RAM 및 / 또는 플래시에 제한이 있습니까?
+### 2.1.3 Framebuffer Size Calculation(프레임 버퍼 상태 계산)
+* Framebuffer Size Calculation    
+  : Display width * Display height * (bits per pixel / 8)
+* Double Framebuffer 일경우, 위의 공식에서 x2를 해야함.
+
+### 2.1.4 Display
+#### 2.1.4.1 Interface
+* SPI, LTDC, MIPI-DSI 등의 인터페이스를 사용하는 LCD 패널을 선택 가능.
