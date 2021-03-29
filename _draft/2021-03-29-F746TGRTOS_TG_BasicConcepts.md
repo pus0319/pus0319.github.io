@@ -18,4 +18,7 @@ TouchGFX 개발을 시작하기전에 어떠한 과정이 있는지에 대한 �
 
 [TouchGFX_support](https://support.touchgfx.com/docs/basic-concepts/embedded-graphics)
 
-# 1. Embedded Graphics
+# 1. Main Activites
+* 자체 개발 보드를 기반으로 개발 하는 경우, 아래의 활동들을 하게 됨.   
+  
+## 1.1 
