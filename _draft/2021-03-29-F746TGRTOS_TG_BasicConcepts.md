@@ -168,3 +168,76 @@ HW 처리량 및 계산 능력이 충분하지 않은 경우 성능에 상당한
     1. 지원되는 디스플레이 I/F
     2. MCU 패키지
     3. 디스플레이 크기 및 구현 가능한 그래픽 성을 고려해야함.
+* 이미지 구성
+    * MCU에 통합된 그래픽 가속기의 가용성.
+    * 캐시 메모리의 가용성.
+* 메모리 액세스 및 대역폭(Access and bandwidth)
+    * clock frequency(HCLK) 및 subsystem bus frequency(AHB,APB 등)
+    * 내부 플래시 및 내부 RAM 메모리에 대한 접근.
+* 그래픽 외에도 app의 다른 측면(모터 제어, 무선 통신)등을 고려해야함.
+### 2.2.1 Frequency
+* 주파수는 그래픽 애플리케이션 성능에 큰 영향(Screen 새로고침, 화면 및 애니메이션 유동성 등)
+* 내부 또는 외부 메모리에서 디스플레이 FrameBuffer로 전송할 수 있는    
+  데이터 양과 가능한 계산의 성능에도 영향.
+* 높을 수록, 더 많은 데이터 및 더 복잡한 애니메이션 구현 가능.
+* STM32제품은 최대 480MHz까지 지원.
+* 주파수가 높을 수록 전력 소비가 커짐.
+#### 2.2.1.1 Graphic Subsystem Frequency
+* 그래픽 하위 시스템 주파수(LCLK)와 CPU 주파수를 구별하는 것이 중요.
+* 그래픽 서브 시스템 주파수
+    1. 내부 버스의 주파수(AXI)
+    2. 그래픽 가속기(Chrom-ART)의 주파수
+    3. 내부 및 외부 메모리의 액세스 속도
+* 예시
+    1. CPU Core : 480MHz.
+    2. 64-bit AXI bus Frep : 240MHz
+    3. LTDC는 64-bit AXI를 사용하고, 10cycle 동안 8번 transfer 가능
+    4. 내부 RAM은 no latency. 0 waite states.
+    5. Bandwidth(대역폭) = 240Mhz * 8/10 * 8bytes = 1.536Gbytes/s.    
+       (1초당 1.536Gbytes를 transfer가능함.)
+    6. 이는, 800x480 32bpp 해상도의 LCD를 I/F할 시, 1000FPS를 보장이 가능함.
+       (1.536 * 10^9 / (800 * 480 * 32 / 8) = 1000)
+
+### 2.2.2 Embedded Hardware Acceleration Features
+### 2.2.2.1 Chrom-ART
+* 그래픽 작업을 수행하는데 도움이 되는 고급 DMA.(DMA2D)
+* CPU부하없이 이미지를 조작하고 전송 가능.
+* 색상 채우기, 이미지 복사, 혼합 및 픽셀 형식 변환 과같은 대부분의 그래픽 작업.
+* Chrom-ART 활성화시, CPU 부하가 82%->4%로 감소하는 예시(STM32F496-EVAL)
+### 2.2.2.2 JPEG Hardware Codec
+* 사용 예정인 STM32F7에는 인코딩 및 디코딩 이미지와 동영상을 위한 하드웨어 JPEG 코덱을 제공.
+* 비디오 파일이나 JPEG 이미지를 Display 시 사용.
+* MJPEG를 playing 동안 CPU를 offloading 할 수 있음.    
+  (CPU를 사용하지 않고도 처리 가능)
+### 2.2.2.3 Chrom-GRC
+* 직사각형이 아닌 디스플레이를 처리 시, 프레임 버퍼를 저장하는데 필요한 RAM양을 줄일 수 있음.
+
+### 2.2.3 Internal Flash
+* bitmap resource를 사용하는 GUI의 경우,    
+  데이터를 저장하기 위해 비휘발성 메모리가 필요함.    
+  내부 플래시는 경우에 따라 외부 플래시보다 2배더 빠름.
+* 내부플래시 : TouchGFX Framework, Screen definition, UI 로직 등을 저장    
+  외부 플래시 : bitmap data를 저장
+* TouchGFX 플래시 메모리 요구사항.
+    * Framework : 60kbytes to 100kbytes
+    * Screen definition and GUI logic : 1 to 100kbytes.
+
+### 2.2.4 Internal RAM
+* TouchGFX RAM 요구사항
+    * Framework: 10Kbytes to 30Kbytes
+    * Widgets: 1Kbytes to 15Kbytes(App에 따라 달라짐)
+
+### 2.2.5 LCD Controller
+* 사용될 디스플레이의 I/F와 해상도에 따라 달라짐.
+* RTG-TFT 및 MPI-DSI는 고해상도에 자주사용
+* SPI 또는 8080/6800은 종종 컨트롤러와 GRAM이 내장되어 있을 시 사용 가능.
+* 고해상도 디스플레이는 종종 컨트롤러와 GRAM을 내장하지 않으므로 MCU에서 컨트롤러가 있어야함.    
+
+![image](https://user-images.githubusercontent.com/79636864/112822522-06adad80-90c3-11eb-9b68-200888232c76.png)    
+
+
+
+
+
+
+
