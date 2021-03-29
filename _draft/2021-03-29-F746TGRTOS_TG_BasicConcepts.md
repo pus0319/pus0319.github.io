@@ -235,9 +235,54 @@ HW 처리량 및 계산 능력이 충분하지 않은 경우 성능에 상당한
 
 ![image](https://user-images.githubusercontent.com/79636864/112822522-06adad80-90c3-11eb-9b68-200888232c76.png)    
 
+### 2.2.6 Packages & I/O
+### 2.2.7 Memory Interfacing
+* 적합한 외부 메모리 인터페이스(FMC/FSMC/ 그외 I/O)를 갖춘 올바른 MCU를 선택하는 것이 중요.
+#### 2.2.7.1 FMC/FSMC
+* SDRAM도 지원함
+* 각 Memory Bank에 대해 독립적인 Chip Select가 있음.
+    * 여러 종류의 FMC를 I/F 할 수 있음.
+* 고속 I/F는 Memory Mapping 모드에서 최대 256MBytes, 간접 모드에서 최대 4GBytes까지 제어 가능.
+* 저렴한 외부 플래시 메모리를 소형 패키지에 연결 할 수 있고 사용 핀수를 줄일 수 있음.
 
+### 2.2.8 Cortex-M Cores
+#### 2.2.8.1 Cortex®-M0+
+* 간단한 구조 와 저렴한 가격.    
+  낮은 해상도의 정적 GUI 사용 시
+#### 2.2.8.2 Cortex®-M4
+* M0+에서 가속화 계산이 포함.    
+  DSP 명령어 세트 및 FPU장치가 포함.
+#### 2.2.8.3 Cortex®-M7
+* 더 복잡한 구조. DSP 명령어 세트 포함.    
+  FPU 유닛, 최대 레벨 1 캐시 메모리(16KBytes)
+#### 2.2.8.4 Level 1 cache
+* 반복적으로 사용되는 CPU의 데이터 및 명령을 저장하여 속도를 높임.
 
+### 2.2.9 Bus architecture
+* 모든 마스터(CPU, DMA 등)과 슬레이브(flash, RAM, FSMC, AHB 및 APB 주변장치)를    
+  상호 연결하는 32비트 다중 AHB 버스 매트릭스를 제공.
 
-
-
+## 2.3 Display
+* 임베디드 GUI 제품에 적합한 디스플레이를 선택 시 포함되어야하는 몇가지 고려사항에 중점.
+### 2.3.1 Display 종류
+#### 2.3.1.1 LCD-TFT
+* 박막 트랜지스터를 의미. 활성 매트릭스가 있는 LCD 디스플레이의 변형.
+* 가장 많이 쓰는 LCD.
+#### 2.3.1.2 MIP
+* 픽셀 단위의 메모리.    
+  화면에서 무언가 변경 될때만 전력/데이터가 필요한 픽셀 기술을 사용.    
+  저전력, 풀 컬러GUI로 실행.
+#### 2.3.1.3 ePaper/eInk
+* 저 색상 디스플레이.    
+  전력 소비가 적고 시야각이 넓고 가독성이 쉬은 Appl에 이상적.
+### 2.3.2 Display Interface Overview
+* SPI
+* Parallel 8080/6800(FMC
+* RGB-TFT(LTDC)
+* MIPI-DSI(LTDC)
+* LVDS
+#### 2.3.2.1 Brightness and Backlight
+* 밝기 및 백라이트
+* 단위 : cad/m^2
+* 디스플레이에서 전력을 가장 많이 소비하는 부분.
 
