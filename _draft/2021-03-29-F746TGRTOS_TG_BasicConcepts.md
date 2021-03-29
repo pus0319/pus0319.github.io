@@ -21,6 +21,15 @@ TouchGFX 개발을 시작하기전에 어떠한 과정이 있는지에 대한 �
 # 1. Main Activites
 * 자체 개발 보드를 기반으로 개발 하는 경우, 아래의 활동들을 하게 됨.   
   
-![image](https://user-images.githubusercontent.com/79636864/112817299-3c4f9800-90bd-11eb-9307-78c9b12da495.png)
-  
+(Main Activites)
+![image](https://user-images.githubusercontent.com/79636864/112817366-512c2b80-90bd-11eb-830d-80f62d0d7f87.png)   
+
+* 위에서 설명한 각 activities는 아래와 같은 Components를 생성함.   
+![image](https://user-images.githubusercontent.com/79636864/112817502-791b8f00-90bd-11eb-94e2-d732b4ef968b.png)
+
+
+```
+TouchGFX 엔진은 활동을 통한 Component가 아님. TouchGFX 프로젝트 구성시 바로 사용 가능.
+```   
+ 
 ## 1.1 
