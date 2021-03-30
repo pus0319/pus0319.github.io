@@ -169,7 +169,7 @@ STM32F746_TouchGFX_FreeRTOS_5_TouchGFX UI Development
 
 ### 1.3.3 Exmaple(Code Structure를 설명하기 위한 예시)
 
-### 1.3.3.1 Example Setup
+#### 1.3.3.1 Example Setup
 ![image](https://user-images.githubusercontent.com/79636864/112957428-63b96a00-917c-11eb-814e-f562ef183b70.png)    
 
 ```
@@ -181,7 +181,7 @@ STM32F746_TouchGFX_FreeRTOS_5_TouchGFX UI Development
 ```    
 
 * User Code Layer에서 위의 interaction을 구현해야함.
-### 1.3.3.2 Code Layer 
+#### 1.3.3.2 Code Layer 
 ![image](https://user-images.githubusercontent.com/79636864/112957962-ef32fb00-917c-11eb-8361-ee0fbdb8ebd9.png)    
 
 * Generated Code Layer : 
@@ -199,7 +199,7 @@ STM32F746_TouchGFX_FreeRTOS_5_TouchGFX UI Development
     * 개발자는 User Code Layer의 Class를 자유롭게 편집 가능.    
       이번 예시는 'box1'의 색상을 실제로 변경하기 위한 'setRandonColor'함수를 구현함.
      
-### 1.3.3.3 Code 내용
+#### 1.3.3.3 Code 내용
 ![image](https://user-images.githubusercontent.com/79636864/112958338-5781dc80-917d-11eb-8a56-b73fe7ffdf45.png)    
 
 * ...ViewBase.cpp를 보면 TouchGFX Designer에서 생성한    
@@ -222,3 +222,134 @@ STM32F746_TouchGFX_FreeRTOS_5_TouchGFX UI Development
 
 * 실행하면 원하는 동작을 함을 확인.
 
+# 2. TouchGFX에서 하는 작업들
+## 2.1 Using IDEs with TouchGFX
+* 개발단계에서 CubeIDE를 사용 하면 TouchGFX Tool들과 쉽게 연동하여 사용할 수 있음.
+* makefile 관련 내용이니 추후 참고
+## 2.2 Widgets and Containers
+* TouchGFX에서 app를 제작(빌드)하는 가장 기본적인 두가지 개념
+    * Widgets
+    * containers
+* 두가지 모두 사용자 지정 구현 생성을 지원함    
+  (TouchGFX와 함께 제공되는 사전 제작된 구성 요소를 모두포함하는)
+
+### 2.2.1 Widgets
+* TouchGFX,TouchGFX Designer는 개발자가 자유롭게 UI를 구축하는데 사용할 수 있는 표준 Widgets를 제공
+    * ex : TextArea, Button, Box, TextureMapper등
+* TouchGFX에서의 Widget
+    * 단순히 Screen에 그릴 수 있고 interaction할 수 있는 무언가를 표현하는 추상적인 정의.
+* TouchGFX Designer를 사용하면
+    * 사용자가 원하는 Widget을 화면에 추가
+    * 각 Widget의 고유 속성을 제공하여 원하는 방식으로 사용자 정의가 가능.
+    * TouchGFX가 제공하는 다양한 유형의 Containers를 사용하여 Widgets를 그룹화 할 수 있음.
+        * 'add (widget_instance_name)'함수를 사용하거나    
+          컨테이너 추가 함수 (예 : 'myContainer.add (widget_instance_name)')를 사용하여    
+          컨테이너에 추가하여 원하는 경우 사용자 코드에 위젯을 추가 할 수도 있음
+* Widget을 추가하는 순서에 따라 z 순서 달라짐.    
+  (어떤 Widget들이 다른 Widget들 뒤에 가려져야하는지를 결정하는 방법)
+    * 마지막으로 추가 된 Widget이 Screen 맨 앞에 나타남(z-index가 높음)
+* Widget의 좌표
+    * Screen(root container)또는 해당 container의 노드에 상대적임.
+
+### 2.2.2 Containers
+* Widget , 기타 container와 같은 것들을 자식노드로써 포함할 수 있는 TouchGFX의 구성요소.
+* 'Widget'탭의 'Container' 카테고리 아래에 있음.    
+  Widget을 Container에 추가하는 것 : 트리보기의 Container로 Widget을 드래그하여 수행.
+
+* 마지막으로 추가 된 노드가 화면 맨 앞에 나타남.(z-order가 높음)
+* 'Widget'의 위치는 부모 노드인 'Container'로 정의 됨.\
+    * 부모 노드인 'Container'의 위치를 변경하면 그에 따라 자식 노드들도 이동함.
+* viewport역할도 함.
+    * Containers의 외곽선 내의 부분만 표시됨.
+
+## 2.3 Simulator
+* UI 관련 시험 및 디버깅 시 빠른 처리 시간이 필요하다면    
+  TouchGFX PC 시뮬레이터를 사용하는것도 좋은 방법임.
+* 자체 개발보드(대상)에서 만큼 정확하게 UI의 전반적인 요소를 테스트할 수 있음.
+* UI 시험 및 디버깅을 제외한 실제 성능 분석 및 실제 'Backend' System과의 interaction과 같은 작업은    
+  자체 개발 보드에서 수행되어야함!
+### 2.3.1 How To Run
+### 2.3.1 Simulator Features(단축키)
+### 2.3.1 Simulator Only User Code(User Code에서 Simulator만 실행하는 C++ 코드 생성)
+
+## 2.4 Compiling & Flashing
+### 2.4.1 Compiling for PC Simulator
+### 2.4.2 Compiling for Target Hardware
+* 현재, CubeIDE를 통해 할 수 있음.
+### 2.4.3 Flashing STM32 Evaluation Kits
+* ST Link Utility CubeProgrammer를 통해 가능.
+    * 현재는 CubeIDE를 통해 하고 있음.
+    * 추후 자체 개발 보드 양산 시, 참고해야할 내용임.
+
+## 2.5 Debugging
+* 다른 C++ application에서도 디버깅 가능.
+### 2.5.1 Target Debugging
+* 사용하는 IDE(CubeIDE)에서 제공하는 메커니즘을 사용하면 됨.
+* Target(보드) : 애니메이션 속도, 업데이트 빈도 및 응답성과 같은 실제 성능 문제 등을 디버깅.
+* Simulator : 그외 UI 특정 문제 등.    
+  (애니메이션 이동, 전환, 요소 업데이트, 프로그램 로직 등)
+### 2.5.2 Simulator Debugging
+### 2.5.3 DebugPrinter
+* DebugPrinter Class
+    * Display에 디버그 메세지를 인쇄하는 가장 쉬운 방법    
+      (Widget을 추가하지 않아도 됨)
+    * ex : 'Backend' System 의 이벤트, FPS 또는 렌더링 시간 측정 값 등
+* DebugPrinter를 사용하려면 먼저 인스턴스를 할당하고 Applicatino 클래스에 전달해야함.
+    * 'FrontendApplication'의 생성자에서 수행 할 수 있음.    
+
+![image](https://user-images.githubusercontent.com/79636864/112960794-b8121900-917f-11eb-8b6f-0dee36b115e0.png)    
+
+* print는 ascii 32(space)에서 ascii 126('~')까지 사용 가능.
+* 사용된 LCD Class와 일치하는 DebugPrinter Class를 사용해야함.
+    * 'DebugPrinter Classes' 표 참고.
+
+## 2.6 Examples
+* 여러 사전에 제작된 예제가 개발자에게 제공함.
+* 개발할려는 App을 구축하기 위한 기반으로도 사용할 수 있음.
+* AT(Application Templete)과 결합되어 TouchGFX Application을 생성.
+
+## 2.7 Keyboard Shortcuts(키보드 단축키)
+* 추후 작업 진행시 따로 정리할 것.
+
+# 3. TouchGFX Designer 사용자 가이드
+중요한 내용만 따로 정리함.
+## 3.1 Startup Window
+## 3.2 File Menu
+## 3.3 Main Window
+## 3.4 Canvas View
+## 3.5 Images View
+## 3.6 Texts View
+## 3.7 Config View
+## 3.8 Interactions(상호작용)
+* 'trigger'가 발생할때 수행할 action을 구성할 수 있음.
+* interaction = 'trigger' and 'action'
+    * "Trigger"
+        * interaction(상호 작용)을 시작하는 것.
+        * 'Action'이 발생하기 위해 애플리케이션에서 발생해야하는 것.
+    * "Action"
+        * 'Trigger'가 나오면 발생하는 것.
+        * 'Action'에서 정의한 'Trigger'가 충족되었을 때, App에서 발생하는 작업을 결정할 수 있음.
+### 3.8.1 Triggers
+* 'Screen' 또는 사용자 정의 'Container'에 추가된 'Widget'에 따라 정할 수 있음.
+* 비어있는 'Screen'에는 아래의 두가지 'Trigger'만 사용 가능.
+    1. Hardware button is clicked
+    2. Screen is entered
+* 일부 'Trigger'는 'Container'내 구성요소('Widget')을 선택해야함.
+### 3.8.2 Actions
+* 'Screen' 또는 사용자 정의 'Container'에 추가된 'Widget'에 따라 정할 수 있음.
+* 비어있는 'Screen'에는 아래의 4가지 'Action' 만 사용 가능.
+    1. Call new virtual function(새로운 가상 함수 호출)
+    2. Change Screen(Screen 전환,변경)
+    3. Execute C++ code(C++ 코드 실행)
+    4. Wait for(기다림)
+* 'Widget'과 관련된 작업도 추가할 수 있음.
+    1. Move widget(위젯 이동)
+    2. Fade widget(위젯 페이드)
+    3. Hide widget(위젯 숨기기)
+    4. show widget(위젯 표시)
+### 3.8.3 Chaining Interactions(상호작용 연결)
+* 해당 Interaction은 해당 작업을 완료 할때마다 다른 interaction의 'Trigger'가 될 수 있음.
+* 'Can trigger another interaction'을 활성화하고 'Trigger'하고 싶은 다른 interaction을 설정함.
+
+# 4. TouchGFX Engine 기능
+## 4.1 Custom Triggers and Actions
