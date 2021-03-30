@@ -430,9 +430,279 @@ HW 처리량 및 계산 능력이 충분하지 않은 경우 성능에 상당한
     * Framerate를 측정하여 성능 평가(HAL_GetTick() 이용)
 * Checking the Display Colors
 #### 2.5.3.4 External RAM(외부 RAM)
+* 외부 SDRAM을 활성화.
+* 목표 : 외부 RAM을 활성화 하고 여기에 Data를 읽기/쓰기 하기
+* Further configuration
+    * 일부 RAM 칩의 경우 추가 장치 별 구성을 수행해야함.
+* Testing the RAM
+    * RAM TEST는 디버거에서 볼 수 있음. (IDE Debugger의 memory viewer)
+* 외부 RAM에 특정 데이터를 쓰는 테스트를 함.
+* 외부 RAM의 읽기,쓰기,수정 속도를 테스트.
 #### 2.5.3.5 Framebuffer in external RAM(외부 RAM의 Framebuffer)
+* 프레임 버퍼를 내부 RAM에서 외부 RAM으로 이동,    
+  여전히 Display로 전송이 잘되는지 확인.
+* 내부 RAM에서 프레임 버퍼 배열을 제거,    
+  외부 RAM에서 프로엠 버퍼를 사용하는 것.
+* 프레임 버퍼에 대한 특정 주소를 외부 RAM에 맞게 변경.
 #### 2.5.3.6 External addressable flash(외부 Flash, Memory Mapped Flash)
+* Memory Mapping 모드에서 외부 Quad 또는 octo SPI Flash를 활성화함.
+* 목표 : 외부 Flash를 활성화. Memory Mapping 모드로 변경.    
+  데이터 읽기. 데이터 읽기 속도 테스트.
+* 플래시를 활성화 후 데이터를 읽어 테스트 할 수 있는 모드.    
+  (Cube 패키지에는 이에 대한 예제가 포함)
+* 플래시를 활성화 후 Block 모드로 테스트 후 Memory Mapping Mode로 변경해야함.
+    * CPU가 플래시에서 직접 데이터를 가져올 수 있음.
+* 플래시가 메모리 매핑 모드에 있으면 외부 RAM에 사용 한 것과 유사한 코드로 테스트할 수 있음.
+* 이전 단계에서 수행한 메모리 읽기 성능 테스트를 재사용하여 외부 플래시의 성능도 테스트할 것.
 #### 2.5.3.7 External block mode flash(외부 Flash block mode, Non-Memory Mapped Flash)
+* NAND플래시(eMMC,SD Card)와 같은 Non-Memory Mapping Flash 메모리로 작업시,    
+  TouchGFX가 내부에 저장된 Resource를 사용하고자 한다면 드라이버를 개발해야함.
+* image 저장을 위한 Non-Memory Mapping Flash 사용 Section은 다음 링크 참고.
+* 목표 : 매핑되지 않은 플래시 메모리의 위치에서 여러 바이트를 읽고    
+  이를 배열에 저장할 수 있는 드라이버를 만듬.
+* MCU의 FMC를 이용함.
+* TouchGFX AL을 개발하는데 사용.
 #### 2.5.3.8 Hardware acceleration(하드웨어 가속)
+* Chrom-ART (DMA2D) 그래픽 가속기는 메모리에서 이미지 데이터의 일부를 전송하여    
+  프레임 버퍼에 그리거나 구성 할 수 있음.
+* DMA2D는 Chrom-ART의 code name임.
+* 목표 : Chrom-ART를 활성화하고이를 사용하여 데이터를 읽고 쓰는 것.
+* CubeMX의 'Multimedia -> DMA2D'
 #### 2.5.3.9 Touch controller(터치 컨트롤러)
+* 터치 컨트롤러에서 터치 좌표를 읽을 수 있어야함. TouchGFX AL 계층을 개발하는데 사용.
+* 터치 컨트롤러와 통신하도록 MCU 구성(I2C)    
+  터치 컨트롤러와의 통신 드라이버 코드 작성.
+* 나중에 TouchGFX와 통합 할 때 필요한 드라이버 기능을 개발해야함.    
+  이 함수는 터치가 있으면 true를 반환하고 그렇지 않으면 false를 반환해야하며    
+  좌표도 제공해야함.
+* 여러 Touch Point(finger Point) 제공 시,    
+  대부분의 경우 첫번째 터치 포인트를 선택함.
+* TouchGFX AL Del Section에서 터치 관련 값을 TouchGFX으로 보내는 방법에 대해 설명함.
+* TouchGFX App과 동일한 스레드에서 코드가 실행되는 경우,    
+  1ms 이내에 샘플링 터치가 가능해야함.
 #### 2.5.3.10 Physical buttons(물리적 버튼 및 기타 백엔드 이벤트)
+* 물리적버튼은 TouchGFX Designer에서 Trigger로 사용할 수 있는 External Event로 작동하거나    
+  단순히 app Backend에서 Event로 활용가능.
+* TouchGFX HAL 및 App 개발에 사용할 수 있는 코드를 개발하는 것.
+* TouchGFX App과 동일한 스레드에서 코드가 실행되는 경우,    
+  1ms 이내에 버튼의 상태를 polling이 가능해야함.
+#### 2.5.3.11 Flash Loader
+* 외부 플래시로 데이터를 load 하는 방법.
+
+## 2.6 TouchGFX AL Development Introduction
+* TouchGFX Abstraction Layer(AL) : Board init code 와 TouchGFX Engine 사이의 S/W 구성 요소.    
+* 주요 : TouchGFX 엔진을 기본 H/W 및 OS와 함께 연결하는 것.
+* 기본 H/W 및 OS의 세부사항을 추상화.
+* AL은 HAL(하드웨어 추상화 계층) 과 OSAL(운영체제 추상화 계층)으로 구성.
+* AL의 원칙과 책임에 대한 소개 TouchGFX 엔진과 interaction하는 방법 소개
+* Abstraction Layer Architecture Section
+    * AL의 구조(architecture)를 자세히 설명,    
+      hook : TouchGFX 엔진과 AL 사이 interaction 지점.
+* Generator User Guide Section
+    * TouchGFX Generator를 사용하여 AL 구현의 기반을 만드는 방법 및 더 복잡한 문제 설명
+* 특정 하드웨어 설정에 대한 AL을 만드는 방법에 대한 구체적인 자세한 예를 제공.
+### 2.6.1 AL의 책임
+* TouchGFX Engine Main Loop
+    1. **Collect** input(Touch coordinates, Buttons)
+    2. **Update** the Scene Model
+    3. **Render** the Scene Model to the Framebuffer
+1. 실제로 Framebuffer Data를 Display로 전송 및 외부 입력 수집.
+2. 메인루프와 Display(LCD 패널)사이의 동기화.    
+   디스플레이에 프레임 버퍼 데이터를 올바르게 전송되고 표시될 수 있도록    
+   Display의 실제 업데이트 빈도 및 Wait상태와 동기화.
+3. 프레임 버퍼 메모리 접근 여부에 대한 책임.    
+   프레임 버퍼 메모리 영역의 접근은 AL 통해 진행.
+* 디테일한 AL의 책임 정리
+    1. TouchGFX Engine 메인 루프를 디스플레이 전송과 동기화
+    2. 터치 및 물리적 버튼 이벤트 보고
+    3. 프레임 버퍼 액세스 동기화
+    4. 사용 가능한 다음 프레임 버퍼 영역 보고
+    5. 렌더링 작업 수행
+    6. 표시할 프레임 버퍼 전송 처리
+* TouchGFX AL은 S/W 모듈임.    
+  자체 스레드(유사한것도)없음.    
+  TouchGFX Engine 메인 루프에서 호출 된 특정 hooks(기능) 또는 인터럽트를 통해 작업을 수행해야함.
+  
+![image](https://user-images.githubusercontent.com/79636864/112913074-ef5ad880-9133-11eb-8b7c-b5b584acbbfc.png)    
+
+* AL 개발 시 기본 H/W 및 OS에서 AL의 책임을 다룰 수 있도록 hook를 구현해야함.
+* AL 개발 시 필요한 경우 특정 지점에서 활성화되도록 인터럽트를 설정할 수 있음.
+* 이러한 인터럽트 설정도 AL 개발의 일부
+
+### 2.6.2 예시 : Two Framebuffer - LTDC
+* LTDC가 있는 MCU에서 두개의 Framebuffer를 갖는 경우,    
+  디스플레이가 새 프레임을 수신할 준비가 될 때마다 'I1'이 실행되도록    
+  LTDC VSYNC 인터럽트에 반응하도록 AL을 설정.    
+  (메인루프와 디스플레이를 동기화)    
+![image](https://user-images.githubusercontent.com/79636864/112913385-7740e280-9134-11eb-8ab6-07ef7c469b5a.png)    
+
+### 2.6.3 Abstraction Layer Architecture
+* 일반적으로 RTOS(OSAL)를 통해 AL(HAL)의 HW부분 또는    
+  TouchGFX 엔진과 동기화되는 AL의 부분에서 구현.
+* AL 개발자가 수동으로 구현해야하는 나머지 부분은    
+  TouchGFX Generator를 통한 코드 주석 및 알림을 통해 지적.
+#### 2.6.3.1 Abstraction Layer Classes
+* HAL은 "HAL Class"의 구체적인 하위 클래스를 통해 TouchGFX 엔진에 의해 액세스됩니다.
+* TouchGFX Generator는 CubeMX의 구성을 반영하는 HAL과 CMSIS V1 및 V2용 RTOS 모두 생성 가능.    
+![image](https://user-images.githubusercontent.com/79636864/112913541-cbe45d80-9134-11eb-8ea8-86009b174352.png)    
+#### 2.6.3.2 Synchronize TouchGFX Engine main loop with display transfer
+디스플레이 전송과 TouchGFX 엔진 메인 루프의 동기화
+* 이 단계의 기본 아이디어 :
+    * Render가 완료 시 TouchGFX Engine main loop를 차단하여    
+      더이상 프레임이 생성되지 않도록 함.
+* RTOS는 디스플레이가 준비되면 차단된 TouchGFX Engine에 신호를 보내 프레임 생성을 계속함.
+* OSAL은 개발자가 "OSWrappers::signalVSync"를 호출 할 때    
+  엔진이 대기하는 세마포어에 신호를 보낼 수있는 함수    
+  "OSWrappers::signalVSync"를 정의함.
+* 렌더링 완료 hook
+    * 렌더링 완료 후크 인 OSWrappers :: waitForVSync는    
+      렌더링이 완료된 후 TouchGFX 엔진에 의해 호출됨.
+    * OSWrappers :: signalVSync가 신호를 받으면(또는 OSWrappers :: waitForVSync에서 사용되는 세마포어 / 큐가 신호를 받으면)    
+      TouchGFX는 다음 애플리케이션 프레임 렌더링을 시작함.
+* Display ready hookk
+    * Display Ready 신호는 Display Controller, Display 자체 또는    
+      H/W 타이머의 인터럽트에서 발생해야함.
+    * 'OSWrappers::signalVsync'
+        * TouchGFX Engine의 차단을 해제하는 Message queue를 넣음.
+        * LTDC, 디스플레이 외부 신호 또는 HW 타이머와 같은    
+          인터럽트의 HW Level 수준에서 호출되어야함.
+#### 2.6.3.3 Report touch and physical button events
+터치 및 물리적 버튼 이벤트보고
+* 새 프레임을 랜더링 하기전에 TouchGFX Engine은 아래의 인터페이스에서 외부 입력을 수집.
+    1. TouchController
+    2. ButtonController
+* Touch Coordinates(터치 좌표)
+    * 터치 컨트롤러의 좌표는 엔진에 의해 클릭, 드래그 및 제스처 이벤트로 변환되어 App에 전달.
+    * TouchGFX Engine 렌더링 주기 동안 입력을 수집할 때    
+      엔진 "sampleTouch()"는 tc 개체에 대한 함수를 호출함.
+    * 터치 좌표 값을 x, y에 할당, 터치가 감지되었는지 체크.
+    * 위의 기능을 구현하는 2가지 방법
+        * 폴링방식.    
+          Touch Read를 위한 i2C 시퀀스는 최대 1ms가 이르는 경우가 많기 때문에 전체 렌더링 시간에 영향을 줌.
+        * 인터럽트 방식.    
+          터치 하드웨어의 외부 인터럽트에 의해.
+* 기타 외부 이벤트
+    * Button Controller 인터페이스 인 touchgfx :: ButtonController는    
+      하드웨어 신호 (버튼 또는 기타)를 이벤트에 애플리케이션에 매핑하는 데    
+      사용할 수 있습니다.
+    * 이를 사용하려면 ButtonController 인터페이스를 구현하는 클래스의 인스턴스를 만들고    
+      인스턴스에 대한 참조를 HAL에 전달해야함.
+    * ButtonController 클래스의 'sample'method는 각 프레임 전에 호출됨.    
+      true를 반환하면 'key'값이 현재 화면의 handlekeyEvent 이벤트 핸들러에 전달됨.
+#### 2.6.3.4 Synchronize framebuffer access(프레임 버퍼 액세스 동기화)
+* TouchGFX Engine은 "OSWrappers"인터페이스를 통해 프레임 버퍼 액세스를 동기화,    
+  프레임 버퍼에 액세스 하려는 주변장치(DMA2D)도 동일한 동기화 작업을 수행해야함.
+* 세마포어를 사용하여 프레임 버퍼에 대한 액세스를 보호, 그외 다른것도 가능.
+* OSWrapper.cpp에는 프레임버퍼 액세스를 동기화하는 method를 보여줌.
+* Report the next available framebuffer area(사용 가능한 다음 프레임 버퍼 영역보고)
+    * HAL :: getTFTCurrentLine () 
+    * 그래픽 엔진이 그릴 위에 저장되는 줄 번호를 반환합니다.
+    * 위의 메서드는 HAL 하위 클래스에서 다시 구현할 수 있습니다. 
+#### 2.6.3.5 Perfrom Render operations('Render' 작업 수행)
+* TouchGFX는 가능한 적은 CPU점유율을 사용하여 UI를 그리는 것.
+* HAL 클래스는 많은 STM32 마이크로 컨트롤러 (또는 기타 하드웨어 기능)에있는    
+  DMA2D를 추상화하고 이를 그래픽 엔진에서 사용할 수 있도록함.
+* 비트 맵과 같은 자산을 프레임 버퍼로 렌더링 할 때 TouchGFX 엔진은 HAL이 비트 맵의    
+  일부 또는 전체를 프레임 버퍼로 'blit'할 수 있는지 확인
+* 그리기 작업은 CPU에서 처리하지 않고 HAL에 위임됨.
+* 엔진은 HAL :: getBlitCaps () 메서드를 호출하여 하드웨어 기능에 대한 설명을 가져옴.
+* HAL 하위 클래스는 이를 다시 구현하여 기능을 추가할 수 있음.
+* 엔진이 사용자 인터페이스를 그릴 때 HAL 클래스에 대한 작업을 호출함.    
+  HAL :: blitCopy는 DMA에 대한 작업을 queue에 넣음.
+#### 2.6.3.6 Handle framebuffer transfer to display(프레임 버퍼 전송을 처리하여 디스플레이)
+* 프레임 버퍼를 디스플레이로 전송하기 위해 TouchGFX AL에서 "Rendering of area complete"후크가 종종 사용됨.
+* 엔진은 프레임 버퍼의 일부 렌더링이 완료되면 AL에서 신호를 보내고    
+  AL은 프레임 버퍼를 디스플레이로 전송하는 방법을 선택 가능.
+* hook는 virtual function "HAL::flushFrameBuffer(Rect& rect)"
+* LTDC 컨트롤러가 있을 경우, 렌더링할때마다 프레임 버퍼를 전송하기 위해 아무것도 할 필요가 없지만,    
+  SPI또는 8080과 같은 디스플레이 유형의 경우 프레임 버퍼를 수동으로 전송해야함.
+
+## 2.7 TouchGFX Generator User Guide
+* TouchGFX Generator : 개발자가 HW플랫폼에서 실행되도록 TouchGFX를 구성하는데    
+  도움이 되는 CubeMX 추가 소프트웨어 구성 요소임.
+* TouchGFX HAL,    
+  TouchGFX OSAL(RTOS),    
+  TouchGFX Configuration.
+1. Enabling TouchGFX Generator
+2. Generated Code Architecture
+    * **생성된 코드의 구조와 개발자가 이를 사용하여 구성 및 동작을 사용자 정의하는 방법을 이해해야함!**
+    * CubeMX(C 코드)에서 생성된 "USER CODE Section"을 통해 개발자기 손으로 작성한 사용자 코드를 보호.
+    * TouchGFX Generator (C++ code)는 개발자가 손으로 작성한 사용자 코드를 'inheritance'(상속)을 통해 구현가능.    
+
+![image](https://user-images.githubusercontent.com/79636864/112915088-8a55b180-9138-11eb-9584-39759753fd9f.png)   
+* Folder 별 설명
+    * myproject.ioc : CubeMX Project file
+    * Core : main.c and startup code
+    * Drivers : CMSIS and MCU family drivers
+    * EWARM : IDE project folder. Can be EWARM, MDK-ARM or STM32CubeIDE
+    * Middlewares : TouchGFX 라이브러리 / 헤더 파일 및 FreeRTOS와 같은 타사 소프트웨어가 포함되어 있음.
+    * ApplicationTemplate.touchgfx.part : .part 파일은 TouchGFX Designer 프로젝트와 관련된 정보    
+      (예 : 화면 크기 및 비트 깊이)로 CubeMX에 의해 업데이트됩니다.
+    * App : CubeMX에 대한 X-CUBE 인터페이스.    
+      app_touchgfx.c기능에 대한 정의를 포함 MX_TouchGFX_Process(void)하고    
+      MX_TouchGFX_Init(void)TouchGFX 초기화와 메인 루프를 시작하기 위해 사용됨.
+    * target/generated : 이 하위 폴더에는 구성이 변경 될 때 CubeMX가 덮어 쓰는 읽기 전용 파일이 포함되어 있음.    
+                         TouchGFXGeneratedHAL.cpp:TouchGFX 클래스의 하위 클래스이며    
+                         CubeMX HAL가 현재 구성을 기반으로 생성 할 수있는 코드를 포함.    
+                         OSWrappers.cpp(OSAL)에는 TouchGFX Engine과 동기화하는 데 필요한 기능인    
+                         TouchGFXConfiguration.cpp이 포함되어 있으며    
+                         마지막으로 HAL을 포함하여 TouchGFX를 구성하는 코드가 포함되어 있음
+    * target : HAL의 동작을 확장하거나 CubeMX에서 생성 된 구성을 재정의하기 위해    
+               사용자가 수정할 수있는 대량의 파일을 포함.    
+               STM32TouchController.cpp에는 빈 터치 컨트롤러 인터페이스가 포함되어 있음.    
+               TouchGFXHAL.cpp는 TouchGFXGeneratedHAL의 하위 클래스 인 TouchGFXHAL을 정의합니다.
+* TouchGFXConfiguration.cpp는    
+  **HAL을 구성하는 함수와 TouchGFX의 메인 루프를 시작하는 함수가 포함되어 있음을 아는 것이 중요!**     
+  편집 가능한 사용자 클래스에서 추가 구성을 수행 할 수 있음.
+
+3. CubeMX에서 TouchGFX Generator Enable시 UI에 대한 Feature Overview
+* Dependencies(종속성) : 구성의 종속성, 경고 또는 구체적인 오류에 대한 개발자 알림이 포함
+* Display : 인터페이스, 프레임버퍼, 비트 심도, 너비 및 높이와 같은 디스플레이 관련 설정이 포함.
+* Driver : App의 Tick 소스, 그래픽 가속, RTOS와 관련된 여러 기성 드라이버 선택 가능.
+
+4. Generated project
+* CubeMX는 다음 구조의 *TouchGFX* 폴더를 생성함.    
+![image](https://user-images.githubusercontent.com/79636864/112916059-b96d2280-913a-11eb-8195-985f8d685971.png)    
+* 폴더 설명
+    * App : TouchGFX를 초기화하고 시작하는 코드가 포함됨.
+    * target : 읽기 전용, 생성 된 코드 ( 'generated /'내부) 및 수정 가능한 사용자 클래스    
+               (STM32TouchController.cpp, TouchGFXGPIO.cpp 및 TouchGFXHAL.cpp)가 포함.
+    * .part : TouchGFX 헤더 파일 및 라이브러리가 포함된    
+              전체 TouchGFX 프로젝트를 생성하기 위한 TouchGFX Designer를 사용하여 열림.    
+              디자이너가 TouchGFX app 코드를 생성할때 사용하는    
+              픽셀 형식 및 캔버스 치수와 같은 관련 app 정보가 포함되어 있음.
+5. TouchGFX Designer Project
+* TouchGFX Designer로 .part 파일을 열면 개발자에게 구체적인 UI를 로드하거나    
+  빈 템플릿에서 시작할 수있는 옵션이 제공.
+* TouchGFX Designer에서 Generate Code를 누른 후 TouchGFX 폴더의 구조.
+    * 노랑색 영역 : 생성 후 새로운 파일 및 폴더.    
+
+![image](https://user-images.githubusercontent.com/79636864/112916234-208ad700-913b-11eb-80d7-d511510c4018.png)    
+
+* 내가 선택한 IDE를 감지하고 화면 정의, 이미지 및 글꼴 assets파일과 같은    
+  새로 생성된파일로 프로젝트 파일을 업데이트함.
+* CubeMX, TouchGFX Designer, IDE/Toolchain 간 서로 상호 교환하면서 작업가능
+    * CubeMX는 IDE 프로젝트를 드라이버로 업데이트
+    * CubeMX는 UI 관련 변경 사항으로 TouchGFX.part파일을 업데이트
+    * CubeMX는 TouchGFX가 특정 플랫폼에서 작동하는 데 필요한 TouchGFX Generator를 기반으로    
+      HAL 코드(TouchGFX/target/generated/)폴더를 생성함
+    * TouchGFX Designer 프로그램은 생성 된 코드로 프로젝트를 업데이트함.
+
+6. Modifying Generated Behavior
+* 개발자는 CubeMX에 의해 생성된 HAL 구성 또는 동작을 재정의할 수 있음!    
+  (HAL의 클래스 계층 구조로 인해서)
+* 예시로, TouchGFXHAL.cpp의 initialize() method에서 기능을 수정하여 추가로 구성할 수 있음.
+
+7. Upgrading Projects(프로젝트 버전 업그레이드)
+* TouchGFX Generator 매개 변수는 .ioc 파일 (CubeMX 프로젝트)에 저장됨.    
+  TouchGFX Generator의 새 버전이 출시되면 이전 버전의 매개 변수가 새 버전과    
+  호환되지 않을 수 있으며 마이그레이션이 필요할 수 있음
+
+## 2.8 LCD 인터페이스에 따른 AL구현 시나리오
+### 2.8.1 LTDC/Paralled RGB
+### 2.8.2 FMC/SPI Display
+### 2.8.3 Framebuffer Strategies
+#### 2.8.3.1 Single
+#### 2.8.3.2 Double
+#### 2.8.3.3 By Allocation
+#### 2.8.3.4 By Address
