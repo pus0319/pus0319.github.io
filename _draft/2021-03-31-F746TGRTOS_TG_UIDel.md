@@ -46,6 +46,15 @@ STM32F746_TouchGFX_FreeRTOS_5_TouchGFX UI Development
 # 1. Model-View-Presenter Design Pattern (MVP 아키텍처)
 * TouchGFX UI 아키텍처 패턴 : MVP(Model-View-Persenter).
     * MVC(Model-View-Controller)에서 파생된 개념.
-
+* MVP 패턴 주요 장점.
+    1. 우려 사항 분리    
+       코드를 별도 부분으로 나눔, 각 부분은 각자의 책임이 있음.    
+       코드가 더 간단, 재사용 가능, 유지관리가 쉬움.
+    2. 단위 테스트.    
+       UI의 로직(persenter)이 시각적 레이어(View)와 분리되어 있음.    
+       이로 인해 단위 별 테스트하기 쉬움.
+* MVP의 3가지 Class
+    * "Model"
+        * 사용자 인터페이스에서 표시되거나 작동 할 데이터를 정의하는 인터페이스입니다.
 
 
