@@ -43,7 +43,8 @@ STM32F746_TouchGFX_FreeRTOS_5_TouchGFX UI Development
 * Scenarios
     * 개발자가 실행할 수 있는 다양한 시나리오와 해결방법이 포함.    
 
-# 1. Model-View-Presenter Design Pattern (MVP 아키텍처)
+# 1. Software Arcitecture
+## 1.1 Model-View-Presenter Design Pattern (MVP 아키텍처)
 * TouchGFX UI 아키텍처 패턴 : MVP(Model-View-Persenter).
     * MVC(Model-View-Controller)에서 파생된 개념.
 * MVP 패턴 주요 장점.
@@ -55,6 +56,65 @@ STM32F746_TouchGFX_FreeRTOS_5_TouchGFX UI Development
        이로 인해 단위 별 테스트하기 쉬움.
 * MVP의 3가지 Class
     * "Model"
-        * 사용자 인터페이스에서 표시되거나 작동 할 데이터를 정의하는 인터페이스입니다.
+        * 사용자 인터페이스에서 표시되거나 작동 할 데이터를 정의하는 인터페이스.
+        * TouchGFX UI가 아닌부분 (BackendSystem)과의 통신을 수행.
+    * 'View'
+        * 데이터 ('Model'으로부터)를 표시하고 사용자 명령 (Event)을    
+          'Presenter'에게 전달하여 해당 데이터에 대해 작동하는 수동 인터페이스.
+    * 'Presenter'
+        * 'Model'과'View'에 따라 행동.    
+          리포지토리 ('Model')에서 데이터를 검색하고 'View'에 표시 할 형식을 지정.
 
+![image](https://user-images.githubusercontent.com/79636864/112954868-c826fa00-9179-11eb-8601-27fe1b32e2f8.png)    
 
+* Backend System 과의 communication
+    * TouchGFX의 Tick마다 한번씩 호출되는 기능만제공.    
+      호출되었을 때 필요한 통신을 처리하도록 할 수 있음.    
+    * Backend 통신에 대한 자세한 내용은 **Backend Communication** 참고.
+      
+![image](https://user-images.githubusercontent.com/79636864/112955071-03292d80-917a-11eb-9089-60b6512706c6.png)    
+
+* MVP Class가 TouchGFX UI개발에서 구현되고 사용되는 방법에 대한 자세한내용은 **Code Structure** 참고
+
+## 1.2 The Screen Concept('Screen' 개념)
+* TouchGFX App은 Screen을 여러개 가질 수 있음.
+* TouchGFX에서의 'Screen'
+    * UI 요소(Widgets) 및 관련 비즈니스 로직의 논리적인 그룹.    
+      비즈니스 로직에 대한 자세한 내용    
+      [business logic???](https://mommoo.tistory.com/67)
+    * 'Screen' = 'View' Class + 'Presenter' Class    
+      'View' Class는 모든 위젯이 포함되어있음.    
+      'Presenter' Class는 'Screen'에 대한 비즈니스 로직이 포함되어있음.
+    * 단일 Screen Context내에서    
+      (하나의 View Class와 하나의 Presenter Class)로도 가능하지만    
+      분할식으로 가는 것이 좋음.
+      
+### 1.2.1 Defining Screens('Screen'들을 정의하는 방법론)
+* 시각적 및 기능적으로 관련이 없는 UI영역은 다른 'Screen'에 유지되어야함.
+* 'Main Screen'과 'Setting Screen' 등으로 나누어서 만드는 것이 좋음.
+* 또한 'Setting Screen'을 전체 option들을 표시하는 하나의 'Screen'과    
+  특정 option을 설정하기 위한 별도의 'Screen'으로 나누는 것이    
+  더 유용할수도 있음.
+
+### 1.2.2 Currently Active Screen(현재 활성 'Screen')
+* TouchGFX가 'Screen'을 메모리에 할당 시, 한번에 하나의 'View'와 하나의 'presenter'만 활성화 가능.
+* 'Backend'(UI 코드를 제외한 모든 동작) 및 HW 주변장치에서 수신되는 Event를 현재 활성 'Screen'으로 위임 가능.
+* 원하는 'Screen'에서만 특정 이벤트를 처리하도록 할수 있음.
+
+### 1.2.3 MVP Arcitecture in TouchGFX
+* TouchGFX Screen 컨셉
+    * 'View', 'Presenter' Class에서 상속(Inheritance)된 Class에 의해    
+      전체 MVP 아키텍처와 연결됨.
+    * new 'Screen'을 추가할때 new 'View' , 'Presenter' Class를 모두 생성함.
+* TouchGFX MVP Class의 구체적인 내용과 책임.
+    * "Model"
+        * 항상 alive하고 2가지 목적을 가진 Singleton class
+        * Singleton class : 최초 한번만 생성하는 class    
+          [Singleton class ???](https://jeong-pro.tistory.com/86)
+
+    * 'View'
+        * 데이터 ('Model'으로부터)를 표시하고 사용자 명령 (Event)을    
+          'Presenter'에게 전달하여 해당 데이터에 대해 작동하는 수동 인터페이스.
+    * 'Presenter'
+        * 'Model'과'View'에 따라 행동.    
+          리포지토리 ('Model')에서 데이터를 검색하고 'View'에 표시 할 형식을 지정.
