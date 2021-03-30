@@ -699,6 +699,8 @@ HW 처리량 및 계산 능력이 충분하지 않은 경우 성능에 상당한
   호환되지 않을 수 있으며 마이그레이션이 필요할 수 있음
 
 ## 2.8 LCD 인터페이스에 따른 AL구현 시나리오
+* 지금 당장은 LTDC로 사용하고 있기때문에 모두 구현되어있음.
+* 추후 정리
 ### 2.8.1 LTDC/Paralled RGB
 ### 2.8.2 FMC/SPI Display
 ### 2.8.3 Framebuffer Strategies
@@ -706,3 +708,8 @@ HW 처리량 및 계산 능력이 충분하지 않은 경우 성능에 상당한
 #### 2.8.3.2 Double
 #### 2.8.3.3 By Allocation
 #### 2.8.3.4 By Address
+
+# 3. 정리
+TouchGFX의 Development의 내용은 한번에 정리하지 못할정도로 내용이 방대합니다.    
+본격적으로 Application에 대한 UI작업을 시작할 것이고    
+UI작업을 하면서 UI Devlopment에 대한 전반적인 내용을 정리할 것입니다.
