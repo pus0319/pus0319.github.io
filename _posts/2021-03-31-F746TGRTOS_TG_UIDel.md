@@ -407,7 +407,7 @@ Interaction에서 Custom Trigger 반응하기 구현.
 * Screen의 interaction의 Trigger를 Custom Trigger로 사용 시,    
   이름 체계
 ```
-<Custom Container Name> <Custom Trigger Name> happens
+(Custom Container Name) (Custom Trigger Name) happens
 ```    
 
 ![image](https://user-images.githubusercontent.com/79636864/113107290-b5c2c400-923e-11eb-87d7-8f9f341489e8.png)    
@@ -448,7 +448,7 @@ User Code에서 Custom Trigger 반응하기 구현.
     * interaction system의 'action'을 선택할 때 마우스를 올려놓을때 볼 수 있음.
     * 설명이 지정되지 않은 경우, 아래의 표준 설명이 생성됨.
 ```
-Call <Name> on <Screen or Custom Container Name>
+Call (Name) on (Screen or Custom Container Name)
 ```    
 
 * Type
