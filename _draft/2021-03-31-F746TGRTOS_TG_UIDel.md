@@ -370,9 +370,40 @@ STM32F746_TouchGFX_FreeRTOS_5_TouchGFX UI Development
 * name
     * void set'name'Callback()
     * virtual void emit'name'Callback()    
-![image](https://user-images.githubusercontent.com/79636864/113105372-798e6400-923c-11eb-8910-b2a92f6ef6ef.png)
+![image](https://user-images.githubusercontent.com/79636864/113105372-798e6400-923c-11eb-8910-b2a92f6ef6ef.png)    
+![image](https://user-images.githubusercontent.com/79636864/113105483-9460d880-923c-11eb-9d18-dafd8700855e.png)    
+* Discription(설명).
+    * Interaction system에 사용.
+    * interactino system에서 Trigger를 선택 시,    
+      트리거 위로 마우스를 가져 가면 볼 수 있는 내용.    
+      (설명이 지정되지 않은 경우, 표준 설명이 생성)    
+* Type
+    * type(자료형) 값을 대입할 수 있는 Trigger로 만들 수 있음.
 
+#### 4.1.1.2 Emitting Custom Triggers from Interactions
+Interaction에서 Custom Trigger 내보내기 구현.
+* Interaction system을 사용하여 'Action'으로써 사용(Custom Trigger를 내보낼 수) 있음.
+* Custom Triggers를 보유한 Custom Container에 이동하여 새로운 interactions를 만들고 Action을 Custom Triggers로 하면 됨.
+* 아래 사진의 예시 : Custom Container내의 button1을 클릭할때마다 지정한 Custom Trigger가 발생함.    
 
+![image](https://user-images.githubusercontent.com/79636864/113105965-2963d180-923d-11eb-93af-cf109f5b28f8.png)    
 
+* value : type가 지정되어 있을 경우, 해당 Custom Trigger에 대입할 매개변수(parameter)를 지정해줘야함.    
 
+![image](https://user-images.githubusercontent.com/79636864/113106044-439daf80-923d-11eb-9186-623e76aa2da9.png)    
+
+#### 4.1.1.2 Emitting Custom Triggers from User Code
+User Code에서 Custom Trigger 내보내기 구현.    
+(Interaction에서 구현한 Custom Trigger 확인 해보기)
+* CustomContainer에서 'trigger1'이라는 CustomTrigger에 대해 아래의 method를 생성함.
+* 상속된 User Code Class에서 오버라이팅하거나 호출할 수 있음.    
+
+![image](https://user-images.githubusercontent.com/79636864/113107024-5ebcef00-923e-11eb-8c1f-7a7c3f910fda.png)    
+
+#### 4.1.1.3 Reacting to Custom Triggers from Interactions
+Interaction에서 Custom Trigger 반응하기 구현.
+* Custom Trigger가 있는 Custom Container가 Screen에 추가되면,    
+  Custom Trigger를 Screen의 interaction에 대한 Trigger로 사용 가능.
+* Screen의 interaction의 Trigger를 Custom Trigger로 사용 시,    
+  이름 체계 : <Custom Container Name> <Custom Trigger Name> happens
 
