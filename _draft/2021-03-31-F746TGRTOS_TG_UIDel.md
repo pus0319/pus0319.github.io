@@ -392,15 +392,15 @@ Interaction에서 Custom Trigger 내보내기 구현.
 
 ![image](https://user-images.githubusercontent.com/79636864/113106044-439daf80-923d-11eb-9186-623e76aa2da9.png)    
 
-#### 4.1.1.2 Emitting Custom Triggers from User Code
+#### 4.1.1.3 Emitting Custom Triggers from User Code
 User Code에서 Custom Trigger 내보내기 구현.    
-(Interaction에서 구현한 Custom Trigger 확인 해보기)
+(Interaction에서 구현한 Custom Trigger emitting 부분 확인 해보기)
 * CustomContainer에서 'trigger1'이라는 CustomTrigger에 대해 아래의 method를 생성함.
 * 상속된 User Code Class에서 오버라이팅하거나 호출할 수 있음.    
 
 ![image](https://user-images.githubusercontent.com/79636864/113107024-5ebcef00-923e-11eb-8c1f-7a7c3f910fda.png)    
 
-#### 4.1.1.3 Reacting to Custom Triggers from Interactions
+#### 4.1.1.4 Reacting to Custom Triggers from Interactions
 Interaction에서 Custom Trigger 반응하기 구현.
 * Custom Trigger가 있는 Custom Container가 Screen에 추가되면,    
   Custom Trigger를 Screen의 interaction에 대한 Trigger로 사용 가능.
@@ -410,5 +410,58 @@ Interaction에서 Custom Trigger 반응하기 구현.
 <Custom Container Name> <Custom Trigger Name> happens
 ```    
 
+![image](https://user-images.githubusercontent.com/79636864/113107290-b5c2c400-923e-11eb-87d7-8f9f341489e8.png)    
 
 
+#### 4.1.1.5 Reacting to Custom Triggers from User Code
+User Code에서 Custom Trigger 반응하기 구현.    
+(Interaction에서 구현한 Custom Trigger reacting 부분 확인 해보기)
+* Custom Trigger는 이름이 'trigger1'인 Custom Trigger를 가지고 있는    
+  Custom Container가 Screen에 추가 된 후,    
+  아래의 예시와 같이 Callback를 구현하여 User code에서 반응 할 수 있음.    
+  
+![image](https://user-images.githubusercontent.com/79636864/113107510-fd495000-923e-11eb-9c91-de06752c0c39.png)    
+![image](https://user-images.githubusercontent.com/79636864/113107551-076b4e80-923f-11eb-9b68-af335fc6563d.png)    
+
+### 4.1.2 Custom Actions
+* Custom Action은 Screen 및 Custom Container에서 만들 수 있음.
+* Virtual C++ method로 생성됨.
+* User Code 또는 Interaction system에서 실행 가능.
+* interaction system에서 구성하거나    
+  User Code Class 파일에서 생성된 C++ method를 오버라이팅하여 구성할 수 있음.
+
+#### 4.1.2.1 Adding Custom Actinos
+* Screen 또는 Custom Container properites 탭에서    
+  ACTION section의 오른쪽 더하기 파란색 버튼을 클릭하여 수행.
+
+![image](https://user-images.githubusercontent.com/79636864/113107800-48fbf980-923f-11eb-88e5-45f75af20e73.png)    
+![image](https://user-images.githubusercontent.com/79636864/113107815-4c8f8080-923f-11eb-8720-336a32995538.png)    
+
+* Name
+    * interaction system 및 생성된 Code 파일에서 추가 참조를 위해 사용.    
+
+![image](https://user-images.githubusercontent.com/79636864/113107885-616c1400-923f-11eb-9e18-be66eaf5fa8a.png)    
+![image](https://user-images.githubusercontent.com/79636864/113107910-68932200-923f-11eb-9868-d3370cd2a028.png)    
+
+* Description
+    * interaction system에서 사용됨.
+    * interaction system의 'action'을 선택할 때 마우스를 올려놓을때 볼 수 있음.
+    * 설명이 지정되지 않은 경우, 아래의 표준 설명이 생성됨.
+```
+Call <Name> on <Screen or Custom Container Name>
+```    
+
+* Type
+    * Type(자료형) 값을 대입할 수 있는 Action으로 만들어줌.
+
+#### 4.1.2.2 Calling Custom Action from Interactions
+Interaction에서 Custom Action 호출
+* interaction system의 'action'에서 Custom Action을 실행할 수 있음.
+* Type이 지정되어있는 경우 대입하고 싶은 매개변수 값을 지정해야함.    
+
+![image](https://user-images.githubusercontent.com/79636864/113108460-fa9b2a80-923f-11eb-9007-4e49babca6b1.png)    
+
+#### 4.1.2.3 Calling Custom Action from User Code
+User Code에서 Custom Action 호출
+(Interaction에서 구현한 Custom Action Calling 부분 확인 해보기)    
+* 
