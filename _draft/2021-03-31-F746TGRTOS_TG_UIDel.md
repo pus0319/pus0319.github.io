@@ -405,5 +405,5 @@ Interaction에서 Custom Trigger 반응하기 구현.
 * Custom Trigger가 있는 Custom Container가 Screen에 추가되면,    
   Custom Trigger를 Screen의 interaction에 대한 Trigger로 사용 가능.
 * Screen의 interaction의 Trigger를 Custom Trigger로 사용 시,    
-  이름 체계 : <Custom Container Name> <Custom Trigger Name> happens
+  이름 체계 : '<Custom Container Name> <Custom Trigger Name> happens'
 
