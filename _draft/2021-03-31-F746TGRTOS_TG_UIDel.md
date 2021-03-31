@@ -494,7 +494,7 @@ User Code에서 Custom Action을 Trigger로 사용하여 'Action'을 호출하�
 * Custom container에 다른 Custom container로 구성해서 만들수도 있음.
 * Custom Container는 Custom Trigger(callback) 및 Custom Action(method)를 정의할 수 있음.
     * 자세한 내용은 **Custom Triggers and Actions** Section 참고.
-## 4.2.1 In Code
+### 4.2.1 In Code
 User Code에서 Custom Container를 만드는 방법 정리.
 * 추후 사용 시 정리할 예정.
 
@@ -508,8 +508,288 @@ User Code에서 Custom Container를 만드는 방법 정리.
         * Bitmap caching을 이용하여 RAM에 Non-Memory Mapped Flash에 저장된    
           bitmap데이터 일부 또는 전체를 cache하는 메커니즘 제공.
 
-## 4.3.1 Setup the Bitmap Cache
+### 4.3.1 Setup the Bitmap Cache
 * Bitmap caching 을 사용하려면,
     1. TouchGFX에 bitmap cache를 구성
     2. 외부 저장소(SD카드 등)에서 데이터를 읽기 위한 'BlockCopy'함수에서    
        외부저장소의 data를 읽을 수 있도록 하드웨어 특정 구현을 해야함.
+* 추후 사용 시 정리할 예정.
+
+## 4.4 Custom Widgets
+* Custom Container외에,    
+  Framebuffer를 완전히 제어할 수 있는 Widget을 기본적으로 만들 수 있음.
+### 4.4.1 Custom Widgets를 사용하는 경우
+1. 갈색느낌이 나는 세피아톤 보정 시
+2. 망델브로 프랙탈 위젯 ???
+3. 파일 데이터를 표시하는 위젯.
+    * gif 애니메이션, QR코드 등
+* Custom Widgets에 대한 Code를 수동으로 작성 후 Widgets을 View의 User Code 부분에 삽입해야함.
+    * TouchGFX Designer에선 지원하지 않음.
+
+### 4.4.2 In Code
+User Code에서 Custom Widgets를 만드는 방법 정리.
+* 추후 사용 시 정리할 예정.
+
+### 4.4.3 Modifying standard widgets/containers
+* 표준 widgets , Container를 수정할 수는 있지만 권장하지 않음.
+
+## 4.5 Canvas Widgets
+* 캔버스 위젯 및 캔버스 위젯 랜더러(CWR)
+    * 기하학적 모양의 그리기를 제공하는 기능.
+* 기하학적 모양은 캔버스 위젯에 정의되어있음.
+* Custom Canvas Widget 또한 만들 수 있음.
+* 기하학적 모양의 그림 내부의 각 픽셀의 실제 색상은 연관된 Painter 클래스에 의해 정의됨.
+
+### 4.5.1 Using CanvasWidgets
+* 캔버스 위젯은 자동으로 결정되는 초기에 설정할 수 있는 기본 크기가 없음.
+    * 위젯 위치, 크기도 올바르게 조정해야함.
+* 따라서, 'setXY()'대신 'setPosition()'을 사용하여 배치하고 크기를 조정해야함.
+* 캔버스 위젯의 위치, 크기 설정 되면    
+  그 안에 기하학적 모양을 그릴 수 있음.
+    * 위쪽상단에 (0,0)이있음.
+    * X축은 오른쪽 증가
+    * Y축은 아래쪽 증가
+    * 자세한 내용은 **The CWR Coordinate System(CWR 좌표계) Section** 참고.
+* TouchGFX Designer에서도 지원,    
+  사용이 간단하고 자동 메모리 할당이 있음.
+* TouchGFXDesigner에서 사용 가능한 Canvas Widget 기반 위젯:
+    * Line
+    * Circle
+    * Shape
+    * LineProgress
+    * CicrleProgress
+* TouchGFX Designer를 통해 이러한 위젯을 사용시,    
+  위젯이 runtime에 어떻게 보여주는지 확인가능.    
+  배치 및 크기 조정이 훨씬 쉬워짐.
+
+### 4.5.2 Memory Allocation and Usage
+* CWR은 특수 할당 메모리 버퍼가 있어야함.
+* CWR은 동적(dynamic) 메모리 할당이 없음.
+
+
+#### 4.5.2.1 Memory Allocation in TouchGFX Designer
+* TouchGFXDesigner에서 Screen의 캔버스버퍼에 위젯을 추가하면 메모리 버퍼가 자동으로 생성됨.    
+    * 공식 :(( Width x 3) x5 )
+* 버퍼 크기를 재정의 할수도 있음.
+
+
+#### 4.5.2.2 Memory Allocation in User Code
+* User Code의 메모리 할당.
+
+
+### 4.5.3 The CWR Coordinate System(CWR 좌표계)
+![image](https://user-images.githubusercontent.com/79636864/113110903-9168e680-9242-11eb-8b2f-01fdcd94faa1.png)    
+
+### 4.5.4 Custom Canvas Widgets
+* 추후 사용 시 정리 할 예정
+
+### 4.5.5 Painters
+* 캔버스 위젯 개체를 채우기 위한 색 구성표를 사용자가 정의할 수 있음.
+
+## 4.6 Dynamic Bitmaps
+* runtime에 bitmap cache의 RAM에 bitmap을 생성하는 것.
+* 추후 bitmap cache 사용 시 내용 정리 예정.
+
+## 4.7 Binary Fonts
+* 장치에 대한 다양한 글꼴 세트를 제공하기 위해 사용 가능.
+* 단점은 전체 Binary Fonts를 RAM(또는 Memory Mapped Flash)에 로드해야함.
+* 추후 타국어 지원 기능 구현 시 내용 정리 예정.
+
+## 4.8 Binary Fonts
+* Binary Font를 로드하기 위한 방법
+* 추후 타국어 지원 기능 구현 시 내용 정리 예정.
+
+## 4.9 Binary Translations
+* 추후 타국어 지원 기능 구현 시 내용 정리 예정.
+
+## 4.10 Backend Communication
+* App에서 UI는 Backend System(HW peripherals로구성)(센서 데이터, A/D변환, 통신 등)와    
+  인터페이스 하거나 다른 S/W모듈과 인터페이스 할수 있음.
+    * 이를 구현하기 위한 권장 솔루션 제공
+
+### 4.10.1 The Model Class
+* Model Class는 UI 상태 정보를 저장하는 것 외에도    
+  Backend System에 대한 인터페이스 역할을 함.
+* 시스템의 OS Task들과도 통신 가능.
+* 개별 View 클래스의 다른 S/W 모듈이나 HW에 액세스하는것은 좋지 않음.
+* Model 클래스에 인터페이스 Code를 배치하는것이 적합한 이유
+    1. 모든 Frame에서(1Frame마다) 자동으로 호출되는 'tick()'함수가 있음.    
+        * 다른 하위 Module의 이벤트를 찾고 반응하도록 구현 가능.
+    2. Model 클래스에 들어오는 이벤트를 UI에 알릴 수 있도록    
+       현재 활성화된 Presenter에 대한 포인터가 있음.
+* 더 자세한 내용은 **MVP Arcitecture in TouchGFX Section** 참고
+
+### 4.10.2 System Interfacing : Sampling from GUI Task
+* 주변 시스템의 샘플링해야하는 빈도, 소요시간 등에 대해 관대하다면    
+  'Model::tick' method에서 직접 주변 시스템을 샘플링할 수 있음.
+* 샘플링이 프레임속도보다 덜 자주 발생하는 경우,    
+  특정 N번째 프레임에만 샘플링을 수행하도록 할 수 있음.
+    * 단, 이때 샘플링 속도는 1ms이하로 다소빨라야함.(프레임 그리기가 지연됨)
+ 
+### 4.10.3 System Interfacing : Sampling from Secondary Task
+* 샘플링을 수행하는 새로운 OS Task를 만들 수 있음.
+* 정확한 시간 간격으로 실행되도록 구성 가능.
+    * GUI Task보다 Priority를 높거나 낮게 가질 수 있음.
+* GUI Task보다 Priority를 높게 한 경우,
+    * 지정한 시간에 정확히 실행함.    
+      (단, UI의 프레임 속도에 영향을 미칠수있음)
+* GUI Task보다 Priority를 낮게 하는 경우,
+    * UI프레임속도가 주변 시스템의 샘플링에 영향을 받지 않도록 함.    
+      GUI Task는 렌더링하는 동안 Sleep State로 많이 있으므로    
+      대부분의 경우 priority를 낮게 가도 충분함.
+* RTOS에서 제공하는 message system(message queue, mailbox 등)을 활용하는 것이 좋음
+* 간단한 시나리오
+    1. GUI Task에 보낼 UI관련 동작 내용이 담긴 message queue 나 mailbox를 만들고 보냄.
+    2. 그런 다음 'Model::tick()'는 GUI Task의 message queue 또는 mailbox를    
+       polling하여 새 data가 도착했는지 확인.
+    3. 도착했을 경우, 데이터를 읽고 그에따른 UI를 Update 진행.
+
+### 4.10.4 Propagating Data to UI(UI로 데이터 전파)
+* 'Model::tick'은 GUI Task가 UI 작업 관련 data를 받을 수 있도록 하게 되는 method임
+
+#### 4.10.4.1 Propagating Data to UI Example
+* 온도 센서가 시스템에 부착, 현재 온도를 UI에 표시하는 간단한 예
+1. Model Class를 보강함.    
+    * Model Class에 'Backend' System에서 받은 Data를 저장할 변수 및 getter method 선언 및 정의
+![image](https://user-images.githubusercontent.com/79636864/113112403-199bbb80-9244-11eb-895f-dd92018dc15f.png)    
+
+2. 새로운 온도 정보가 수신 될 때 UI를 다시 Update하는 것을 해야함.    
+   이를 위해 'Model'에 현재 활성 'Presenter'에 대한 포인터가 있음을 활용해야함.
+    * 위의 포인터 유형은 적절한 App별 이벤트를 반영하도록 수정할 수 있는 인터페이스인 'ModelListener' 임.
+    * 'Presenter'는 현재 온도에 대해 'Model'에 질문(접근)할 수 있으므로    
+      'Presenter'는 온도를 표시하는 화면에 들어갈 때 UI('View')에서 이 값을 설정할 수 있음.    
+      
+![image](https://user-images.githubusercontent.com/79636864/113112754-82833380-9244-11eb-9fb7-8a60fc39e760.png)    
+
+3. 들어오는 새로운 온도 이벤트를 'Model::tick'method에서 실제 샘플링을 수행하도록 Code를 작성함.    
+
+![image](https://user-images.githubusercontent.com/79636864/113112819-95960380-9244-11eb-95f1-8a064b738849.png)    
+
+* 'Model::tick'과 다른 OS Task와의 간접 연결방식은 아래의 2가지를 보장함.
+    1. 'currentTemperature'변수는 항상 최신 상태이므로 'Presenter'는 언제든지 현재 온도를 확인할 수 있음.
+    2. 'Presenter'는 바로 온도변화에 통보하고 적절한 조치를 취할 수 있음.
+* 현재 사용중인 Screen에 따라 이벤트에 대한 별도의 알림 처리가 가능함.
+    * 'MainMenuPresenter'가 활성화시,    
+      'notifyTemperatureChanged'method는 empty function(내용이 없는 비어있는 함수)이므로 무시됨.
+    * 반면에, 'TempatureControlPresenter'가 활성화 시,    
+      'notifyTemperatureChanged'method는 해당 Class 내 재정의를 했으므로    
+      method의 정의 내용과 같이 'View'에 온도를 표시해야한다고 알릴 수 있음.    
+      
+![image](https://user-images.githubusercontent.com/79636864/113112973-c2e2b180-9244-11eb-8e2e-b68a4b90de04.png)    
+
+### 4.10.5 Transmitting Data from UI to Backend System
+* UI에서 'Backend' System으로 데이터 및 이벤트 전송은 Model Class를 통해 할 수 있음.
+    * Model Class에 전송 관련 method를 추가하여 구현가능.
+### 4.10.5.1 Transmitting Data from UI to Backend System Example
+* 사용자가 UI에서 새로운 목표 온도를 설정
+* 'View'는 'Model'개체에 대한 포인터를 가지고 있는 'Presenter'에게    
+  'setNewTargetTemperature'함수를 호출할 수 있음을 알림.    
+  
+![image](https://user-images.githubusercontent.com/79636864/113113434-469c9e00-9245-11eb-960b-46e033b1debf.png)    
+
+
+### 4.10.6 Examples
+* 특정 데모 보드(STM32 평가 키트)에 대해 구성된 전체 데모임.
+* 자체 개발 하드웨어에 설명된 코드 대부분을 재사용할 수 있음.
+#### 4.10.6.1 From GUI Task
+#### 4.10.6.1 From Other Task
+* Other Task(Backend)간 communication 및 UI와의 propagation을 보여주는 예제임.    
+    * (STM32F746G-DISCO에서 실행됨)
+    * C코드로 구현된 'Backend' System과 C++ TouchGFX GUI간 통신이 구현되어있음.
+    * 실무하면서 예제 확인해볼 것.
+#### 4.10.6.1 From Multiple tasks
+#### 4.10.6.1 From Task and External Interrupt Line
+
+## 4.11 Mixins
+* Widget의 기능을 확장하는 Class.
+    * ex : 움직임이나 alpha 값의 변화에 따른 애니메이션을 적용
+* MoveAnimator와 Fade Animator Mixins는 interaction의 기초임.
+* TouchGFXDesigner를 통해 또는 User Code에서 수동으로 Widget에 추가할 수 있음.
+### 4.11.1 Move Animator
+* Widget이 현재 위치에서 지정된 끝 위치로의 움직임을 애니메이션 할 수 있도록함.
+* X,Y방향의 움직임은 EasingEquations를 통해 제공하여 설명 할 수 있음.
+#### 4.11.1.1 Using Move Animator in User Code
+* Widget에 Move Animator Mixin이 적용 된 경우,    
+  이 새로운 기능을 사용하는 방법에 대해 정리
+* 'startMoveAnimation' method를 사용할 수 있게 됨.
+* 자세한 내용은 사용 시 정리
+#### 4.11.1.2 Callback Implementation in User Code
+* Move Animator mixin이 애니메이션을 완료 하면,    
+  Callback함수가 생성됨.
+* Callback을 구현하는 방법에 대한 데모 설명.
+* 자세한 내용은 사용 시 정리
+### 4.11.2 Fade Animator
+#### 4.11.2.1 Using Fade Animator in User Code
+#### 4.11.2.2 Callback Implementation in User Code
+### 4.11.3 ClickListener
+#### 4.11.3.1 Callback Implementation in User Code
+### 4.11.4 Draggable
+
+## 4.12 Texts and Fonts
+* Text 및 글꼴 변환기 도구에 대한 내용과    
+  TouchGFX App에서 생성된 Text를 사용하는방법 정리.
+* 추후 실무하면서 필요한 내용 정리 예정.
+
+## 4.13 Languages and Characters
+* 추후 실무하면서 필요한 내용 정리 예정.
+
+# 5. UI 구성요소
+아래의 내용들은 UI 구성요소(component들)임    
+간략하게 종류만 정리하였고 자세한 내용은 관련 자료 및 문서 참고
+## 5.1 Button
+## 5.2 Image
+## 5.3 Container
+## 5.4 진행률 표시기(Progress Indi)
+## 5.5 Shapes
+## 5.6 Miscellaneous(여러 기타 요소들)
+## 5.7 General UI Component Performance
+일반 UI 구성요소 기능
+# 6. TouchGFX Engine 관련 Scenarios
+* TouchGFX Engine 사용 관련 Scenarios 정리.
+* 추후 필요 시 정리 할 예정.
+# 7. Development Scenarios
+개발 실무 관련 주요 시나리오 정리.
+* 추후 필요 시 정리 할 예정.
+## 7.1 TouchGFX on Low Cost Hardware
+저비용 하드웨어로 TouchGFX 사용하기
+## 7.2 Lowering Memory Usage with Partial Framebuffer
+부분 프레임 버퍼로 메모리 사용량 줄이기
+## 7.3 Using Non-Memory Mapped Flash for Storing Images
+이미지 저장을 위한 Non-Memory Mapped Flash(SDcard,NAND)사용
+## 7.4 Using Serial Flash for images and fonts
+이미지 및 글꼴에 Serial Flash 사용
+## 7.5 Using Non-Memory Mapped Flash for Font Data
+글꼴 데이터를 위한 Non-Memory Mapped Flash(SDcard,NAND)사용
+## 7.6 Changing the Pixel Format of an Application
+## 7.7 Creating an Application Template
+## 7.8 External Events as Triggers
+외부 이벤트(Backend System에서 발생하는)를 Interaction의 'Trigger'로 만들기
+### 7.8.1 TouchGFX HAL Development
+* 외부 이벤트(Backend system)을 읽을 수 있게 되면    
+  ButtonController 인터페이스를 통해    
+  렌더링 주기의 일부로 이 이벤트를 읽을 수 있음.
+1. 아래의 예시와 같이 외부 이벤트(특정 GPIO Level이 조건)에 충족 시,    
+   ButtonController의 key가 누름(true)으로 return하는 동작을 구현해야함.    
+  
+![image](https://user-images.githubusercontent.com/79636864/113116117-1e626e80-9248-11eb-9400-8502fe3c624f.png)    
+
+2. TouchGFX Designer의 interaction에서 'ButtonController'에 의해    
+   샘플링 된 값을 사용하려면 '.touchgfx' 프로젝트 파일에    
+   name / value 매핑을 만들어야함.    
+
+![image](https://user-images.githubusercontent.com/79636864/113116221-3639f280-9248-11eb-92ad-1a33417310f6.png)    
+
+3. 이제 interaction을 만들때 "Hardware Button is clicked'를 사용할 수 있음.    
+
+![image](https://user-images.githubusercontent.com/79636864/113116290-43ef7800-9248-11eb-831f-4948b35782ce.png)    
+
+
+# 8. 정리
+Development 내용은 바로 실무에 적용하는 내용과 그러하지 않은 내용이 섞여있어서    
+모두 정리하진 않았습니다.    
+이제 본격적으로 UI 실무를 해볼 수 있을 것 같습니다.
+나머지 정리하지 않은 내용은 실무 작업을 통해 필요할 시    
+정리할 예정입니다.
+
+
+
