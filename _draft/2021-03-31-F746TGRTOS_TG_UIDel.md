@@ -464,4 +464,52 @@ Interaction에서 Custom Action 호출
 #### 4.1.2.3 Calling Custom Action from User Code
 User Code에서 Custom Action 호출
 (Interaction에서 구현한 Custom Action Calling 부분 확인 해보기)    
-* 
+* User Code에서 Custom Action을 직접 호출도 가능.    
+
+![image](https://user-images.githubusercontent.com/79636864/113108734-4221b680-9240-11eb-9d04-3ab5fedcb960.png)    
+
+
+#### 4.1.2.4 Adding Behaviour to Custom Actions from Interactions
+Interaction에서 Custom Action을 Trigger로 사용하여 'Action'을 호출하기
+* Custom Actions를 소유한 Screen 또는 Costom Container의 interaction 탭으로 이동하여    
+  new interactino을 만들고 'Trigger'로 Custom Action을 선택하면 됨.
+* new interaction의 'Action'은 Custom Action이 호출될때마다 실행됨.    
+
+![image](https://user-images.githubusercontent.com/79636864/113109011-8b720600-9240-11eb-8459-f618ad0ec158.png)    
+
+
+#### 4.1.2.5 Adding Behaviour to Custom Actions from User Code
+User Code에서 Custom Action을 Trigger로 사용하여 'Action'을 호출하기
+(Interaction에서 구현한 Custom Action을 Trigger로 사용하여 'Action'을 호출 부분 확인 해보기)
+* Custom Action은 상속된 User Code Class의 Action을 오버라이딩하여 'Action'을 구현할수도 있음.    
+
+![image](https://user-images.githubusercontent.com/79636864/113109179-b65c5a00-9240-11eb-8658-cfe7884d297b.png)    
+
+## 4.2 Custom Containers
+* app을 개발 시, TouchGFX에 포함된 표준 위젯세트 외의 위젯이 필요할 수 있음.
+* 다른 기본 위젯을 포함하고 이러한 위젯의 시각적 모양과 동작을 결합한 개체(object)임.
+* Custom container의 그리기성능은 매우 높음.
+* 위젯의 footprint를 줄여야하는 경우가 있을 수 있음.
+    * **Custom Widget** Section 참고
+* Custom container에 다른 Custom container로 구성해서 만들수도 있음.
+* Custom Container는 Custom Trigger(callback) 및 Custom Action(method)를 정의할 수 있음.
+    * 자세한 내용은 **Custom Triggers and Actions** Section 참고.
+## 4.2.1 In Code
+User Code에서 Custom Container를 만드는 방법 정리.
+* 추후 사용 시 정리할 예정.
+
+## 4.3 Caching Bitmaps
+* App에서 bitmap을 저장(또는 캐시)할 수 있는 전용 RAM 버퍼.    
+* bitmap이 cache된경우 bitmap을 그릴 때 자동으로 RAM 캐시를 픽셀 소스로 사용.
+* 사용하는 이유.
+    1. RAM에서 데이터를 읽는 것이 플래시에서 읽는 것보다 빠르기 때문에.
+    2. 내부 플래시에서 외부 RAM으로 캐싱하면 성능은 저하될 수 있지만 다른용도로 플래시를 사용할 수 있게 됨.
+    3. TouchGFX는 SD카드, NAND와 같은 Memory Mapped Flash가 아닌 것은 직접 렌더링할 수 없음.
+        * Bitmap caching을 이용하여 RAM에 Non-Memory Mapped Flash에 저장된    
+          bitmap데이터 일부 또는 전체를 cache하는 메커니즘 제공.
+
+## 4.3.1 Setup the Bitmap Cache
+* Bitmap caching 을 사용하려면,
+    1. TouchGFX에 bitmap cache를 구성
+    2. 외부 저장소(SD카드 등)에서 데이터를 읽기 위한 'BlockCopy'함수에서    
+       외부저장소의 data를 읽을 수 있도록 하드웨어 특정 구현을 해야함.
