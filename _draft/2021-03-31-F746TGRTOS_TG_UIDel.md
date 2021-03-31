@@ -353,3 +353,26 @@ STM32F746_TouchGFX_FreeRTOS_5_TouchGFX UI Development
 
 # 4. TouchGFX Engine 기능
 ## 4.1 Custom Triggers and Actions
+* Custom Triggers 와 Actions를 통한 고유한 interaction 구성요소를 정의할수 있음.
+* 각 Screen에는 C++의 void method(actions)를 포함
+* Custom Containers에는 App이 반응할 수 있는 C++의 callback(Trigger)이 포함.
+### 4.1.1 Custom Triggers
+* Custom Trigger는 Custom Container에서 생성됨.
+* C++ callback 으로 생성.
+#### 4.1.1.1 Adding Custom Triggers
+* Custom Container의 properites 탭에서 수행.    
+  TRIGGERS section의 우측의 더하기 파란색 버튼을 클릭.    
+  
+![image](https://user-images.githubusercontent.com/79636864/113105175-421fb780-923c-11eb-8019-a5299aa77ca8.png)    
+
+![image](https://user-images.githubusercontent.com/79636864/113105217-4fd53d00-923c-11eb-99e7-5f4a2c815741.png)    
+
+* name
+    * void set'name'Callback()
+    * virtual void emit'name'Callback()    
+![image](https://user-images.githubusercontent.com/79636864/113105372-798e6400-923c-11eb-8910-b2a92f6ef6ef.png)
+
+
+
+
+
