@@ -24,3 +24,14 @@ STM32F746_TouchGFX_FreeRTOS_6_TouchGFX UI 입출력 구현
 # 0. Model-View-Presenter Design Pattern(MVP 아키텍처)와 Backend System 구조
 
 ![image](https://user-images.githubusercontent.com/79636864/112955071-03292d80-917a-11eb-9089-60b6512706c6.png) 
+
+* UI입출력 구현이 처음이라면 위의 그림에 대한 내용을 숙지하는 것이 유리합니다.
+* 여기서 Backend Module은 실제제품의 H/W Component(센서,chipset,구동MCU의 IO 등 등)과    
+  실제제품과 외부로 통신하는 다른 제품이 될 수도 있습니다.
+* TouchGFX UI는 사용자의 입장에서는 단순히 LCD 패널(+터치패널)안의 버튼, 이미지, 애니매이션으로    
+  구성되어있다고 보이지만, 이러한 눈에 보이는 것들은 'Model','Presenter','View' Class가 유기적으로 연결되어있는    
+  MVP 아키텍처로 되어있습니다.
+  
+# 1. UI-->Backend
+# 1.1 전체흐름.
+
