@@ -728,7 +728,32 @@ User Code에서 Custom Widgets를 만드는 방법 정리.
 ## 4.12 Texts and Fonts
 * Text 및 글꼴 변환기 도구에 대한 내용과    
   TouchGFX App에서 생성된 Text를 사용하는방법 정리.
+* TouchGFX Engine는 텍스트 메모리 소비를 최적화함.
 * 추후 실무하면서 필요한 내용 정리 예정.
+### 4.12.1 Texts and Typographies
+* Text Database는 'assets/texts/texts.xlsx'에 저장됨.
+
+### 4.12.2 Text Converter
+* Text Database의 Text 정보를 TouchGFX app에서 사용하는    
+  내부 C++ 형식으로 변환하는 도구
+### 4.12.3 The Font Converter
+* 글꼴 파일의 정보를 Text Database의 정보와 결합하고    
+  app에 필요한 문자를 생성하는 도구
+### 4.12.4 Wildcards
+* 특정 형식을 작성하여 Runtime 동안 텍스트 값을 변환할 수 있음.
+#### 4.12.4.1 Using Wildcards in TouchGFX Designer
+* WILDCARD를 눌러 와일드카드를 편집할 수 있음.    
+
+![image](https://user-images.githubusercontent.com/79636864/113831848-01d3b280-97c3-11eb-9eee-cb1506fd1216.png)    
+
+* 초기값을 설정할 수도 있음.
+
+![image](https://user-images.githubusercontent.com/79636864/113831928-1617af80-97c3-11eb-83ff-4cc253f2d6d7.png)    
+
+#### 4.12.4.2 Using Wildcards in TouchGFX Designer
+* 아래의 예제를 통해 와일드카드를 사용할 수 있음.    
+
+![image](https://user-images.githubusercontent.com/79636864/113832080-38a9c880-97c3-11eb-9f59-622644174365.png)    
 
 ## 4.13 Languages and Characters
 * 추후 실무하면서 필요한 내용 정리 예정.
