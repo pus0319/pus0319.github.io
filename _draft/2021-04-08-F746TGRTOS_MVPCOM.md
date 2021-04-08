@@ -168,7 +168,7 @@ void Model::SetPWMtoHW(int PWMValue)
   
   
 
-### 1.2.4 FreeRTOS Task    
+### 1.2.4 FreeRTOS Task(Backend)    
 
 ~~~c
 /* backend(main).c */
@@ -194,6 +194,120 @@ void PIDCTL_Task(void *argument)
     * 예시에서는 PWM 제어.    
 
 
+# 2. UI<--Backend(UI 입력)
+## 2.1 전체흐름.
+* Backend의 Event 또는 state 등을 사용자가 알 수 있도록 LCD 패널의 View(UI)로 전달하는 과정입니다.    
+
+![image](https://user-images.githubusercontent.com/79636864/113952911-9be23c00-9851-11eb-9f67-77cd246ba831.png)    
+
+1. 먼저, Backend에서 UI의 Model Class가 관련 Event를 받을 수 있도록 전달합니다.
+    * FreeRTOS환경이기에 Message Queue로 전달합니다.
+2. Model Class는 'tick()' method를 통해 주기적으로 Backend에서 보낸 Event를 체크합니다.
+    * 'tick()' method는 1 Frame 처리시마다 호출되는 주기적인 method입니다.
+3. Backend로부터 보낸 Event가 있을 시, Model Class는 Presenter Class의 주소값을 가지고 있는    
+   'modelListener'를 통해 Event의 Value를 전달합니다.
+   * 호출하는 modelListener의 method는 Vitual Function으로 그 원형은    
+     Presenter Class에서 정의하고 있습니다.(Vitual Function의 overwritting)
+4. 호출된 Event의 Value를 전달 받은 Presenter Class는 사용자가 볼수 있도록    
+   parsing하여 UI에 표시하도록 View Class에 전달합니다.
+5. parsing한 Value를 전달받은 View Class는 실제 LCD 패널의 View에 표시하기 위한    
+   동작을 수행합니다.    
+   
+## 2.2 Example(구체적 설명)
+* 실제 Application에 적용한 예제소스를 통한 예시를 아래에 정리하였습니다.
+* 예시 : 현재 Moter(Backend)의 RPM을 사용자가 볼 수 있도록 LCD 패널의 View(UI)로 전달하기.
+
+### 2.2.1 FreeRTOS Task(Backend)    
+
+~~~c
+/* backend(main).c */
+void PIDCTL_Task(void *argument)
+{
+  for(;;)
+  {
+	  DCM_Cal_Encoder_to_RPM(&DCM_CAL);
+	  
+	  osMessageQueuePut(MCALQueueHandle,(&DCM_CAL),0,0);
+
+	  osDelay(1);  
+  }
+}
+~~~    
+
+* Backend에서는 DC Moter의 Encoder 신호를 Read하고 Calculate 하여    
+  UI의 Model Class가 읽을 수 있도록 주기적으로 Message Queue를 통해 전달합니다.    
+  
+### 2.2.2 Model Class    
+
+~~~c++
+/* Model.cpp */
+#ifndef SIMULATOR
+#include "cmsis_os.h"
+#include "DCMotorPIDController.h"
+
+extern "C"
+{
+	extern osMessageQueueId_t MCALQueueHandle;
+}
+
+#endif
 
 
+Model::Model() : modelListener(0)
+{
+#ifndef SIMULATOR
+	HW_RPM = 0;	
+#endif	
+}
 
+void Model::tick()
+{
+#ifndef SIMULATOR
+	sDCCAL bDCMCAL;
+	
+	if(osMessageQueueGet(MCALQueueHandle, &bDCMCAL, NULL, 0U) == osOK)
+	{
+		if(HW_RPM != bDCMCAL.uRPM)
+		{
+			HW_RPM = bDCMCAL.uRPM;
+			if(modelListener != 0)
+			{
+				modelListener->notifyRPMChanged(HW_RPM);
+			}			
+		}
+	}
+#endif	
+}
+
+/* ModelListener.hpp */
+class ModelListener
+{
+public:
+    ModelListener() : model(0) {}
+
+    virtual ~ModelListener() {}
+
+    /**
+     * Sets the model pointer to point to the Model object. Called automatically
+     * when switching screen.
+     */
+    void bind(Model* m)
+    {
+        model = m;
+    }
+	
+	virtual void notifyRPMChanged(uint16_t newRPM) {}
+protected:
+    Model* model;
+};
+~~~    
+
+* Model Class에서는 1Frame 처리 시 호출하는 주기적인 method인    
+  'tick()' method에서 Backend가 전송한 Event가 있는지 확인합니다.
+* Backend가 전송한 Event 확인 시, modelListener의 관련 method를 통해    
+  Event의 Value를 전달합니다.    
+* ModelListener.hpp에 Presenter Class가 사용할 method를 Virtual Funtion으로    
+  선언 및 정의합니다.
+    * virtual void notifyRPMChanged(uint16_t newRPM) {}
+
+### 2.2.3 Presenter Class
