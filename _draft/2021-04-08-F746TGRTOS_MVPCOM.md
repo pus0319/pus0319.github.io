@@ -66,6 +66,7 @@ STM32F746_TouchGFX_FreeRTOS_6_TouchGFX UI 입출력 구현
 
 ### 1.2.1 View Class    
 ~~~c++
+/* ViewBase.cpp */
 void ManualVCTLScreenViewBase::sliderValueChangedCallbackHandler(const touchgfx::Slider& src, int value)
 {
     if (&src == &sliderRPMCTL)
@@ -73,9 +74,21 @@ void ManualVCTLScreenViewBase::sliderValueChangedCallbackHandler(const touchgfx:
         //ChangeMVPersentValue
         //When sliderRPMCTL value changed call virtual function
         //Call ChangeMVPersentValue
-        ChangeMVPersentValue(value);
+        SetMVPersentValue(value);
     }
+}
+
+/* View.cpp */
+void ManualVCTLScreenView::SetMVPersentValue(int value)
+{
+	int temp = (value / 10);
+	
+	presenter->MVPersentSliding(value);
+	Unicode::snprintf(MVPersentValueBuffer, 5, "%d", temp);
+	MVPersentValue.invalidate();
 }
 ~~~    
 
-* 위의 사진
+* 먼저, TouchGFX Designer를 통해 Silder를 만들고 interaction으로 Silder가 Changed됬을 시,    
+  SetMVPersentValue() method를 호출하도록 하였습니다.
+    * presenter->MVPersentSliding(value);를 통해 
