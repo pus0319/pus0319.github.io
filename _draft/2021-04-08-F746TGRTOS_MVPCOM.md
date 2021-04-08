@@ -310,4 +310,66 @@ protected:
   선언 및 정의합니다.
     * virtual void notifyRPMChanged(uint16_t newRPM) {}
 
-### 2.2.3 Presenter Class
+### 2.2.3 Presenter Class    
+
+~~~c++
+/* Presenter.hpp*/
+class ManualVCTLScreenPresenter : public touchgfx::Presenter, public ModelListener
+{
+public:
+    ManualVCTLScreenPresenter(ManualVCTLScreenView& v);
+
+    /**
+     * The activate function is called automatically when this screen is "switched in"
+     * (ie. made active). Initialization logic can be placed here.
+     */
+    virtual void activate();
+
+    /**
+     * The deactivate function is called automatically when this screen is "switched out"
+     * (ie. made inactive). Teardown functionality can be placed here.
+     */
+    virtual void deactivate();
+
+    virtual ~ManualVCTLScreenPresenter() {};
+
+    virtual void notifyRPMChanged(uint16_t newRPM);
+private:
+    ManualVCTLScreenPresenter();
+
+    ManualVCTLScreenView& view;
+};
+
+/* Presenter.cpp */
+void ManualVCTLScreenPresenter::notifyRPMChanged(uint16_t newRPM)
+{
+	view.SetRPM(newRPM);
+}
+~~~    
+
+* Event의 Value를 전달받은 Presenter Class에서는 받은 Value를    
+  View Class가 처리할 수 있도록 Parsing하여 View Class의 method를 통해    
+  전달합니다.
+* Presenter.hpp에서는 ModelListener에서 Virtual Funtion으로 선언 및 정의한 method를    
+  다시 선언하였고 정의는 Presenter.cpp에서 한 것을 확인할 수 있습니다.
+
+### 2.2.4 View Class    
+
+~~~c++
+void ManualVCTLScreenView::SetRPM(uint16_t newRPM)
+{
+	prPRMValue = newRPM;
+	Unicode::snprintf(MVRPMValueBuffer, 5, "%d", newRPM);
+	MVRPMValue.invalidate();	
+}
+~~~    
+
+* Parsing한 Value를 전달받은 View Class에서는 Value를 사용자가 볼 수 있도록    
+  LCD 패널의 View에 Value를 출력하는 동작을 수행합니다.
+* 항상 Update되는 View의 Component는 '.invalidate()'를 마지막에 호출해야만    
+  비로소 LCD 패널의 View에 적용이 됩니다.
+  
+# 3. 실제 동작 영상
+* 위의 내용을 바탕으로 DC Moter를 UI를 통해 조작하고 RPM값을 표시하는    
+  간단한 Application을 시연하는 동영상을 첨부하였습니다.
+  
