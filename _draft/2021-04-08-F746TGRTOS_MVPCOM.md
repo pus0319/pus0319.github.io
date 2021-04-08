@@ -61,5 +61,21 @@ STM32F746_TouchGFX_FreeRTOS_6_TouchGFX UI 입출력 구현
    보낸 Value가 있을 경우, 그에 따른 H/W적인 동작을 수행합니다.
    
 ## 1.2 Example(구체적 설명)
+* 실제 Application에 적용한 예제소스를 통한 예시를 아래에 정리하였습니다.
+* 예시 : Silder(UI)를 조작하여 Moter(Backend)의 속도를 PWM을 통해 제어하기.
 
+### 1.2.1 View Class    
+~~~c++
+void ManualVCTLScreenViewBase::sliderValueChangedCallbackHandler(const touchgfx::Slider& src, int value)
+{
+    if (&src == &sliderRPMCTL)
+    {
+        //ChangeMVPersentValue
+        //When sliderRPMCTL value changed call virtual function
+        //Call ChangeMVPersentValue
+        ChangeMVPersentValue(value);
+    }
+}
+~~~    
 
+* 위의 사진
