@@ -371,5 +371,12 @@ void ManualVCTLScreenView::SetRPM(uint16_t newRPM)
   
 # 3. 실제 동작 영상
 * 위의 내용을 바탕으로 DC Moter를 UI를 통해 조작하고 RPM값을 표시하는    
-  간단한 Application을 시연하는 동영상을 첨부하였습니다.
+  간단한 Application을 시연하는 동영상을 첨부하였습니다.    
   
+{% include video id="Kb9FT04i8hg" provider="youtube" %}    
+
+# 4. 정리
+간단한 Application구현을 통해 TouchGFX의 UI 실무를 접하게 되었습니다.    
+TouchGFX의 다른 UI Component를 이용하여 다른 Application을 실습할 계획입니다.
+
+
