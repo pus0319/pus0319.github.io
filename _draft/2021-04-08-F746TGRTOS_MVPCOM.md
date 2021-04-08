@@ -32,6 +32,20 @@ STM32F746_TouchGFX_FreeRTOS_6_TouchGFX UI 입출력 구현
   구성되어있다고 보이지만, 이러한 눈에 보이는 것들은 'Model','Presenter','View' Class가 유기적으로 연결되어있는    
   MVP 아키텍처로 되어있습니다.
   
-# 1. UI-->Backend
+# 1. UI-->Backend(UI 출력)
 # 1.1 전체흐름.
+* UI의 조작(Button누름, Silder조작 등)을 통해 Backend로 신호(통신)을 보내 제어하는 방법입니다.    
+
+![image](https://user-images.githubusercontent.com/79636864/113949489-5e2de500-984a-11eb-9de4-828a44b7d2a6.png)    
+
+1. 먼저, View Class에서 사용자 또는 다른 특수 조건에 따른 Event를 수집합니다.    
+    * 사진의 예시는 사용자가 Silder(UI)를 조작했을 시(User Event).
+    * User Event외에 특수한 조건의 Event들 모두 가능합니다.    
+      (결국엔 만들기 나름.)
+2. User Event이기 때문에 ViewBase.cpp에 정의된 Callbackhandler()를 호출 하고    
+   User Event 처리를 위한 method를 호출합니다.
+3. User Event method에서 Presenter Class에게 User가 UI를 조작했다는 내용을 전달합니다.
+    * View Class는 Presenter Class의 주소값을 알고 있는 변수를 가지고 있습니다.    
+      'presenter'
+    * asa
 
