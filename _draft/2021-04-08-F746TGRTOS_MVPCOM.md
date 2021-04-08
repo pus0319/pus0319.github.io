@@ -91,4 +91,68 @@ void ManualVCTLScreenView::SetMVPersentValue(int value)
 
 * 먼저, TouchGFX Designer를 통해 Silder를 만들고 interaction으로 Silder가 Changed됬을 시,    
   SetMVPersentValue() method를 호출하도록 하였습니다.
-    * presenter->MVPersentSliding(value);를 통해 
+* presenter->MVPersentSliding(value);
+    * Presenter Class를 호출합니다.    
+
+~~~c++
+/* Presenter.cpp */
+void ManualVCTLScreenPresenter::MVPersentSliding(int value)
+{
+	model->SetPWMtoHW(value);
+}
+~~~    
+
+* MVPersentSliding() Method에서 바로    
+  model->SetPWMtoHW(value);를 호출합니다.    
+
+~~~c++
+/* model.cpp */
+
+#ifndef SIMULATOR
+#include "cmsis_os.h"
+#include "DCMotorPIDController.h"
+
+extern "C"
+{
+	extern osMessageQueueId_t MVCTLPWMQueueHandle;
+}
+
+#endif
+
+
+Model::Model() : modelListener(0)
+{
+#ifndef SIMULATOR
+
+#endif	
+}
+
+void Model::tick()
+{
+#ifndef SIMULATOR
+
+#endif	
+}
+
+void Model::SetPWMtoHW(int PWMValue)
+{
+#ifndef SIMULATOR
+	sDCManualPWMMessage temp;
+	
+	if((PWMValue >= 0) && (PWMValue <= 1000))
+	{
+		temp.uPWMValue = PWMValue;
+		if(MVCTLPWMQueueHandle)
+		{
+			osMessageQueuePut(MVCTLPWMQueueHandle,(&temp),0,0);
+		}
+	}
+	
+#endif	
+}
+~~~    
+
+* 
+
+
+
