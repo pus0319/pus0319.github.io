@@ -33,7 +33,7 @@ STM32F746_TouchGFX_FreeRTOS_6_TouchGFX UI 입출력 구현
   MVP 아키텍처로 되어있습니다.
   
 # 1. UI-->Backend(UI 출력)
-# 1.1 전체흐름.
+## 1.1 전체흐름.
 * UI의 조작(Button누름, Silder조작 등)을 통해 Backend로 신호(통신)을 보내 제어하는 방법입니다.    
 
 ![image](https://user-images.githubusercontent.com/79636864/113949489-5e2de500-984a-11eb-9de4-828a44b7d2a6.png)    
@@ -46,6 +46,20 @@ STM32F746_TouchGFX_FreeRTOS_6_TouchGFX UI 입출력 구현
    User Event 처리를 위한 method를 호출합니다.
 3. User Event method에서 Presenter Class에게 User가 UI를 조작했다는 내용을 전달합니다.
     * View Class는 Presenter Class의 주소값을 알고 있는 변수를 가지고 있습니다.    
-      'presenter'
-    * asa
+        * 'presenter' 입니다.
+    * Presenter Class의 관련 User Event를 처리하는 method를 호출하면 됩니다.
+4. 호출된 Presenter Class의 User Event 처리 관련 method에서    
+   Backend가 알 수 있는 Value로 Parsing하여 Model Class에게 그 Value를 전달합니다.
+    * 마찬가지로 Presenter Class는 Model Class의 주소값을 알고 있는 변수를 가지고 있습니다.
+        * 'model' 입니다.
+    * Model Class의 Backend로 해당 Value를 전달해주는 method를 호출하면 됩니다.
+5. 호출된 Model Class의 method에서는 전달해야하는 Value를 Backend가 받을 수 있도록    
+   처리합니다.
+   * 보통, FreeRTOS를 많이 쓰기 때문에 Task간 통신을 위해 사용하는    
+     'Message queue'를 많이 쓰는 편입니다.
+6. Backend는 UI의 Model Class에서 보낸 Value를 수시로 체크하여    
+   보낸 Value가 있을 경우, 그에 따른 H/W적인 동작을 수행합니다.
+   
+## 1.2 Example(구체적 설명)
+
 
