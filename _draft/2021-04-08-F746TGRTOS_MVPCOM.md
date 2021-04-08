@@ -375,6 +375,8 @@ void ManualVCTLScreenView::SetRPM(uint16_t newRPM)
   
 {% include video id="Kb9FT04i8hg" provider="youtube" %}    
 
+<iframe width="1109" height="624" src="https://www.youtube.com/embed/Kb9FT04i8hg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 # 4. 정리
 간단한 Application구현을 통해 TouchGFX의 UI 실무를 접하게 되었습니다.    
 TouchGFX의 다른 UI Component를 이용하여 다른 Application을 실습할 계획입니다.
