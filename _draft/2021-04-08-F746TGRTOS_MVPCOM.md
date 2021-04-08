@@ -94,6 +94,8 @@ void ManualVCTLScreenView::SetMVPersentValue(int value)
 * presenter->MVPersentSliding(value);
     * Presenter Class를 호출합니다.    
 
+### 1.2.2 Presenter Class    
+
 ~~~c++
 /* Presenter.cpp */
 void ManualVCTLScreenPresenter::MVPersentSliding(int value)
@@ -104,6 +106,10 @@ void ManualVCTLScreenPresenter::MVPersentSliding(int value)
 
 * MVPersentSliding() Method에서 바로    
   model->SetPWMtoHW(value);를 호출합니다.    
+
+
+### 1.2.3 Model Class    
+
 
 ~~~c++
 /* model.cpp */
@@ -152,7 +158,42 @@ void Model::SetPWMtoHW(int PWMValue)
 }
 ~~~    
 
-* 
+* SIMULATOR define문을 사용한 이유는 TouchGFX Designer의 PC Simulater 실행 시,    
+  Backend와 연결되어있는 환경이 아니므로 Backend 관련 코드 내용 및 동작은    
+  PC Simulater 실행 시, 포함되지 않도록 처리하기 위함입니다.
+* TouchGFX UI는 C++로 Build를 하기 때문에 C로 Build하는 Backend의 코드를 사용 시,    
+  'extern "C" 구문으로 묶어줘야합니다.
+* osMessageQueuePut(MVCTLPWMQueueHandle,(&temp),0,0);를 통해 Backend로    
+  Event에 대한 Value를 Message queue를 통해 전달합니다.    
+  
+  
+
+### 1.2.4 FreeRTOS Task    
+
+~~~c
+/* backend(main).c */
+void PIDCTL_Task(void *argument)
+{
+	sDCManualPWMMessage DCMPWMMsg;
+	osStatus_t eRvalue;
+	
+  for(;;)
+  {
+	  eRvalue = osMessageQueueGet(MVCTLPWMQueueHandle, &DCMPWMMsg, NULL, 0U);
+	  if(eRvalue == osOK)
+	  {
+		  DCM_PWM_SetValue(DCMPWMMsg.uPWMValue);
+	  }
+	  osDelay(1);
+  }
+}
+~~~    
+
+* backend인 FreeRTOS Task에서는 1ms Delay간격으로 전달받은 Event를 체크하고    
+  전달받은 Event가 있을 경우, 그 Value에 따른 H/W 적인 동작을 수행합니다.
+    * 예시에서는 PWM 제어.    
+
+
 
 
 
