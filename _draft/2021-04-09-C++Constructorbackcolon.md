@@ -15,7 +15,7 @@ Constructor(생성자)뒤에 콜론(:)을 쓰는 이유를 간단하게 정리�
 
 [Constructor(생성자)뒤에 콜론(:)을 쓰는 이유](https://hashcode.co.kr/questions/629/%EC%83%9D%EC%84%B1%EC%9E%90%EC%97%90%EC%84%9C-%EC%BD%9C%EB%A1%A0%EC%9D%80-%EC%99%9C-%EC%93%B0%EB%8A%94-%EA%B1%B4%EA%B0%80%EC%9A%94)    
 
-#0. 메소드에서 콜론(:)을 쓰는 기본 예시    
+# 0. 메소드에서 콜론(:)을 쓰는 기본 예시    
 
 ~~~c++
 #include <iostream>
@@ -36,7 +36,7 @@ int main(void) {
 2. 멤버 변수 ```bar``` 를 메소드 ```Foo``` 의 인 ```num``` 로 초기화하는 역할.
 3. 생성자도 마찬가지.
 
-#1. 생성자에서 콜론(:)을 쓰는 기본 예시    
+# 1. 생성자에서 콜론(:)을 쓰는 기본 예시    
 
 ~~~c++
 class MyClass
