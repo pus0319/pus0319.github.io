@@ -33,4 +33,71 @@ int main(void) {
 ~~~    
 
 1. 의 ```: bar(num)``` 은 초기화 리스트(Initialize list)라 함.
-2. 멤버 변수 **bar**를 
+2. 멤버 변수 ```bar``` 를 메소드 ```Foo``` 의 인 ```num``` 로 초기화하는 역할.
+3. 생성자도 마찬가지.
+
+#1. 생성자에서 콜론(:)을 쓰는 기본 예시    
+
+~~~c++
+class MyClass
+{
+    public:
+        int &i; //레퍼런스 멤버. 초기화 리스트를 써야 함
+        int b;
+        //Non static const 멤버. 초기화 리스트를 써야 함
+        const int k;  
+
+    //생성자 파라미터의 이름이 데이터 멤버랑 같음. 초기화 리스트를 쓸수 있음(선택 가능)
+    MyClass(int a, int b, int c):i(a),b(b),k(c)
+    {
+        /*
+        초기화 리스트를 쓰고 싶지 않은 경우
+        this->a = a
+        같이 써야 함
+        */
+    }
+};
+
+class MyClass2:public MyClass
+{
+    public:
+        int p;
+        int q;
+        //base class인 MyClass가 default생성자가 없기 때문에 무조건 초기화 리스트에서 초기화해줘야 함
+        MyClass2(int x,int y,int z,int l,int m):MyClass(x,y,z),p(l),q(m)
+        {
+        }
+
+};
+
+int main()
+{
+    int x = 10;
+    int y = 20;
+    int z = 30;
+    MyClass obj(x,y,z);
+
+    int l = 40;
+    int m = 50;
+    MyClass2 obj2(x,y,z,l,m);
+
+    return 0;
+}
+~~~    
+
+* 생성자에서 초기화 리스트를 써야만 하는 상황
+    1. 클래스가 레퍼런스를 멤버로 가질 때
+    2. ```non static const``` 멤버가 있을 때
+    3. default 생성자가 없을 때
+    4. ```base class(부모 클래스)``` 를 초기화할 때
+    5. 생성자의 parameter의 이름이 멤버랑 같을 때
+        * 이때는 this를 써서 해결할 수도 있음.    
+
+* 생성자의 함수{}내에서 초기화하는 것과 초기화 리스트를 쓰는 것의 차이
+    * 초기화 리스트에서 초기화를 하는 경우, 생성자가 호출될 때 객체의 생성과 초기화가 한 번에 이루어짐.
+    * 생성자 함수 내{}에서 초기화를 하는 경우, 객체가 생성되어, default생성자로 초기화된 상태에서    
+      다시 한 번 할당받게 하게 됨. 이 경우엔 default할당-유저할당의 2단계를 거치게 되서 오버헤드가 생김.
+
+
+
+
