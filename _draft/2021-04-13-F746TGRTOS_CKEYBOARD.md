@@ -152,7 +152,39 @@ Unicode::UnicodeChar* CustomKeyboard::getBuffer()	//210412 PES getBuffer Ckeyboa
 
 ![image](https://user-images.githubusercontent.com/79636864/114513961-b82d1100-9c75-11eb-8f6b-00ba72415cdc.png)    
 
-![image](https://user-images.githubusercontent.com/79636864/114514034-ced36800-9c75-11eb-8f76-25c2ed3a5dfb.png)
+![image](https://user-images.githubusercontent.com/79636864/114514090-e14da180-9c75-11eb-9025-16d63bcf3673.png)    
+
+~~~c++
+void PIDPCTLScreenView::handleTickEvent()	// 1Frame 마다
+{
+    /.../
+    if(Unicode::strlen(keyboardBuffer[0]) > 0)	PValue에 대해 Ckeyboard에서 입력한 값이 있을 경우,
+    {
+	if((updateFlag & 0x01) == 0x01)// update를 해야하는지 체크.
+	{
+	  memset(PValueBuffer, 0 , PVALUE_SIZE);	// PValue Widget 초기화.
+	
+	  //string --> double(check only number)
+	  Unicode::toUTF8(keyboardBuffer[0], backbuf, PVALUE_SIZE);	//Unicode(UT16)에서 UT8로 변환 후,
+	  prPValue = atof((const char*)backbuf);				//double로 변환.(여기에서 숫자만 변환됨. 숫자가 아니면 무조건 0)
+	
+	  //double --> string(sprintf)
+	  Unicode::snprintfFloat(PValueBuffer, PVALUE_SIZE,"%4.3f", prPValue);	//PValue Widget에 변환된 double 값을 문자열로 저장.
+	  PValue.invalidate();							//변경된 PValue Widget 출력.
+	
+	  /.../
+	  updateFlag &= ~0x01; // 상시로 같은 값을 출력하는 동작을 막기 위해.
+	}
+    }
+    // 다른 Widget에 대해서도 같은 형식으로 구현
+    /.../
+}
+~~~    
+
+* 위의 예시와 같이 handleTickEvent()에서 입력된 값에 따른 UI 출력 내용 등을 마음대로 작성할 수 있음.
+
+
+
 
 
 
