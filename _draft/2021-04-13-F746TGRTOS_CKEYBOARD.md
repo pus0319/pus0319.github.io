@@ -103,7 +103,20 @@ TouchGFX에서 제공하는 Application templete Example demo인 Custom Keyboard
 \'KeyboardDemo'\gui\include\gui\common\CustomKeyboard.hpp    
 \'KeyboardDemo'\gui\include\gui\common\KeyboardKeyMapping.hpp    
 \'KeyboardDemo'\gui\include\gui\common\KeyboardLayout.hpp     
-```  
+```    
+
+* CustomKeyboard.cpp에서 아래의 method를 구현해야함.
+    * CustomKeyboard Class의 private에서 선언된 keyboard Class type인 'keyboard'에서 입력한 값을 get해야함.
+    * private에 선언된 멤버이기 때문에 CustomKeyboard Class의 별도의 method를 구현,    
+      'keyboard'에 접근하여 입력 값을 get하도록 해야함.
+    * 당연하게도 CustomKeyboard.hpp에 구현하는 method를 선언해야함.
+~~~c++
+Unicode::UnicodeChar* CustomKeyboard::getBuffer()	//210412 PES getBuffer Ckeyboard
+{
+	return keyboard.getBuffer();	
+}
+~~~    
+
 * Custom Keyboard Screen의 View.hpp에서 아래의 사진과 같이 소스코드 작성
     1. Custom Keyboard Container hpp 파일 추가
     2. OKButtonPressed interaction에서 호출하는 Virtual Function 선언.
@@ -118,22 +131,32 @@ TouchGFX에서 제공하는 Application templete Example demo인 Custom Keyboard
     3. OKButtonPressed interaction에서 호출하는 Virtual Function 정의.    
 
 
-![image](https://user-images.githubusercontent.com/79636864/114511832-5f5c7900-9c73-11eb-9df4-8d037e9e8aed.png)    
+![image](https://user-images.githubusercontent.com/79636864/114511832-5f5c7900-9c73-11eb-9df4-8d037e9e8aed.png)       
 
-~~~c++
-CKeyboardScreenView::CKeyboardScreenView()
-{
-	Ckeyboard.setPosition(80, 16, 320, 240);	// 210412 PES : Display CKeyboard
-	add(Ckeyboard);								// 210412 PES : Display CKeyboard
-}
+* Custom Keyboard Screen을 호출하는 Screen의 View.hpp에서 아래의 사진과 같이 소스코드 작성
+    1. 2.2의 2번 Virtual Function 함수 선언.
+    2. 1Frame마다 실행하는 handleTickEvent() (Virtual Function 타입) 함수 선언.    
 
-void CKeyboardScreenView::getKeyboardBuffer()	// 210412 PES : getBuffer to CKeyboard
-{
-	Unicode::UnicodeChar* buff = Ckeyboard.getBuffer();   
-	Unicode::strncpy(keyboardBuffer[keyboardSelection], buff, Unicode::strlen(buff) + 1);  // strlen은 '\0'을 제외한 수임.
-	updateFlag |= (1 << keyboardSelection);
-}
+![image](https://user-images.githubusercontent.com/79636864/114513347-0e4d8480-9c75-11eb-81a8-ad00ffc29b7e.png)    
 
-~~~    
+* Custom Keyboard Screen을 호출하는 Screen의 View.cpp에서 아래의 사진과 같인 소스코드 작성
+    1. Custom Keyboard Screen에서 입력한 내용을 저장하는 Global Array Variable 및    
+       호출한 widget의 number를 저장하는 Global Variable extern 선언.
+    2. 2.2의 2번 Virtual Function 함수 정의.
+    3. handleTickEvent() 함수 정의 및    
+       주기적으로 Global Array Variable가 들어있는지 확인하여    
+       update를 하지 않았을 경우, update를 수행하도록 작성.
+        * 아래의 예시는 숫자만 입력받도록 한 예제임.    
 
-* 
+![image](https://user-images.githubusercontent.com/79636864/114513841-96338e80-9c75-11eb-9466-a71f40a902e9.png)    
+
+![image](https://user-images.githubusercontent.com/79636864/114513961-b82d1100-9c75-11eb-8f6b-00ba72415cdc.png)    
+
+![image](https://user-images.githubusercontent.com/79636864/114514034-ced36800-9c75-11eb-8f76-25c2ed3a5dfb.png)
+
+
+
+
+
+
+
