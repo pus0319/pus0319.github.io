@@ -104,12 +104,36 @@ TouchGFX에서 제공하는 Application templete Example demo인 Custom Keyboard
 \'KeyboardDemo'\gui\include\gui\common\KeyboardKeyMapping.hpp    
 \'KeyboardDemo'\gui\include\gui\common\KeyboardLayout.hpp     
 ```  
-* Custom Keyboard Screen의 View.cpp에서 아래의 사진과 같이 소스코드 작성
+* Custom Keyboard Screen의 View.hpp에서 아래의 사진과 같이 소스코드 작성
     1. Custom Keyboard Container hpp 파일 추가
     2. OKButtonPressed interaction에서 호출하는 Virtual Function 선언.
     3. Custom Keyboard 인스턴스 생성.    
 
 ![image](https://user-images.githubusercontent.com/79636864/114511327-bc0b6400-9c72-11eb-8aed-55dbbebe3d9b.png)    
 
+* Custom Keyboard Screen의 View.cpp에서 아래의 사진과 같이 소스코드 작성
+    1. Custom Keyboard Screen에서 입력한 내용을 저장하는 Global Array Variable 및    
+       호출한 widget의 number를 저장하는 Global Variable extern 선언.
+    2. Custom Keyboard Screen의 View 생성자에 Custom Keyboard 생성 내용 추가
+    3. OKButtonPressed interaction에서 호출하는 Virtual Function 정의.    
 
 
+![image](https://user-images.githubusercontent.com/79636864/114511832-5f5c7900-9c73-11eb-9df4-8d037e9e8aed.png)    
+
+~~~c++
+CKeyboardScreenView::CKeyboardScreenView()
+{
+	Ckeyboard.setPosition(80, 16, 320, 240);	// 210412 PES : Display CKeyboard
+	add(Ckeyboard);								// 210412 PES : Display CKeyboard
+}
+
+void CKeyboardScreenView::getKeyboardBuffer()	// 210412 PES : getBuffer to CKeyboard
+{
+	Unicode::UnicodeChar* buff = Ckeyboard.getBuffer();   
+	Unicode::strncpy(keyboardBuffer[keyboardSelection], buff, Unicode::strlen(buff) + 1);  // strlen은 '\0'을 제외한 수임.
+	updateFlag |= (1 << keyboardSelection);
+}
+
+~~~    
+
+* 
