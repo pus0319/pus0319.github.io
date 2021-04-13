@@ -183,6 +183,10 @@ void PIDPCTLScreenView::handleTickEvent()	// 1Frame 마다
 
 * 위의 예시와 같이 handleTickEvent()에서 입력된 값에 따른 UI 출력 내용 등을 마음대로 작성할 수 있음.
 
+## 2.4 PC Simulator에서 확인 및 TargetBoard에 다운로드하여 확인.
+* 소스코드가 모두 작성되었으면 TouchGFX Designer에서 지원하는 PC Simulator에서 빠르게 확인가능.
+* 마찬가지고 최종적으론 TargetBoard에 다운로드하여 확인할 것.
+
 
 
 
