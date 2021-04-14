@@ -16,11 +16,11 @@ minimal_mistakes_skin    : "neon" # "air", "aqua", "contrast", "dark", "dirt", "
 
 # Site Settings
 locale                   : "ko-KR"
-title                    : "PES의 임베디드 시스템 개발 블로그"
+title                    : "PUS's Embedded System Development Blog"
 title_separator          : "-"
 subtitle                 : # site tagline that appears below site title in masthead
-name                     : "PES"
-description              : "PES Blog"
+name                     : "PUS"
+description              : "PUS Blog"
 url                      : "https://pus0319.github.io"
 baseurl                  : # the subpath of your site, e.g. "/blog"
 repository               : "pus0319/pus0319.github.io"
@@ -94,9 +94,9 @@ analytics:
 
 # Site Author
 author:
-  name             : "PES"
+  name             : "PUS"
   avatar           : # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
-  bio              : "PES. Embedded System Development Blog"
+  bio              : "PUS. Embedded System Development Blog"
   location         : "Seoul, Korea"
   email            : "pus0319@naver.com"
   links:
