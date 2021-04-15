@@ -132,7 +132,7 @@ void PIDCTL_Task(void *argument)
   
 아래부터는 실제 PID 위치 제어기의 구현 내용입니다.    
 
-~~~
+~~~c++
 uint8_t PIDPOSController(sDCPIDCTLMessage aDCPIDCTLMsg, double aCurrentMovedAngle, sDCPIDERROR* pDCPIDERROR)
 {
 	/******** <9> ********/
