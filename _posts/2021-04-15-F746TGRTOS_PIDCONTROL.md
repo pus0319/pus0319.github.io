@@ -285,10 +285,10 @@ uint8_t PIDPOSController(sDCPIDCTLMessage aDCPIDCTLMsg, double aCurrentMovedAngl
 
 ![image](https://user-images.githubusercontent.com/79636864/114842401-c44ed500-9e13-11eb-8552-b3e81ef7b4ea.png)    
 
-    * 위의 사진을 보면, Kp가 100에서 지속적으로 진동하는 것을 알 수 있음.
-    * ```임계주기(Kcr)``` = 100
-    * Kp가 100인 상태에서 진동주기는 UI X축 기준 약 6.7정도 됨.
-    * ```진동주기(Pcr)``` = 6.7 x 11ms = 0.073sec
+- 위의 사진을 보면, Kp가 100에서 지속적으로 진동하는 것을 알 수 있음.
+- ```임계주기(Kcr)``` = 100
+- Kp가 100인 상태에서 진동주기는 UI X축 기준 약 6.7정도 됨.
+- ```진동주기(Pcr)``` = 6.7 x 11ms = 0.073sec
 
 2. ```임계주기(Kcr)``` 가 100이고 ```진동주기(Pcr)``` 가 0.073sec이므로    
    공식에 따른 PID parameter 값은
@@ -300,8 +300,8 @@ uint8_t PIDPOSController(sDCPIDCTLMessage aDCPIDCTLMsg, double aCurrentMovedAngl
 
 ![image](https://user-images.githubusercontent.com/79636864/114842437-cdd83d00-9e13-11eb-9959-a3ddd4469d15.png)    
 
-    * 정상상태오차는 거의 없어 보입니다.
-    * 하지만, overshoot이 매우크고 정착시간(Settling time)또한 매우 큽니다.
+- 정상상태오차는 거의 없어 보입니다.
+- 하지만, overshoot이 매우크고 정착시간(Settling time)또한 매우 큽니다.
 
 4. 앞서 설명했듯이 overshoot과 정착시간(Settling time)을 줄이기 위해    
    Kd의 값을 더 높여서 출력값이 크게 변하는 경우를 개선해야합니다.    
