@@ -167,7 +167,7 @@ toc_sticky: true
       
 ![image](https://user-images.githubusercontent.com/79636864/114810273-b040ae80-9de6-11eb-9874-e5cb9e0ff30c.png)    
 
-
+* 위에서 구한 값을 토대로 여러 번의 미세 튜닝 실험을 반복하여 최종 값을 찾아야함.
 
       
 
