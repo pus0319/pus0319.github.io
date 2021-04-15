@@ -64,11 +64,11 @@ toc_sticky: true
 ### ● 제어에 필요한 제어값(MV : Manipulated Variable)을 계산하여    
 ### ● 제어신호( **u** )를 만드는 제어기    
 
-![image](https://user-images.githubusercontent.com/79636864/114802890-6e5d3b80-9dd9-11eb-8326-be266f217c4e.png)    
+![image](https://user-images.githubusercontent.com/79636864/114803737-fb54c480-9dda-11eb-86c9-4b66c213f8c9.png)    
 
 * 일반적인 PID제어기는 3개의 항(P, I ,D)를 더해서 제어값(MV)을 계산하도록 구성.    
 
-![image](https://user-images.githubusercontent.com/79636864/114803463-7a95c880-9dda-11eb-9a8e-cb93c8d40256.png)    
+![image](https://user-images.githubusercontent.com/79636864/114803755-04459600-9ddb-11eb-8e5f-266a75dc1d18.png)    
 
 
 ## 1.2 P제어
