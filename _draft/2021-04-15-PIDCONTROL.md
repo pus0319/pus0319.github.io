@@ -58,4 +58,17 @@ toc_sticky: true
     * 안정도를 고려해야함.    
 
 # 1. PID 제어
-## 0.1 PID 제어의 개론
+## 1.1 PID 제어의 정의
+### ● 기준입력( **r** )과 측정한 출력( **y** )의 차이인 오차( **e** )를 이용한
+### ● 비례(Proportional, P), 적분(Integral, I), 미분(Differential, D)을 통해    
+### ● 제어에 필요한 제어값(MV : Manipulated Variable)을 계산하여    
+### ● 제어신호( **u** )를 만드는 제어기    
+
+![image](https://user-images.githubusercontent.com/79636864/114802890-6e5d3b80-9dd9-11eb-8326-be266f217c4e.png)    
+
+* 일반적인 PID제어기는 3개의 항(P, I ,D)를 더해서 제어값(MV)을 계산하도록 구성.    
+
+![image](https://user-images.githubusercontent.com/79636864/114803325-34d90000-9dda-11eb-9be9-838b53c161ae.png)    
+
+
+## 1.2 P제어
