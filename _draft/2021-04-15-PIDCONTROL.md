@@ -59,7 +59,7 @@ toc_sticky: true
 
 # 1. PID 제어
 ## 1.1 PID 제어의 정의
-### ● 기준입력( **r** )과 측정한 출력( **y** )의 차이인 오차( **e** )를 이용한
+### ● 기준입력( **r** )과 측정된 출력( **r_now** )의 차이인 오차( **e** )를 이용한
 ### ● 비례(Proportional, P), 적분(Integral, I), 미분(Differential, D)을 통해    
 ### ● 제어에 필요한 제어값(MV : Manipulated Variable)을 계산하여    
 ### ● 제어신호( **u** )를 만드는 제어기    
