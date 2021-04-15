@@ -1,7 +1,7 @@
 ---
 date: 2021-04-15
 title: "제어시스템과 PID 제어 정리"
-categories: Embedded_Control
+categories: Embedded_CONTROL
 tags: jekyll
 toc: true  
 toc_sticky: true 
