@@ -44,10 +44,13 @@ toc_sticky: true
       
 ![image](https://user-images.githubusercontent.com/79636864/114798695-e83cf700-9dd0-11eb-8371-bde4d0fa3225.png)    
 
-## 0.2 제어시스템의 목표
-제어변수( **y** )가 기준입력( **r** )에 가까워지도록 제어기( **c** )를 설계하는 것!    
-강인성(robustness)을 보장할 것!    
-폐루프제어(Closed-loop)의 단점인 안정도를 고려할 것!
+## 0.2 제어시스템의 목표    
+### ● 제어변수( **y** )가 기준입력( **r** )에 가까워지도록 제어기( **c** )를 설계하는 것!
+### ● 강인성(robustness)을 보장할 것!  
+### ● 폐루프제어(Closed-loop)의 단점인 안정도를 고려할 것!
+
+  
+
 
 1. 제어시스템의 장점
     * 불확실성(uncertainty) 
