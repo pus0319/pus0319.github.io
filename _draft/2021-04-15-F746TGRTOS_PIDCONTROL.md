@@ -208,4 +208,47 @@ uint8_t PIDPOSController(sDCPIDCTLMessage aDCPIDCTLMsg, double aCurrentMovedAngl
 }
 ~~~    
 
-* aa
+* 먼저 <8>와 같이 PID 위치 제어기에 사용해야하는 각종 parameter 값을 읽습니다.
+* <9>와 같이 앞서 언급드린 대로 실제단위시간(dt)를 계산합니다.
+    * **실제단위시간(dt) =**    
+      **현재시간(CurrentmsTick)** - **이전에 수행한 PID 제어값(MV)계산 후의 절대시간(LastmsTick)**
+    * osKernelGetTickCount();를 통해 받는 값은 unsigned long type의 FreeRTOS의 절대 Tick 값입니다.    
+      FreeRTOS의 절대 Tick 값은 0xFFFFFFFF 이후 OverFlow되어 0x00000000되기 때문에 이를 고려하여    
+      실제단위시간(dt)가 잘못 계산되는 일이 없도록 해야합니다.
+    * 실제 Tick값은 ms단위이기 때문에 0.001을 곱셈하여 sec단위로 바꿨습니다.    
+      (굳이 단위전환하지 않고 Gain 값을 적절하게 하면 되긴합니다.)
+      
+* 본격적으로 <10> 부터 <13>까지 PID 제어값(MV)계산을 수행합니다.
+1. <10>과 같이 P를 계산합니다. 전에 소개해드린 P의 공식은 아래와 같습니다.    
+
+![image](https://user-images.githubusercontent.com/79636864/114825345-120e1200-9e01-11eb-8456-d68ceff48226.png)    
+
+* 여기서 **e(t)** 는 경과시간에 따른 오차(Error)입니다.
+* **e(t)** 는 시간에 대한 함수로 표현하였지만,    
+  실제로는 아래와 같이 구할 수 있습니다.
+    * **e(t)** == 기준입력( **r** , 목표값) - 측정된 출력( **r_now**, 실제측정값)
+    * 코드에서는 기준입력은 'SetMovedAngle' 이고 측정된 출력은 'aCurrentMovedAngle' 입니다.
+
+2. <11>과 같이 I를 계산합니다. 전에 소개해드렸던 I의 공식은 아래와 같습니다.    
+
+![image](https://user-images.githubusercontent.com/79636864/114826145-1686fa80-9e02-11eb-8e86-f99ae003c271.png)    
+
+* 적분항은 코드로 어떻게 구현해요? 라는 의문점이 들 것입니다.
+* 위의 I의 공식은 더 정확하게 표현하면 '정적분' 이고 
+  '정적분'은 아래와 같이 **리만합의 극한** 을 통해 표현할 수 있습니다.    
+  
+![image](https://user-images.githubusercontent.com/79636864/114829538-286a9c80-9e06-11eb-8c54-7cbdfe9cf59a.png)    
+
+* 코드에서 **e(tn)** 은 앞서 계산한 P 이고, **Δt** 는 앞서 계산한 실제단위시간(dt) 입니다.
+
+3. <12>와 같이 D를 계산합니다. 전에 소개해드렸던 D의 공식은 아래와 같습니다.    
+
+![image](https://user-images.githubusercontent.com/79636864/114829846-84352580-9e06-11eb-8a06-01ab00bbe33b.png)    
+
+* 그럼 미분항은 코드로 어떻게 구현해요? 라는 의문점 또한 들 것입니다.
+* 위의 D의 공식의 의미는 **오차변화율** 을 구하는 것입니다.
+
+
+
+
+
