@@ -161,7 +161,15 @@ toc_sticky: true
    
 ![image](https://user-images.githubusercontent.com/79636864/114809942-0e20c680-9de6-11eb-9116-c3f2a47ed7e8.png)    
 
+5. 결과
+    * 예시로, 아래의 경우와 같이 overshoot크고 정착시간(settling time)에 빠르게 도달하지 못하는    
+      출력( **y** )을 얻게됨.    
+      
+![image](https://user-images.githubusercontent.com/79636864/114810273-b040ae80-9de6-11eb-9874-e5cb9e0ff30c.png)    
 
+
+
+      
 
 
 
