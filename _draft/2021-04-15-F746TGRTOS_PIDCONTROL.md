@@ -311,10 +311,13 @@ uint8_t PIDPOSController(sDCPIDCTLMessage aDCPIDCTLMsg, double aCurrentMovedAngl
 ## 2.2 PID 위치 제어 미세 튜닝
 최종적으로 PID 위치 제어 미세 튜닝한 결과를 영상으로 업로드하였습니다.    
 
+![image](https://user-images.githubusercontent.com/79636864/114844528-d7fb3b00-9e15-11eb-95a0-917da4d4791a.png)    
 
+
+{% include video id="fVo09FQmI1o" provider="youtube" %}
 
 * 목표각도에 도달하기까지의 파형모양이 매끄럽지는 않습니다.    
-  좀더 세밀한 조정이 필요할 거 같습.
+  좀더 세밀한 조정이 필요할 거 같습니다.
 * 추가적으로, 엔코더 값을 통해 계산한 각도값이 아닌 엔코더 값 자체를    
   기준입력으로 하여 사용하면 더 정밀도가 높은 PID 위치 제어기를    
   만들 수 있을 것이라 생각합니다.
