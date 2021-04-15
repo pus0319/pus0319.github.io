@@ -278,12 +278,12 @@ uint8_t PIDPOSController(sDCPIDCTLMessage aDCPIDCTLMsg, double aCurrentMovedAngl
     1. 목표동작각도 : 45도.
     2. Overshoot는 2도를 초과하지 않는 것으로 함.
     3. 2.번항을 충족하는 조건에서 가장 빠른 정착시간(Settling time) 찾기.
-    4. 정상상태오차(steady-state error)는 1도를 초과하지 않기
+    4. 정상상태오차(steady-state error)는 1도를 초과하지 않기.
 
 1. 먼저, Ki와 Kd는 0으로 설정하고 Kp를 0부터 증가시켜가면서
 출력이 최초로 지속적인 **진동** 을 하게되는 Kp값을 구함.    
 
-
+![image](https://user-images.githubusercontent.com/79636864/114842401-c44ed500-9e13-11eb-8552-b3e81ef7b4ea.png)    
 
     * 위의 사진을 보면, Kp가 100에서 지속적으로 진동하는 것을 알 수 있음.
     * ```임계주기(Kcr)``` = 100
@@ -298,7 +298,7 @@ uint8_t PIDPOSController(sDCPIDCTLMessage aDCPIDCTLMsg, double aCurrentMovedAngl
 
 3. 실제로 위의 값으로 설정 후 돌려보았습니다.    
 
-
+![image](https://user-images.githubusercontent.com/79636864/114842437-cdd83d00-9e13-11eb-9959-a3ddd4469d15.png)    
 
     * 정상상태오차는 거의 없어 보입니다.
     * 하지만, overshoot이 매우크고 정착시간(Settling time)또한 매우 큽니다.
@@ -314,7 +314,7 @@ uint8_t PIDPOSController(sDCPIDCTLMessage aDCPIDCTLMsg, double aCurrentMovedAngl
 
 
 * 목표각도에 도달하기까지의 파형모양이 매끄럽지는 않습니다.    
-  좀더 세밀한 조정이 필요할 거 같습닏.
+  좀더 세밀한 조정이 필요할 거 같습.
 * 추가적으로, 엔코더 값을 통해 계산한 각도값이 아닌 엔코더 값 자체를    
   기준입력으로 하여 사용하면 더 정밀도가 높은 PID 위치 제어기를    
   만들 수 있을 것이라 생각합니다.
