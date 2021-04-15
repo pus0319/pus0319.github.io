@@ -1,13 +1,13 @@
 ---
 date: 2021-04-15
-title: "제어시스템 개론과 PID 제어 정리"
+title: "제어시스템과 PID 제어 정리"
 categories: Embedded_HW
 tags: jekyll
 toc: true  
 toc_sticky: true 
 ---
 
-제어시스템 개론과 PID 제어 정리
+제어시스템과 PID 제어 정리
 =============
 
 제어시스템 개론과 PID 제어에 대한 전반적인 내용 정리.
@@ -23,9 +23,9 @@ toc_sticky: true
     * **제어하는 대상** 을 지칭함.
         * ex : 모터, 자동차, 비행기, 선박 등 등
     * 입력(input, 제어신호( **u** ), control input)과 출력(output, 제어변수( **y** ), system output)을 가짐.
-3. 제어기( **c** ,controller, system to control, 보상기, compensator, DSP)
+3. 제어기( **C** ,controller, system to control, 보상기, compensator, DSP)
     * 제어 목표를 수행하고자 고안된 시스템
-    * 기준입력( **r** )을 통해 제어신호( **u** )를 생성하여 플랜트( **P** )를 구동
+    * 기준입력( **r** )(엄밀히 말하면 오차( **e** ))을 통해 제어신호( **u** )를 생성하여 플랜트( **P** )를 구동
 4. 되먹임제어(Feedback Control, 궤환제어)
     * 플랜트( **P** )의 출력( **y** )를 사용하여 제어신호를 생성하는 기법
     * 외란(disturbance)이 존재할 때, 출력( **y** )과 기준입력( **r** )을 비교하여    
@@ -37,20 +37,25 @@ toc_sticky: true
         *  출력( **y** )에 나쁜 영향을 미치게 하는 신호
     3. 잡음(noise)
 6. **제어시스템(Control System)**
-    * 제어기( **c** )와 플랜트( **P** )가 결합된 형태의 시스템을 통칭하는 용어
+    * 제어기( **C** )와 플랜트( **P** )가 결합된 형태의 시스템을 통칭하는 용어
     * 제어변수( **y** )를 측정, 측정값이 기준입력( **r** )에 가까워지도록    
       제어신호를 만드는 동작을 수행함.
-    * 강인성(robustness)을 보장하기 위해 되먹임제어(Feedback Control, 폐루프(Closed-loop))도 구성함.
-      
-![image](https://user-images.githubusercontent.com/79636864/114798695-e83cf700-9dd0-11eb-8371-bde4d0fa3225.png)    
+    * 강인성(robustness)을 보장하기 위해 되먹임제어(Feedback Control, 폐루프(Closed-loop))도 구성함.    
+
+![image](https://user-images.githubusercontent.com/79636864/114800515-d2c9cc00-9dd4-11eb-8cf2-234ddc2a94b7.png)    
+
 
 ## 0.2 제어시스템의 목표    
-### ● 제어변수( **y** )가 기준입력( **r** )에 가까워지도록 제어기( **c** )를 설계하는 것!
+### ● 제어변수( **y** )가 기준입력( **r** )에 가까워지도록 제어기( **C** )를 설계하는 것!
 ### ● 강인성(robustness)을 보장할 것!  
 ### ● 폐루프제어(Closed-loop)의 단점인 안정도를 고려할 것!
 
-  
-
 
 1. 제어시스템의 장점
-    * 불확실성(uncertainty) 
+    * 불확실성(uncertainty) 과 외란(disturbance)에 강함
+    * 덜 정확하고 저비용 부품으로 성능 보장
+2. 제어시스템의 단점
+    * 안정도를 고려해야함.    
+
+# 1. PID 제어
+## 0.1 PID 제어의 개론
