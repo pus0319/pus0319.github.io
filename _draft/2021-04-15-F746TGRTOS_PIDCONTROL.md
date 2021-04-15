@@ -77,6 +77,7 @@ void PIDCTL_Task(void *argument)
   if(PID_POS_Start_Flag)	// <3>
   {
     ResetCurrentMovedEncoder();	
+    ResetPIDERRORValue(&DCPIDERROR);
     Start_Motor();
     DCPIDERROR.LastmsTick = osKernelGetTickCount();
   }
@@ -105,7 +106,7 @@ void PIDCTL_Task(void *argument)
   PID 제어기에서 단위 시간(dt)마다 갱신하는 각종 계산 값에 대한 구조체<2>가 필요합니다.
   
 * PID Parameter 설정 후, <3>과 같이 UI로부터 START신호를 받으면,    
-  움직인 각도(현재각도)값을 Reset하고 모터의 Break를 해제합니다.    
+  움직인 각도(현재각도)값과 PID 을 Reset하고 모터의 Break를 해제합니다.    
   초기에 단위시간(dt)가 너무 크게 나오지 않도록 FreeRTOS 절대 Tick값으로 대입합니다.
   
 * 모터의 Break를 해제 후, 본격적으로 PID 위치 제어기를 사용합니다.
@@ -246,8 +247,24 @@ uint8_t PIDPOSController(sDCPIDCTLMessage aDCPIDCTLMsg, double aCurrentMovedAngl
 ![image](https://user-images.githubusercontent.com/79636864/114829846-84352580-9e06-11eb-8a06-01ab00bbe33b.png)    
 
 * 그럼 미분항은 코드로 어떻게 구현해요? 라는 의문점 또한 들 것입니다.
-* 위의 D의 공식의 의미는 **오차변화율** 을 구하는 것입니다.
+* 위의 D의 공식의 의미는 **오차변화율** 을 구하는 것입니다.    
 
+![image](https://user-images.githubusercontent.com/79636864/114833416-85685180-9e0a-11eb-8e6f-22fc9ae128dd.png)    
+
+* 코드에서 **e(tnow)** 는 앞서 계산한 P 이고, **e(t)** 는 이전에 계산한 P 이며,    
+  **Δt** 는 앞서 계산한 실제단위시간(dt) 입니다.
+  
+4. <13>과 같이 P,I,D 값을 각 각의 Gain에 곱하여 모두 더하여 최종적인 MV값(OutputPID)을 구합니다.
+
+* OutputPID는 위의 예제 기준으로 엄밀히 말하면    
+  내가 움직이고 싶은 각도값을 모터(플랜트)가 알아먹을 수 있도록 변환한 값입니다.    
+``` 나의 목표각도는 이렇고 현재각도는 이러한데 단위시간(dt)동안 'OutputPID'만큼 모터를 돌려라 ```    
+    * 'OutputPID'값을 그대로 DC 모터를 제어하기 위한 PWM신호 값을 설정하는데 사용하기 때문에    
+      <14>와 같이 정해진 PWM 신호 범위 내에 DC 모터를 제어하도록 해야합니다.
+      
+* <15>와 같이 D를 계산하기 위해 앞서 계산한 P을 이전 계산한 P로,    
+  '현재시간'을 '이전시간'으로 사용하기 위해 대입하여 저장합니다.
+  
 
 
 
