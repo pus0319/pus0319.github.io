@@ -68,7 +68,7 @@ toc_sticky: true
 
 * 일반적인 PID제어기는 3개의 항(P, I ,D)를 더해서 제어값(MV)을 계산하도록 구성.    
 
-![image](https://user-images.githubusercontent.com/79636864/114803325-34d90000-9dda-11eb-9be9-838b53c161ae.png)    
+![image](https://user-images.githubusercontent.com/79636864/114803463-7a95c880-9dda-11eb-9a8e-cb93c8d40256.png)    
 
 
 ## 1.2 P제어
