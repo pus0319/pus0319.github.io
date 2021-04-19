@@ -251,6 +251,7 @@ uint8_t PIDPOSController(sDCPIDCTLMessage aDCPIDCTLMsg, double aCurrentMovedAngl
 
 ![image](https://user-images.githubusercontent.com/79636864/114833416-85685180-9e0a-11eb-8e6f-22fc9ae128dd.png)    
 
+* 결론적으로, 오차에 대한 미분이 아닌, **차분** 을 한다는 것임.
 * 코드에서 **e(tnow)** 는 앞서 계산한 P 이고, **e(t)** 는 이전에 계산한 P 이며,    
   **Δt** 는 앞서 계산한 실제단위시간(dt) 입니다.
   
