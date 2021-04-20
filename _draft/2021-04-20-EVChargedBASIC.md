@@ -20,11 +20,11 @@ toc_sticky: true
 
 # 0. 관련 용어
 
-※ OBC (On Board Charger) : 충전기의 AC 입력을 배터리의 DC로 변환하는 장치
-※ SOC (State Of Charge) : 배터리의 잔존 용량
-※ CP (Control Pilot) : 전기차와 전기 충전기(EVSE) 사이에 상호 모니터링을 하는 통신 기능
-※ PD (Proximity Detection) : 충전기가 충전구에 꽂혀있는지 확인 여부 (충전구가 꽂혀있으면 전기차 이동이 불가)
-※ EVSE (Electric Vehicle Supply Equipment) : 전기차 충전기
+※ OBC (On Board Charger) : 충전기의 AC 입력을 배터리의 DC로 변환하는 장치    
+※ SOC (State Of Charge) : 배터리의 잔존 용량    
+※ CP (Control Pilot) : 전기차와 전기 충전기(EVSE) 사이에 상호 모니터링을 하는 통신 기능    
+※ PD (Proximity Detection) : 충전기가 충전구에 꽂혀있는지 확인 여부 (충전구가 꽂혀있으면 전기차 이동이 불가)    
+※ EVSE (Electric Vehicle Supply Equipment) : 전기차 충전기    
 ※ ICCB (In Cable Control Box) : 전기자동차 홈 충전 장치    
 
 ![image](https://user-images.githubusercontent.com/79636864/115357985-2d5d9080-a1f8-11eb-99eb-6482a8c874b4.png)
