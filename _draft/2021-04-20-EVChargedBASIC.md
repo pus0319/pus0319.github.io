@@ -80,6 +80,10 @@ toc_sticky: true
 ## 3.2 최근의 리튬이온배터리의 고속 충전기술(Enevate 사)
 ![image](https://user-images.githubusercontent.com/79636864/115358764-f176fb00-a1f8-11eb-95b7-d0d270913b16.png)    
 
+## 3.3 EV에 사용하는(특히 인버터)전력 반도체
+![image](https://user-images.githubusercontent.com/79636864/115360233-68f95a00-a1fa-11eb-82c2-3c81289e2819.png)    
+
+
 # 4. EV 충전소에 필요한 요소들
 ![image](https://user-images.githubusercontent.com/79636864/115359386-95f93d00-a1f9-11eb-9639-be234518b756.png)    
 ![image](https://user-images.githubusercontent.com/79636864/115359407-9c87b480-a1f9-11eb-8a31-adb2f7618652.png)    
