@@ -47,30 +47,47 @@ toc_sticky: true
 ![image](https://user-images.githubusercontent.com/79636864/115359971-25065500-a1fa-11eb-8f6f-14620b246e87.png)    
 ![image](https://user-images.githubusercontent.com/79636864/115360002-2df72680-a1fa-11eb-84c4-f192cf710c1a.png)    
 
+## 2.2 EV Cell Safety System
+![image](https://user-images.githubusercontent.com/79636864/115360111-47986e00-a1fa-11eb-9793-d2d0232da84f.png)    
 
-## 2.2 충전기의 유형
+## 2.3 충전기의 유형
 ![image](https://user-images.githubusercontent.com/79636864/115358111-49f9c880-a1f8-11eb-845b-c5ce37814b4d.png)    
 
 ![image](https://user-images.githubusercontent.com/79636864/115358182-5c740200-a1f8-11eb-83f5-8b4df638a5af.png)    
 
-## 2.3 충전기의 다양한 Connector(socket)
+## 2.4 충전기의 다양한 Connector(socket)
 ![image](https://user-images.githubusercontent.com/79636864/115359893-1324b200-a1fa-11eb-82e1-1ed1445c8a72.png)    
+![image](https://user-images.githubusercontent.com/79636864/115360856-fccb2600-a1fa-11eb-8319-393160f1c252.png)    
+![image](https://user-images.githubusercontent.com/79636864/115360900-05bbf780-a1fb-11eb-9956-64fb30cdf8b4.png)    
 
-## 2.4 EV Cell Safety System
-![image](https://user-images.githubusercontent.com/79636864/115360111-47986e00-a1fa-11eb-9793-d2d0232da84f.png)    
+* 다양한 EV 제조사의 충전을 위해 Type 1 (단상)과 Type 2 (3상), 차데모, DC Combo 1 등이 골고루 설치되어야 함.
 
-
-## 2.3 충전기의 충전 방법
-### 2.3.1 완속충전
+## 2.5 충전기의 충전 방법
+### 2.5.1 완속충전
 ![image](https://user-images.githubusercontent.com/79636864/115359008-326f0f80-a1f9-11eb-88ae-bb8868b474e1.png)    
+![image](https://user-images.githubusercontent.com/79636864/115360394-8d553680-a1fa-11eb-9f7f-24b5daee9b2d.png)    
 
-### 2.3.2 급속(고속)충전
+* 220V 교류 전원을 이용하여 OBC를 통해 DC로 변환하여 배터리를 충전하는 방식. 
+* 보통 완충 시간이 4~5시간 정도(아이오닉 전기차 기준).
+* 크게 Type 1 (단상)과 Type 2 (3상) 방식으로 나눔(2.4항 참고)
+    * Type 1 : 범용 (대부분의 나라에서 사용)
+    * Type 2 : 유럽 (르노 자동차의 영향)
+
+### 2.5.2 급속(고속)충전
 ![image](https://user-images.githubusercontent.com/79636864/115359047-3dc23b00-a1f9-11eb-885f-ffff432bd149.png)    
+![image](https://user-images.githubusercontent.com/79636864/115361174-474ca280-a1fb-11eb-8aef-7f58c6b7f61f.png)    
 
-### 2.3.3 무선충전
+* OBC를 거치지 않고 직류 고전압을 이용하여 바로 고전압 배터리를 충전하는 방식.
+* 보통 완충시간이 25분 내외 (아이오닉 전기차, 100kW급 충전기 기준).
+* 처음에는 CHAdeMO 방식을 많이 사용함.(2.4항 참고)
+    * 미국과 유럽은 완속과 급속을 통합으로 Combo 방식을 규격화하여 충전구가 하나
+    * 우리나라도 최근에는 국제적인 추세에 따라 콤보 방식을 채택하여    
+      충전구도 하나로 줄이고 충전기에서도 콤보를 가지고 충전할 수 있게 인프라를 구축할 예정.
+
+### 2.5.3 무선충전
 ![image](https://user-images.githubusercontent.com/79636864/115359084-47e43980-a1f9-11eb-95e6-09c749dd2fbf.png)
 
-## 2.4 EV의 급속(고속)충전기술의 핵심지표
+## 2.6 EV의 급속(고속)충전기술의 핵심지표
 ![image](https://user-images.githubusercontent.com/79636864/115358511-b70d5e00-a1f8-11eb-942e-5c64ac989796.png)    
 
 # 3. EV의 배터리 소재에 따른 충전 기술
