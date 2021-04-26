@@ -24,6 +24,8 @@ MCU System을 강제로 Reset할 수 있음.
 * 자체 전용 LSI(Low Speed Clock)에 의해 동작하는 WDG.
 * Main Clock에 완전히 독립적인 프로세스로 감시해야할 경우 활용하면 됨.
 * 단, 타이밍 정확도는 WWDG보다 낮음.    
+* Window 일 경우, 정해진 초기 시간 동안 Refresh를 할 수 없음(Refresh not allowed)
+    * 만약, 정해진 초기 시간 동안 Refresh를 시도 시, IWDG Reset을 수행함.
 
 ## 1.1 IWDG Parameter
 ### 1.1.1 Non Window
@@ -32,7 +34,7 @@ MCU System을 강제로 Reset할 수 있음.
 * down-counter reload : Prescale IWDG Clock 당 1씩 다운 카운팅함.    
                         값이 0이 될 경우, IWDG Reset이 발생.    
                         
-* IWDG Reset Time = (1/IWDG Clock * Prescaler) * down-counter reload
+* IWDG Reset Timeout(Non Window) = (1/IWDG Clock * Prescaler) * down-counter reload
                         
 ### 1.1.2 Window
 * IWDG Clock : LSI Clock
@@ -40,12 +42,60 @@ MCU System을 강제로 Reset할 수 있음.
 * window value : down-counter value값이 window value값보다 낮을 경우, IWDG 카운터 값을 Refresh 할 수 있음.(Refresh allowed)    
                  그 외는 Refresh 할 수 없음(Refresh not allowed)
 * down-counter value : Prescale IWDG Clock 당 1씩 다운 카운팅함.    
-                       값이 0이 될 경우, IWDG Reset이 발생.    
+                       값이 Timeout value과 같아질 경우, IWDG Reset이 발생. 
+* Timeout value : IWDG Reset이 발생하는 카운트 값.(보통 0x3F, 꼭 Chipset Reference Manual 사용할 것.)
+                       
+* IWDG 1 Clock time = 1/IWDG Clock * Prescaler   
+* Refresh not allowed = (down-counter value - window value) * IWDG 1 Clock time
+* IWDG Reset Timeout(Window) = (down-counter value - Timeout value) * IWDG 1 Clock time
    
-### 1.1.3 STM32CubeMX Setting
+## 1.2 STM32CubeMX Setting
 1. HSE Clock 활성화(H/W 회로에 맞게 Setting)
 2. IWDG 기능 활성화
 3. LSI Clock 값 확인
-4. 
+4. 제시된 Parameter를 설정할 것.    
+
+## 1.3 Example
+
+### 1.3.1 Init
+
+### 1.3.2 Start, down-counter reload
+
+### 1.3.3 IWDG Reset 여부 체크
+
+
 # 2. WWDG
-https://m.blog.naver.com/PostView.nhn?blogId=eziya76&logNo=220987832475&proxyReferer=https:%2F%2Fwww.google.com%2F
+* Main System Clock(PCLK1)에 의해 동작하는 WDG.
+* 거의 모든 경우에 활용하면 됨.
+* 타이밍 정확도 또한 높음.  
+* Window 일 경우, 정해진 초기 시간 동안 Refresh를 할 수 없음(Refresh not allowed)
+    * 만약, 정해진 초기 시간 동안 Refresh를 시도 시, WWDG Reset을 수행함.
+    * 간헐적으로 위와 같은 동작을 수행 시,
+      Early Wakeup Interrupt(EWI)기능을 활성화하여 해당 ISR에서 Refresh를 수행할 것.
+      
+## 2.1 WWDG Parameter
+* WWDG Clock : PCLK1
+* Prescaler : WWDG Clock을 Prescale 하는 값.
+* window value : down-counter value값이 window value값보다 낮을 경우, WWDG 카운터 값을 Refresh 할 수 있음.(Refresh allowed)    
+                 그 외는 Refresh 할 수 없으며(Refresh not allowed) Refresh 시도 시 WWDG Reset을 수행함.
+* down-counter value : Prescale WWDG Clock 당 1씩 다운 카운팅함.    
+                       값이 Timeout value과 같아질 경우, WWDG Reset이 발생. 
+* Timeout value : WWDG Reset이 발생하는 카운트 값.(보통 0x3F, 꼭 Chipset Reference Manual 사용할 것.)
+                       
+* WWDG 1 Clock time = 1 / (WWDG Clock / Prescaler / 4096)
+* Refresh not allowed = (down-counter value - window value) * WWDG 1 Clock time
+* WWDG Reset Timeout(Window) = (down-counter value - Timeout value) * WWDG 1 Clock time    
+
+## 2.2 STM32CubeMX Setting
+1. HSE Clock 활성화(H/W 회로에 맞게 Setting)
+2. WWDG 기능 활성화
+3. PCLK1 값 확인
+4. 제시된 Parameter를 설정할 것.  
+      
+## 2.3 Example
+
+### 1.3.1 Init
+
+### 1.3.2 Start, down-counter reload
+
+### 1.3.3 IWDG Reset 여부 체크
