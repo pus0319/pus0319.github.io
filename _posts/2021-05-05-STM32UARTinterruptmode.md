@@ -93,7 +93,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 * 위와 같은 방법으로 구현하면 놓치는 RX Data 없이 동작을 구현 가능함.
 
 ## 2.3 Tx interrupt mode
-* 아래의 코드는 설정한 버퍼의 1byte를 Tx 후, Tx가 완료되면 저장하고 **1번** interrupt 호출을 하도록 설정하는 함수임.    
+* 아래의 코드는 설정한 버퍼의 1byte를 Tx 후, Tx가 완료되면 **1번** interrupt 호출을 하도록 설정하는 함수임.    
 
 ~~~c++
 /*...*/
