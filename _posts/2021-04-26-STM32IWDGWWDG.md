@@ -51,13 +51,36 @@ MCU System을 강제로 Reset할 수 있음.
    
 ## 1.2 STM32CubeMX Setting
 1. HSE Clock 활성화(H/W 회로에 맞게 Setting)
-2. IWDG 기능 활성화
-3. LSI Clock 값 확인
-4. 제시된 Parameter를 설정할 것.    
+2. LSI Clock 값 확인    
+
+![image](https://user-images.githubusercontent.com/79636864/117083748-5ba6a880-ad80-11eb-99a7-400058f82882.png)    
+
+3. IWDG 기능 활성화 및 Parameter 설정할 것.
+
+![image](https://user-images.githubusercontent.com/79636864/117083869-a7595200-ad80-11eb-9241-146a46adc76c.png)    
+![image](https://user-images.githubusercontent.com/79636864/117083886-ae806000-ad80-11eb-8104-70d67347ca01.png)    
 
 ## 1.3 Example
 
 ### 1.3.1 Init
+~~~c++
+  /* USER CODE END IWDG_Init 1 */
+  hiwdg.Instance = IWDG;
+  hiwdg.Init.Prescaler = IWDG_PRESCALER_32;
+  hiwdg.Init.Reload = 1249;
+  if (HAL_IWDG_Init(&hiwdg) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN IWDG_Init 2 */
+  if(HAL_IWDG_Refresh(&hiwdg) != HAL_OK)
+  {
+	 Error_Handler();
+  }
+  /* USER CODE END IWDG_Init 2 */
+~~~    
+
+
 
 ### 1.3.2 Start, down-counter reload
 
@@ -87,10 +110,14 @@ MCU System을 강제로 Reset할 수 있음.
 * WWDG Reset Timeout(Window) = (down-counter value - Timeout value) * WWDG 1 Clock time    
 
 ## 2.2 STM32CubeMX Setting
-1. HSE Clock 활성화(H/W 회로에 맞게 Setting)
-2. WWDG 기능 활성화
+1. HSE Clock 활성화(H/W 회로에 맞게 Setting)    
+
+
+
+2. WWDG 기능 활성화    
+
 3. PCLK1 값 확인
-4. 제시된 Parameter를 설정할 것.  
+5. 제시된 Parameter를 설정할 것.  
       
 ## 2.3 Example
 
