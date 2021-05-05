@@ -87,7 +87,9 @@ STM32는 사용되는 ADC는 Polling 방식 및 DMA 방식으로 사용할 수 �
 * 별도의 추가 동작 없이 ADC 샘플링이 완료 될때마다 DMA에 실시간으로 저장함.    
 ~~~c++
 /*...*/
-  adcvalue = gADCData[_INDEX_];
+  adcvalueRank1 = gADCData[_RANK1_INDEX_];
+  adcvalueRank2 = gADCData[_RANK2_INDEX_];
+  adcvalueRank3 = gADCData[_RANK3_INDEX_];
 /*...*/
 ~~~    
 
