@@ -134,12 +134,6 @@ void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
 	{
 		HAL_UART_Transmit_IT(gHAL_UART[index].phuart_ch, &(gHAL_UART[index].TX.BUF[gHAL_UART[index].TX.BUF_Tail]), 1);
 	}
-
-	if(huart->Instance == USART2)
-	{
-		DM_Is_TX_Complete(&gHAL_UART[_UART_CH_DM_], &DM1);
-	}
-
 }
 ~~~    
 
