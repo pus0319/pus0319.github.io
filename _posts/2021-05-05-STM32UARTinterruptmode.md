@@ -36,6 +36,19 @@ STM32에 사용하는 UART의 RX,TX 모두 interrupt 모드로 사용하는 방�
 # 2. UART code Example
 ## 2.1 init
 * init 코드는 CubeMX에서 기본적으로 만들어줌.
+* Tx, Rx를 위한 임시버퍼를 만듬.    
+
+~~~c++
+typedef struct
+{
+	uint8_t BUF[_MAX_HAL_UART_BUF_SIZE_];
+	uint8_t BUF_Head;
+	uint8_t BUF_Tail;
+}u8QueueBUF_Def;
+~~~    
+* 임시버퍼의 자료형은 u8QueueBUF_Def형.
+* 얼마나 저장했고 얼마나 읽었는지 BUF_Head와 BUF_Tail을 통해 알 수 있음.
+  
 
 ## 2.2 Rx interrupt mode
 * 아래의 코드는 UART Rx 데이터를 1번 받았을 때,    
