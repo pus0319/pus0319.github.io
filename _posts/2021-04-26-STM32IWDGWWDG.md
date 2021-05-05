@@ -63,6 +63,8 @@ MCU System을 강제로 Reset할 수 있음.
 ## 1.3 Example
 
 ### 1.3.1 Init
+* CubeMX를 이용하여 자동으로 생성함.    
+
 ~~~c++
   /* USER CODE END IWDG_Init 1 */
   hiwdg.Instance = IWDG;
@@ -81,10 +83,28 @@ MCU System을 강제로 Reset할 수 있음.
 ~~~    
 
 
-
 ### 1.3.2 Start, down-counter reload
+* Start는 따로 없음. init 함수를 실행하면 자동 start 함.    
+* 아래의 코드를 실행하여 iwdg counter를 reload함.
+~~~c++
+  if(HAL_IWDG_Refresh(&hiwdg) != HAL_OK)
+  {
+	 Error_Handler();
+  }
+~~~    
 
 ### 1.3.3 IWDG Reset 여부 체크
+~~~c++
+  /* Check Reset Occurred */
+  if(RESET != __HAL_RCC_GET_FLAG(RCC_FLAG_IWDGRST))
+  {
+	  /* Reset : IWDG */
+	  printf("Reset : IWDG \r\n");
+    __HAL_RCC_CLEAR_RESET_FLAGS();
+  }
+~~~ 
+* 위의 코드를 통해 어떤 Reset이 발생했는지 알 수 있음.    
+
 
 
 # 2. WWDG
@@ -111,18 +131,53 @@ MCU System을 강제로 Reset할 수 있음.
 
 ## 2.2 STM32CubeMX Setting
 1. HSE Clock 활성화(H/W 회로에 맞게 Setting)    
+2. PCLK1 값 확인    
 
+![image](https://user-images.githubusercontent.com/79636864/117084311-d8865200-ad81-11eb-8eeb-e244dd95a914.png)    
 
+3. WWDG 기능 활성화 및 제시된 Parameter를 설정할 것.    
 
-2. WWDG 기능 활성화    
-
-3. PCLK1 값 확인
-5. 제시된 Parameter를 설정할 것.  
-      
+![image](https://user-images.githubusercontent.com/79636864/117084351-ee941280-ad81-11eb-8e18-320fdf6dcd9e.png)    
+    
 ## 2.3 Example
 
-### 1.3.1 Init
+### 2.3.1 Init
+* CubeMX를 이용하여 자동으로 생성함.    
 
-### 1.3.2 Start, down-counter reload
+~~~c++
+  /* USER CODE END WWDG_Init 1 */
+  hwwdg.Instance = WWDG;
+  hwwdg.Init.Prescaler = WWDG_PRESCALER_8;
+  hwwdg.Init.Window = 127;
+  hwwdg.Init.Counter = 127;
+  hwwdg.Init.EWIMode = WWDG_EWI_DISABLE;
+  if (HAL_WWDG_Init(&hwwdg) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN WWDG_Init 2 */
+~~~    
 
-### 1.3.3 IWDG Reset 여부 체크
+### 2.3.2 Start, down-counter reload
+* Start는 따로 없음. init 함수를 실행하면 자동 start 함.    
+* 아래의 코드를 실행하여 iwdg counter를 reload함.    
+
+~~~c++
+  if(HAL_WWDG_Refresh(&hwwdg) != HAL_OK)
+  {
+  	Error_Handler();
+  }
+~~~     
+
+### 2.3.3 IWDG Reset 여부 체크
+~~~c++
+  /* Check Reset Occurred */
+  if(RESET != __HAL_RCC_GET_FLAG(RCC_FLAG_WWDGRST))
+  {
+	  /* Reset : WWDG */
+	  printf("Reset : WWDG \r\n");
+    __HAL_RCC_CLEAR_RESET_FLAGS();
+  }
+~~~ 
+* 위의 코드를 통해 어떤 Reset이 발생했는지 알 수 있음.    
+
