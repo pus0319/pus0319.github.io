@@ -123,8 +123,6 @@ void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim)
 			return;
 		}
 
-		HAL_GPIO_TogglePin(TP_HIGH_GPIO_Port,TP_HIGH_Pin);	// TP HIGH pin
-
 		if(pCP->PWM_Duty != pCP->PWM_DutyBK)
 		{
 			if(FUNC_OK != PWM_SetValue(bCh, pCP->PWM_Duty))
